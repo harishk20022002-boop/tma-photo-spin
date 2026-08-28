@@ -10,8 +10,8 @@
   
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- AdsGram Rewarded Ad SDK -->
-  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <!-- ExoClick Ad Provider SDK -->
+  <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
 
   <style>
     :root {
@@ -154,6 +154,7 @@
     }
     .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
 
+    /* Media Viewer Modal */
     .modal {
       display: none;
       position: fixed;
@@ -185,6 +186,50 @@
     .modal-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
     .nav-btn { background: #2f3542; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; }
     .modal-close { background: #fff; color: #000; padding: 10px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
+
+    /* ExoClick Ad Overlay */
+    #ad-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.96);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    #ad-overlay.active { display: flex; }
+    
+    .ad-box {
+      width: 300px;
+      min-height: 250px;
+      background: #181922;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 18px;
+      border: 1px solid #333;
+    }
+    
+    .ad-claim-btn {
+      background: #2ed573;
+      color: #000;
+      padding: 12px 28px;
+      border-radius: 20px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: opacity 0.2s;
+    }
+    .ad-claim-btn:disabled {
+      background: #444;
+      color: #888;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -205,6 +250,7 @@
   </div>
   <div class="gallery-grid" id="gallery-grid"></div>
 
+  <!-- Media Viewer Modal -->
   <div class="modal" id="media-modal">
     <h3 id="modal-title" style="margin-bottom: 8px;">Photo Unlocked</h3>
     <div class="media-container" id="media-container"></div>
@@ -214,6 +260,18 @@
       <button class="nav-btn" id="next-media">Next ▶</button>
     </div>
     <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
+  </div>
+
+  <!-- ExoClick Rewarded Overlay -->
+  <div id="ad-overlay">
+    <div style="font-size: 0.9rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
+    
+    <div class="ad-box" id="exoclick-slot">
+      <!-- ExoClick Zone Tag -->
+      <ins class="eas6a97888e10" data-zoneid="6013872"></ins>
+    </div>
+
+    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Claim +1 Spin (5s)</button>
   </div>
 
   <script>
@@ -227,12 +285,6 @@
       localStorage.clear();
       sessionStorage.clear();
     } catch(e) {}
-
-    // Live AdsGram Controller (Block ID: 44924)
-    let AdController = null;
-    if (window.Adsgram) {
-      AdController = window.Adsgram.init({ blockId: "44924" });
-    }
 
     const gameLevels = [
       {
@@ -297,6 +349,9 @@
     const prevBtn = document.getElementById('prev-media');
     const nextBtn = document.getElementById('next-media');
     const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    const adOverlay = document.getElementById('ad-overlay');
+    const adClaimBtn = document.getElementById('ad-claim-btn');
 
     function renderLevelTabs() {
       levelTabsEl.innerHTML = '';
@@ -382,7 +437,7 @@
       if (spins > 0) {
         runTileSpin();
       } else {
-        triggerRewardedAd();
+        showExoClickAd();
       }
     });
 
@@ -495,22 +550,38 @@
       mediaContainer.innerHTML = '';
     });
 
-    function triggerRewardedAd() {
-      if (AdController) {
-        AdController.show()
-          .then((result) => {
-            spins += 1;
-            updateControls();
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-          })
-          .catch((result) => {
-            console.warn("Ad not completed or failed:", result);
-            alert("Please finish watching the video to receive your +1 Spin!");
-          });
-      } else {
-        alert("Ad provider is currently loading, please try again in a moment.");
+    function showExoClickAd() {
+      adOverlay.classList.add('active');
+
+      // Trigger ExoClick ad delivery push
+      try {
+        (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
+      } catch (e) {
+        console.error("Ad error:", e);
       }
+
+      let countdown = 5;
+      adClaimBtn.disabled = true;
+      adClaimBtn.textContent = `Claim +1 Spin (${countdown}s)`;
+
+      const timer = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+          adClaimBtn.textContent = `Claim +1 Spin (${countdown}s)`;
+        } else {
+          clearInterval(timer);
+          adClaimBtn.disabled = false;
+          adClaimBtn.textContent = "Collect +1 Spin";
+        }
+      }, 1000);
     }
+
+    adClaimBtn.addEventListener('click', () => {
+      adOverlay.classList.remove('active');
+      spins += 1;
+      updateControls();
+      if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    });
 
     renderLevelTabs();
     renderBoard();
