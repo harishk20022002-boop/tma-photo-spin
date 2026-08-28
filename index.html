@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -112,11 +112,11 @@
       tg.expand();
     }
 
-    // Level Packs Data
+    // Curated Levels
     const gameLevels = [
       {
         levelNumber: 1,
-        theme: "Level 1: Urban Streets",
+        theme: "Level 1: Urban Architecture",
         tiles: [
           { id: 101, title: "Urban Highway", url: "https://picsum.photos/id/10/500/500" },
           { id: 102, title: "Vintage Alley", url: "https://picsum.photos/id/20/500/500" },
@@ -130,24 +130,36 @@
         levelNumber: 2,
         theme: "Level 2: Wild Horizons",
         tiles: [
-          { id: 201, title: "Mountain Fog", url: "https://picsum.photos/id/70/500/500" },
+          { id: 201, title: "Mountain Mist", url: "https://picsum.photos/id/70/500/500" },
           { id: 202, title: "River Bend", url: "https://picsum.photos/id/80/500/500" },
           { id: 203, title: "Pine Shadows", url: "https://picsum.photos/id/90/500/500" },
           { id: 204, title: "Lakeside Camp", url: "https://picsum.photos/id/100/500/500" },
           { id: 205, title: "Rocky Crest", url: "https://picsum.photos/id/110/500/500" },
           { id: 206, title: "Deep Forest Path", url: "https://picsum.photos/id/120/500/500" }
         ]
+      },
+      {
+        levelNumber: 3,
+        theme: "Level 3: Night Lights",
+        tiles: [
+          { id: 301, title: "Neon Crossroads", url: "https://picsum.photos/id/130/500/500" },
+          { id: 302, title: "Midnight Station", url: "https://picsum.photos/id/140/500/500" },
+          { id: 303, title: "City Lights", url: "https://picsum.photos/id/150/500/500" },
+          { id: 304, title: "Dark Harbor", url: "https://picsum.photos/id/160/500/500" },
+          { id: 305, title: "Skylight Tower", url: "https://picsum.photos/id/170/500/500" },
+          { id: 306, title: "Night Horizon", url: "https://picsum.photos/id/180/500/500" }
+        ]
       }
     ];
 
-    // Local Storage State Management
+    // Persistence
     let currentLevelIndex = parseInt(localStorage.getItem('tma_level_idx') || '0');
     let spins = parseInt(localStorage.getItem('tma_spins') ?? '3');
     let unlockedTileIds = new Set(JSON.parse(localStorage.getItem('tma_unlocked_ids') || '[]'));
     let lastDailyReset = parseInt(localStorage.getItem('tma_last_reset') || '0');
     let isSpinning = false;
 
-    // Daily Reset Check (24 Hours = 86400000 ms)
+    // Daily Reset
     const now = Date.now();
     if (now - lastDailyReset > 24 * 60 * 60 * 1000) {
       spins = Math.max(spins, 3);
@@ -189,18 +201,21 @@
         boardEl.appendChild(div);
       });
 
-      // Update progress bar
       const progressPercent = (levelUnlockedCount / activeLevel.tiles.length) * 100;
       progressFillEl.style.width = `${progressPercent}%`;
+    }
 
-      // Check level completion
-      if (levelUnlockedCount === activeLevel.tiles.length && currentLevelIndex < gameLevels.length - 1) {
+    function checkLevelAdvancement() {
+      const activeLevel = gameLevels[currentLevelIndex];
+      const allUnlocked = activeLevel.tiles.every(t => unlockedTileIds.has(t.id));
+
+      if (allUnlocked && currentLevelIndex < gameLevels.length - 1) {
         currentLevelIndex++;
         saveState();
         setTimeout(() => {
-          alert(`🎉 Level Cleared! Welcome to ${gameLevels[currentLevelIndex].theme}!`);
+          alert(`🏆 Level Cleared! Unlocking ${gameLevels[currentLevelIndex].theme}!`);
           renderBoard();
-        }, 500);
+        }, 600);
       }
     }
 
@@ -226,19 +241,41 @@
 
     function runTileSpin() {
       const activeTiles = gameLevels[currentLevelIndex].tiles;
+      
+      // Find all tiles that are NOT yet unlocked in the current level
+      const lockedIndices = [];
+      activeTiles.forEach((tile, idx) => {
+        if (!unlockedTileIds.has(tile.id)) {
+          lockedIndices.push(idx);
+        }
+      });
+
+      // Target selection: Guaranteed new tile if available
+      let targetIndex;
+      if (lockedIndices.length > 0) {
+        const randomPick = Math.floor(Math.random() * lockedIndices.length);
+        targetIndex = lockedIndices[randomPick];
+      } else {
+        targetIndex = Math.floor(Math.random() * activeTiles.length);
+      }
+
       isSpinning = true;
       spins--;
       saveState();
       updateControls();
 
       let currentIndex = 0;
-      let speed = 60;
-      let totalSteps = 20 + Math.floor(Math.random() * 8);
+      let speed = 50;
+      
+      // Calculate steps so it always stops exactly on targetIndex
+      const numTiles = activeTiles.length;
+      const fullRotations = 3; // Spin around at least 3 times
+      const totalSteps = (fullRotations * numTiles) + targetIndex;
       let step = 0;
 
       function highlightStep() {
         document.querySelectorAll('.tile').forEach(t => t.classList.remove('active-highlight'));
-        const activeTileEl = document.getElementById(`tile-${currentIndex % activeTiles.length}`);
+        const activeTileEl = document.getElementById(`tile-${currentIndex % numTiles}`);
         if (activeTileEl) activeTileEl.classList.add('active-highlight');
 
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
@@ -246,11 +283,11 @@
         step++;
         currentIndex++;
 
-        if (step < totalSteps) {
-          if (step > totalSteps - 6) speed += 35;
+        if (step <= totalSteps) {
+          if (step > totalSteps - 7) speed += 40; // Smooth deceleration
           setTimeout(highlightStep, speed);
         } else {
-          finishSpin(currentIndex % activeTiles.length);
+          finishSpin(targetIndex);
         }
       }
 
@@ -274,16 +311,17 @@
 
     modalCloseBtn.addEventListener('click', () => {
       modal.classList.remove('active');
+      checkLevelAdvancement();
     });
 
     function triggerSimulatedAd() {
-      alert("Watching simulated ad...");
+      alert("Simulating Ad View (Connecting to AdsGram in next step)...");
       setTimeout(() => {
         spins += 1;
         saveState();
         updateControls();
-        alert("+1 Spin added!");
-      }, 1000);
+        alert("Reward: +1 Spin Added!");
+      }, 800);
     }
 
     renderBoard();
@@ -291,4 +329,4 @@
   </script>
 </body>
 </html>
-
+ 
