@@ -228,7 +228,7 @@
       sessionStorage.clear();
     } catch(e) {}
 
-    // Initialized AdsGram with Block ID 44924
+    // Live AdsGram Controller (Block ID: 44924)
     let AdController = null;
     if (window.Adsgram) {
       AdController = window.Adsgram.init({ blockId: "44924" });
@@ -505,10 +505,10 @@
           })
           .catch((result) => {
             console.warn("Ad not completed or failed:", result);
-            alert("Please finish watching the ad to receive +1 Spin!");
+            alert("Please finish watching the video to receive your +1 Spin!");
           });
       } else {
-        alert("Ad network connecting...");
+        alert("Ad provider is currently loading, please try again in a moment.");
       }
     }
 
