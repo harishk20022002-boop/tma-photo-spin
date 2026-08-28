@@ -286,41 +286,78 @@
       sessionStorage.clear();
     } catch(e) {}
 
+    // Multi-Level Configuration with Custom Media
     const gameLevels = [
       {
         levelIndex: 0,
-        name: "Lvl 1: Streets",
+        name: "Lvl 1: Desire",
         tiles: [
-          { id: 101, title: "Neon Alley Pack", cover: "https://picsum.photos/id/10/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/10/800/800' }, { type: 'image', url: 'https://picsum.photos/id/11/800/800' }] },
-          { id: 102, title: "Urban Motion", cover: "https://picsum.photos/id/20/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/20/800/800' }] },
-          { id: 103, title: "Midnight Cafe", cover: "https://picsum.photos/id/30/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/30/800/800' }, { type: 'image', url: 'https://picsum.photos/id/31/800/800' }] },
-          { id: 104, title: "Rainy Asphalt", cover: "https://picsum.photos/id/40/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/40/800/800' }] },
-          { id: 105, title: "Subway Beat", cover: "https://picsum.photos/id/50/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/50/800/800' }] },
-          { id: 106, title: "Sunset Boulevard", cover: "https://picsum.photos/id/60/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/60/800/800' }] }
+          {
+            id: 101,
+            title: "Amber Glow Pack",
+            cover: "https://files.catbox.moe/yk9n5y.jpg",
+            media: [
+              { type: 'image', url: 'https://files.catbox.moe/yk9n5y.jpg' },
+              { type: 'image', url: 'https://files.catbox.moe/b2oz3d.jpg' }
+            ]
+          },
+          {
+            id: 102,
+            title: "Midnight Motion",
+            cover: "https://files.catbox.moe/r6vpix.jpg",
+            media: [
+              { type: 'video', url: 'https://files.catbox.moe/z1eax0.mp4' },
+              { type: 'image', url: 'https://files.catbox.moe/r6vpix.jpg' }
+            ]
+          },
+          {
+            id: 103,
+            title: "Sunset Velvet",
+            cover: "https://files.catbox.moe/wlwgdn.jpg",
+            media: [
+              { type: 'image', url: 'https://files.catbox.moe/wlwgdn.jpg' },
+              { type: 'image', url: 'https://files.catbox.moe/93dbkg.jpg' }
+            ]
+          },
+          {
+            id: 104,
+            title: "Neon Pulse Clip",
+            cover: "https://files.catbox.moe/66q8wy.jpg",
+            media: [
+              { type: 'video', url: 'https://files.catbox.moe/kmsdc7.mp4' },
+              { type: 'image', url: 'https://files.catbox.moe/66q8wy.jpg' }
+            ]
+          },
+          {
+            id: 105,
+            title: "Silk & Shadow",
+            cover: "https://files.catbox.moe/vi7mxf.jpg",
+            media: [
+              { type: 'image', url: 'https://files.catbox.moe/vi7mxf.jpg' },
+              { type: 'image', url: 'https://files.catbox.moe/bf3npt.jpg' }
+            ]
+          },
+          {
+            id: 106,
+            title: "VIP Reel & Portrait",
+            cover: "https://files.catbox.moe/r8vik7.jpg",
+            media: [
+              { type: 'video', url: 'https://files.catbox.moe/grkzay.mp4' },
+              { type: 'image', url: 'https://files.catbox.moe/r8vik7.jpg' }
+            ]
+          }
         ]
       },
       {
         levelIndex: 1,
-        name: "Lvl 2: Wilderness",
+        name: "Lvl 2: Secret Vault",
         tiles: [
-          { id: 201, title: "Misty Pine", cover: "https://picsum.photos/id/70/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/70/800/800' }] },
-          { id: 202, title: "River Pass", cover: "https://picsum.photos/id/80/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/80/800/800' }] },
-          { id: 203, title: "Lakeside Camp", cover: "https://picsum.photos/id/90/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/90/800/800' }] },
-          { id: 204, title: "High Peaks", cover: "https://picsum.photos/id/100/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/100/800/800' }] },
-          { id: 205, title: "Deep Valley", cover: "https://picsum.photos/id/110/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/110/800/800' }] },
-          { id: 206, title: "Forest Sunbeam", cover: "https://picsum.photos/id/120/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/120/800/800' }] }
-        ]
-      },
-      {
-        levelIndex: 2,
-        name: "Lvl 3: Nightfall",
-        tiles: [
-          { id: 301, title: "City Skyline", cover: "https://picsum.photos/id/130/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/130/800/800' }] },
-          { id: 302, title: "Light Streaks", cover: "https://picsum.photos/id/140/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/140/800/800' }] },
-          { id: 303, title: "Midnight Tower", cover: "https://picsum.photos/id/150/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/150/800/800' }] },
-          { id: 304, title: "Harbor Lights", cover: "https://picsum.photos/id/160/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/160/800/800' }] },
-          { id: 305, title: "Bridges", cover: "https://picsum.photos/id/170/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/170/800/800' }] },
-          { id: 306, title: "Dawn Sky", cover: "https://picsum.photos/id/180/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/180/800/800' }] }
+          { id: 201, title: "Vault Teaser 1", cover: "https://picsum.photos/id/70/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/70/800/800' }] },
+          { id: 202, title: "Vault Teaser 2", cover: "https://picsum.photos/id/80/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/80/800/800' }] },
+          { id: 203, title: "Vault Teaser 3", cover: "https://picsum.photos/id/90/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/90/800/800' }] },
+          { id: 204, title: "Vault Teaser 4", cover: "https://picsum.photos/id/100/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/100/800/800' }] },
+          { id: 205, title: "Vault Teaser 5", cover: "https://picsum.photos/id/110/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/110/800/800' }] },
+          { id: 206, title: "Vault Teaser 6", cover: "https://picsum.photos/id/120/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/120/800/800' }] }
         ]
       }
     ];
@@ -518,7 +555,7 @@
       mediaContainer.innerHTML = '';
 
       if (item.type === 'video') {
-        mediaContainer.innerHTML = `<video src="${item.url}" controls autoplay loop></video>`;
+        mediaContainer.innerHTML = `<video src="${item.url}" controls autoplay loop playsinline></video>`;
       } else {
         mediaContainer.innerHTML = `<img src="${item.url}" alt="Reward" />`;
       }
@@ -553,11 +590,10 @@
     function showExoClickAd() {
       adOverlay.classList.add('active');
 
-      // Trigger ExoClick ad delivery push
       try {
         (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
       } catch (e) {
-        console.error("Ad error:", e);
+        console.error("Ad provider error:", e);
       }
 
       let countdown = 5;
