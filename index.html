@@ -155,7 +155,7 @@
 <body>
 
   <div class="top-bar">
-    <div style="font-weight: bold; font-size: 1.1rem;">Photo Spin</div>
+    <div style="font-weight: bold; font-size: 1.1rem;">Photo Spin Quest</div>
     <div class="spins-badge">Spins: <span id="spin-count">3</span></div>
   </div>
 
@@ -165,12 +165,12 @@
   <!-- Active Level Tile Board -->
   <div class="tile-board" id="board"></div>
 
-  <!-- Controls -->
+  <!-- Spin / Ad Button -->
   <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
 
-  <!-- Gallery Section -->
+  <!-- Album Section -->
   <div class="gallery-header">
-    <span>My Unlocked Album</span>
+    <span>Current Session Album</span>
     <span id="album-count">0 items</span>
   </div>
   <div class="gallery-grid" id="gallery-grid"></div>
@@ -188,10 +188,17 @@
   </div>
 
   <script>
+    // Initialize Telegram WebApp SDK
     const tg = window.Telegram?.WebApp;
-    if (tg) tg.ready();
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
 
-    // Multi-Item Game Levels with Photo/Video Bundles
+    // Wipe any existing browser cache so it always starts fresh
+    localStorage.clear();
+
+    // Multi-Item Game Levels
     const gameLevels = [
       {
         levelIndex: 0,
@@ -269,23 +276,14 @@
       }
     ];
 
-    // Local Storage State
-    let selectedLevel = parseInt(localStorage.getItem('tma_sel_lvl') || '0');
-    let maxUnlockedLevel = parseInt(localStorage.getItem('tma_max_lvl') || '0');
-    let spins = parseInt(localStorage.getItem('tma_spins') ?? '3');
-    let unlockedIds = new Set(JSON.parse(localStorage.getItem('tma_unlocked_ids') || '[]'));
-    let lastReset = parseInt(localStorage.getItem('tma_last_reset') || '0');
+    // Ephemeral State (Fresh on every launch)
+    let selectedLevel = 0;
+    let maxUnlockedLevel = 0;
+    let spins = 3;
+    let unlockedIds = new Set();
     let isSpinning = false;
 
-    // Daily 24H Reset
-    const now = Date.now();
-    if (now - lastReset > 24 * 60 * 60 * 1000) {
-      spins = Math.max(spins, 3);
-      localStorage.setItem('tma_spins', spins);
-      localStorage.setItem('tma_last_reset', now.toString());
-    }
-
-    // Modal Gallery Viewer State
+    // Modal State
     let activeMediaPack = [];
     let currentMediaIdx = 0;
 
@@ -305,13 +303,6 @@
     const nextBtn = document.getElementById('next-media');
     const modalCloseBtn = document.getElementById('modal-close-btn');
 
-    function saveState() {
-      localStorage.setItem('tma_sel_lvl', selectedLevel);
-      localStorage.setItem('tma_max_lvl', maxUnlockedLevel);
-      localStorage.setItem('tma_spins', spins);
-      localStorage.setItem('tma_unlocked_ids', JSON.stringify(Array.from(unlockedIds)));
-    }
-
     function renderLevelTabs() {
       levelTabsEl.innerHTML = '';
       gameLevels.forEach((lvl, idx) => {
@@ -322,7 +313,6 @@
         tab.addEventListener('click', () => {
           if (isUnlocked && !isSpinning) {
             selectedLevel = idx;
-            saveState();
             renderLevelTabs();
             renderBoard();
           }
@@ -344,7 +334,6 @@
         const mediaCountBadge = tile.media.length > 1 ? `<div class="badge-count">1/${tile.media.length}</div>` : '';
         div.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />${isUnlocked ? mediaCountBadge : ''}`;
 
-        // Tap unlocked tile to inspect media bundle
         div.addEventListener('click', () => {
           if (unlockedIds.has(tile.id) && !isSpinning) {
             openMediaViewer(tile);
@@ -414,7 +403,6 @@
 
       isSpinning = true;
       spins--;
-      saveState();
       updateControls();
 
       let currentIndex = 0;
@@ -449,13 +437,11 @@
       const wonTile = gameLevels[selectedLevel].tiles[landedIndex];
       unlockedIds.add(wonTile.id);
 
-      // Check if current level is completely cleared to unlock the next level
       const allCurrentUnlocked = gameLevels[selectedLevel].tiles.every(t => unlockedIds.has(t.id));
       if (allCurrentUnlocked && selectedLevel === maxUnlockedLevel && maxUnlockedLevel < gameLevels.length - 1) {
         maxUnlockedLevel++;
       }
 
-      saveState();
       renderLevelTabs();
       renderBoard();
 
@@ -513,7 +499,6 @@
       alert("Watching ad to claim +1 Spin...");
       setTimeout(() => {
         spins += 1;
-        saveState();
         updateControls();
         alert("+1 Spin Added!");
       }, 700);
