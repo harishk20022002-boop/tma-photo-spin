@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Photo Spin Quest</title>
+  
+  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- AdsGram Rewarded Ad SDK -->
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+
   <style>
     :root {
       --bg: #0f1015;
@@ -20,7 +28,6 @@
     .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
 
-    /* Level Switcher */
     .level-tabs {
       display: flex;
       gap: 8px;
@@ -41,9 +48,8 @@
       cursor: pointer;
     }
     .level-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
-    .level-tab.locked { opacity: 0.4; cursor: not-allowed; }
+    .level-tab.locked { opacity: 0.35; cursor: not-allowed; }
 
-    /* Tile Board */
     .tile-board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -55,11 +61,9 @@
 
     .tile {
       aspect-ratio: 1;
-      background: var(--card);
       border-radius: 12px;
       overflow: hidden;
       position: relative;
-      border: 2px solid #2a2b36;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -67,17 +71,19 @@
       transition: transform 0.1s, border-color 0.1s;
     }
 
-    /* Locked state */
     .tile.is-locked {
-      background: #16171f;
-      border: 2px dashed #333645;
+      background: #181922;
+      border: 2px dashed #2f3342;
     }
     .tile.is-locked .lock-icon {
       font-size: 1.6rem;
-      color: #555a6e;
+      color: #555b70;
     }
 
-    /* Unlocked state */
+    .tile.is-unlocked {
+      background: var(--card);
+      border: 2px solid #2ed573;
+    }
     .tile.is-unlocked img {
       width: 100%;
       height: 100%;
@@ -103,7 +109,6 @@
       font-weight: bold;
     }
 
-    /* Action Buttons */
     .btn {
       width: 100%;
       max-width: 380px;
@@ -118,7 +123,6 @@
     .btn-spin { background: #2ed573; color: #000; }
     .btn-ad { background: #ffa502; color: #000; }
 
-    /* Unlocked Gallery Section */
     .gallery-header { width: 100%; max-width: 380px; font-size: 1rem; font-weight: bold; margin-bottom: 10px; color: var(--gold); display: flex; justify-content: space-between; }
     .gallery-grid {
       display: grid;
@@ -145,13 +149,11 @@
       background: var(--card);
       border-radius: 8px;
       overflow: hidden;
-      position: relative;
       border: 1px solid #333;
       cursor: pointer;
     }
     .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Media Viewer Modal */
     .modal {
       display: none;
       position: fixed;
@@ -192,23 +194,17 @@
     <div class="spins-badge">Spins: <span id="spin-count">3</span></div>
   </div>
 
-  <!-- Level Selection Tabs -->
   <div class="level-tabs" id="level-tabs"></div>
-
-  <!-- Active Level Tile Board -->
   <div class="tile-board" id="board"></div>
 
-  <!-- Spin / Ad Button -->
   <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
 
-  <!-- Album Section -->
   <div class="gallery-header">
     <span>My Unlocked Album</span>
     <span id="album-count">0 items</span>
   </div>
   <div class="gallery-grid" id="gallery-grid"></div>
 
-  <!-- Media Pack Viewer Modal -->
   <div class="modal" id="media-modal">
     <h3 id="modal-title" style="margin-bottom: 8px;">Photo Unlocked</h3>
     <div class="media-container" id="media-container"></div>
@@ -227,57 +223,28 @@
       tg.expand();
     }
 
-    // Force clear any old local storage state
-    try { localStorage.clear(); } catch(e) {}
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+    } catch(e) {}
 
-    // Game Levels Data
+    // Initialized AdsGram with Block ID 44924
+    let AdController = null;
+    if (window.Adsgram) {
+      AdController = window.Adsgram.init({ blockId: "44924" });
+    }
+
     const gameLevels = [
       {
         levelIndex: 0,
         name: "Lvl 1: Streets",
         tiles: [
-          { 
-            id: 101, 
-            title: "Neon Alley Pack", 
-            cover: "https://picsum.photos/id/10/400/400",
-            media: [
-              { type: 'image', url: 'https://picsum.photos/id/10/800/800' },
-              { type: 'image', url: 'https://picsum.photos/id/11/800/800' }
-            ]
-          },
-          { 
-            id: 102, 
-            title: "Urban Motion", 
-            cover: "https://picsum.photos/id/20/400/400",
-            media: [{ type: 'image', url: 'https://picsum.photos/id/20/800/800' }]
-          },
-          { 
-            id: 103, 
-            title: "Midnight Cafe", 
-            cover: "https://picsum.photos/id/30/400/400",
-            media: [
-              { type: 'image', url: 'https://picsum.photos/id/30/800/800' },
-              { type: 'image', url: 'https://picsum.photos/id/31/800/800' }
-            ]
-          },
-          { 
-            id: 104, 
-            title: "Rainy Asphalt", 
-            cover: "https://picsum.photos/id/40/400/400",
-            media: [{ type: 'image', url: 'https://picsum.photos/id/40/800/800' }]
-          },
-          { 
-            id: 105, 
-            title: "Subway Beat", 
-            cover: "https://picsum.photos/id/50/400/400",
-            media: [{ type: 'image', url: 'https://picsum.photos/id/50/800/800' }]
-          },
-          { 
-            id: 106, 
-            title: "Sunset Boulevard", 
-            cover: "https://picsum.photos/id/60/400/400",
-            media: [{ type: 'image', url: 'https://picsum.photos/id/60/800/800' }]
-          }
+          { id: 101, title: "Neon Alley Pack", cover: "https://picsum.photos/id/10/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/10/800/800' }, { type: 'image', url: 'https://picsum.photos/id/11/800/800' }] },
+          { id: 102, title: "Urban Motion", cover: "https://picsum.photos/id/20/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/20/800/800' }] },
+          { id: 103, title: "Midnight Cafe", cover: "https://picsum.photos/id/30/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/30/800/800' }, { type: 'image', url: 'https://picsum.photos/id/31/800/800' }] },
+          { id: 104, title: "Rainy Asphalt", cover: "https://picsum.photos/id/40/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/40/800/800' }] },
+          { id: 105, title: "Subway Beat", cover: "https://picsum.photos/id/50/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/50/800/800' }] },
+          { id: 106, title: "Sunset Boulevard", cover: "https://picsum.photos/id/60/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/60/800/800' }] }
         ]
       },
       {
@@ -306,11 +273,10 @@
       }
     ];
 
-    // Clean ephemeral game state on every reload
     let selectedLevel = 0;
     let maxUnlockedLevel = 0;
     let spins = 3;
-    let unlockedIds = new Set(); // Empty at launch
+    let unlockedIds = new Set();
     let isSpinning = false;
 
     let activeMediaPack = [];
@@ -416,7 +382,7 @@
       if (spins > 0) {
         runTileSpin();
       } else {
-        triggerSimulatedAd();
+        triggerRewardedAd();
       }
     });
 
@@ -529,16 +495,23 @@
       mediaContainer.innerHTML = '';
     });
 
-    function triggerSimulatedAd() {
-      alert("Watching ad to claim +1 Spin...");
-      setTimeout(() => {
-        spins += 1;
-        updateControls();
-        alert("+1 Spin Added!");
-      }, 700);
+    function triggerRewardedAd() {
+      if (AdController) {
+        AdController.show()
+          .then((result) => {
+            spins += 1;
+            updateControls();
+            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+          })
+          .catch((result) => {
+            console.warn("Ad not completed or failed:", result);
+            alert("Please finish watching the ad to receive +1 Spin!");
+          });
+      } else {
+        alert("Ad network connecting...");
+      }
     }
 
-    // Initialize UI on launch
     renderLevelTabs();
     renderBoard();
     updateControls();
