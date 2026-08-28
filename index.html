@@ -1,4 +1,4 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,26 +12,45 @@
       --accent: #ff4757;
       --text: #ffffff;
       --gold: #ffd32a;
+      --dim: #8e8e93;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-    .top-bar { width: 100%; max-width: 360px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .level-badge { background: #2f3542; padding: 6px 12px; border-radius: 12px; font-weight: bold; font-size: 0.85rem; }
+    .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
 
-    .level-progress-bar {
-      width: 100%; max-width: 360px; height: 6px; background: #2f3542; border-radius: 4px; margin-bottom: 16px; overflow: hidden;
+    /* Level Switcher */
+    .level-tabs {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 14px;
+      overflow-x: auto;
     }
-    .level-progress-fill { height: 100%; width: 0%; background: var(--gold); transition: width 0.3s ease; }
+    .level-tab {
+      background: #23252f;
+      color: var(--dim);
+      border: 1px solid #333;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .level-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+    .level-tab.locked { opacity: 0.4; cursor: not-allowed; }
 
+    /* Tile Board */
     .tile-board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       width: 100%;
-      max-width: 360px;
-      margin-bottom: 20px;
+      max-width: 380px;
+      margin-bottom: 16px;
     }
 
     .tile {
@@ -44,179 +63,318 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
     }
 
-    .tile img { width: 100%; height: 100%; object-fit: cover; filter: blur(14px) grayscale(100%); transition: filter 0.4s ease; }
+    .tile img { width: 100%; height: 100%; object-fit: cover; filter: blur(14px) grayscale(100%); transition: filter 0.3s; }
     .tile.unlocked img { filter: none; }
     .tile.active-highlight { border-color: var(--gold); transform: scale(1.06); box-shadow: 0 0 16px var(--gold); }
 
+    .badge-count {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.75);
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    /* Action Buttons */
     .btn {
       width: 100%;
-      max-width: 360px;
-      padding: 16px;
+      max-width: 380px;
+      padding: 15px;
       border-radius: 14px;
       border: none;
       font-weight: bold;
       font-size: 1rem;
       cursor: pointer;
+      margin-bottom: 24px;
     }
     .btn-spin { background: #2ed573; color: #000; }
     .btn-ad { background: #ffa502; color: #000; }
 
-    /* Modal for Photo Reveal */
+    /* Unlocked Gallery Section */
+    .gallery-header { width: 100%; max-width: 380px; font-size: 1rem; font-weight: bold; margin-bottom: 10px; color: var(--gold); display: flex; justify-content: space-between; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 30px;
+    }
+
+    .gallery-card {
+      aspect-ratio: 1;
+      background: var(--card);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #333;
+      cursor: pointer;
+    }
+    .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Media Viewer Modal */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.88);
+      background: rgba(0,0,0,0.92);
       z-index: 100;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
     }
     .modal.active { display: flex; }
-    .modal img { width: 100%; max-width: 320px; aspect-ratio: 1; object-fit: cover; border-radius: 14px; margin-bottom: 16px; border: 2px solid #fff; }
-    .modal h3 { margin-bottom: 6px; text-align: center; }
-    .modal p { color: #aaa; font-size: 0.85rem; margin-bottom: 16px; text-align: center; }
-    .modal-btn { background: #fff; color: #000; padding: 12px 28px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
+    
+    .media-container {
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 4/5;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      border: 1px solid #444;
+    }
+    .media-container img, .media-container video { width: 100%; height: 100%; object-fit: contain; }
+
+    .modal-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+    .nav-btn { background: #2f3542; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; }
+    .modal-close { background: #fff; color: #000; padding: 10px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
   </style>
 </head>
 <body>
 
   <div class="top-bar">
-    <div class="level-badge" id="level-title">Level 1</div>
+    <div style="font-weight: bold; font-size: 1.1rem;">Photo Spin</div>
     <div class="spins-badge">Spins: <span id="spin-count">3</span></div>
   </div>
 
-  <div class="level-progress-bar">
-    <div class="level-progress-fill" id="progress-fill"></div>
-  </div>
+  <!-- Level Selection Tabs -->
+  <div class="level-tabs" id="level-tabs"></div>
 
+  <!-- Active Level Tile Board -->
   <div class="tile-board" id="board"></div>
 
+  <!-- Controls -->
   <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
 
-  <!-- Reveal Modal -->
-  <div class="modal" id="reveal-modal">
-    <h3 id="reveal-title">Photo Unlocked!</h3>
-    <p id="reveal-sub">Added to your permanent collection</p>
-    <img id="reveal-img" src="" alt="Revealed Photo" />
-    <button class="modal-btn" id="modal-close-btn">Collect & Continue</button>
+  <!-- Gallery Section -->
+  <div class="gallery-header">
+    <span>My Unlocked Album</span>
+    <span id="album-count">0 items</span>
+  </div>
+  <div class="gallery-grid" id="gallery-grid"></div>
+
+  <!-- Media Pack Viewer Modal -->
+  <div class="modal" id="media-modal">
+    <h3 id="modal-title" style="margin-bottom: 8px;">Collection</h3>
+    <div class="media-container" id="media-container"></div>
+    <div class="modal-controls" id="media-nav" style="display: none;">
+      <button class="nav-btn" id="prev-media">◀ Prev</button>
+      <span id="media-counter" style="font-size: 0.85rem; color: #aaa;">1/1</span>
+      <button class="nav-btn" id="next-media">Next ▶</button>
+    </div>
+    <button class="modal-close" id="modal-close-btn">Close</button>
   </div>
 
   <script>
     const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-    }
+    if (tg) tg.ready();
 
-    // Curated Levels
+    // Multi-Item Game Levels with Photo/Video Bundles
     const gameLevels = [
       {
-        levelNumber: 1,
-        theme: "Level 1: Urban Architecture",
+        levelIndex: 0,
+        name: "Lvl 1: Streets",
         tiles: [
-          { id: 101, title: "Urban Highway", url: "https://picsum.photos/id/10/500/500" },
-          { id: 102, title: "Vintage Alley", url: "https://picsum.photos/id/20/500/500" },
-          { id: 103, title: "Rainy Evening", url: "https://picsum.photos/id/30/500/500" },
-          { id: 104, title: "Shadows in Motion", url: "https://picsum.photos/id/40/500/500" },
-          { id: 105, title: "Underground Route", url: "https://picsum.photos/id/50/500/500" },
-          { id: 106, title: "Golden Hour Glow", url: "https://picsum.photos/id/60/500/500" }
+          { 
+            id: 101, 
+            title: "Neon Alley Pack", 
+            cover: "https://picsum.photos/id/10/400/400",
+            media: [
+              { type: 'image', url: 'https://picsum.photos/id/10/800/800' },
+              { type: 'image', url: 'https://picsum.photos/id/11/800/800' }
+            ]
+          },
+          { 
+            id: 102, 
+            title: "Urban Motion", 
+            cover: "https://picsum.photos/id/20/400/400",
+            media: [
+              { type: 'image', url: 'https://picsum.photos/id/20/800/800' }
+            ]
+          },
+          { 
+            id: 103, 
+            title: "Midnight Cafe", 
+            cover: "https://picsum.photos/id/30/400/400",
+            media: [
+              { type: 'image', url: 'https://picsum.photos/id/30/800/800' },
+              { type: 'image', url: 'https://picsum.photos/id/31/800/800' }
+            ]
+          },
+          { 
+            id: 104, 
+            title: "Rainy Asphalt", 
+            cover: "https://picsum.photos/id/40/400/400",
+            media: [{ type: 'image', url: 'https://picsum.photos/id/40/800/800' }]
+          },
+          { 
+            id: 105, 
+            title: "Subway Beat", 
+            cover: "https://picsum.photos/id/50/400/400",
+            media: [{ type: 'image', url: 'https://picsum.photos/id/50/800/800' }]
+          },
+          { 
+            id: 106, 
+            title: "Sunset Boulevard", 
+            cover: "https://picsum.photos/id/60/400/400",
+            media: [{ type: 'image', url: 'https://picsum.photos/id/60/800/800' }]
+          }
         ]
       },
       {
-        levelNumber: 2,
-        theme: "Level 2: Wild Horizons",
+        levelIndex: 1,
+        name: "Lvl 2: Wilderness",
         tiles: [
-          { id: 201, title: "Mountain Mist", url: "https://picsum.photos/id/70/500/500" },
-          { id: 202, title: "River Bend", url: "https://picsum.photos/id/80/500/500" },
-          { id: 203, title: "Pine Shadows", url: "https://picsum.photos/id/90/500/500" },
-          { id: 204, title: "Lakeside Camp", url: "https://picsum.photos/id/100/500/500" },
-          { id: 205, title: "Rocky Crest", url: "https://picsum.photos/id/110/500/500" },
-          { id: 206, title: "Deep Forest Path", url: "https://picsum.photos/id/120/500/500" }
+          { id: 201, title: "Misty Pine", cover: "https://picsum.photos/id/70/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/70/800/800' }] },
+          { id: 202, title: "River Pass", cover: "https://picsum.photos/id/80/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/80/800/800' }] },
+          { id: 203, title: "Lakeside Camp", cover: "https://picsum.photos/id/90/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/90/800/800' }] },
+          { id: 204, title: "High Peaks", cover: "https://picsum.photos/id/100/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/100/800/800' }] },
+          { id: 205, title: "Deep Valley", cover: "https://picsum.photos/id/110/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/110/800/800' }] },
+          { id: 206, title: "Forest Sunbeam", cover: "https://picsum.photos/id/120/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/120/800/800' }] }
         ]
       },
       {
-        levelNumber: 3,
-        theme: "Level 3: Night Lights",
+        levelIndex: 2,
+        name: "Lvl 3: Nightfall",
         tiles: [
-          { id: 301, title: "Neon Crossroads", url: "https://picsum.photos/id/130/500/500" },
-          { id: 302, title: "Midnight Station", url: "https://picsum.photos/id/140/500/500" },
-          { id: 303, title: "City Lights", url: "https://picsum.photos/id/150/500/500" },
-          { id: 304, title: "Dark Harbor", url: "https://picsum.photos/id/160/500/500" },
-          { id: 305, title: "Skylight Tower", url: "https://picsum.photos/id/170/500/500" },
-          { id: 306, title: "Night Horizon", url: "https://picsum.photos/id/180/500/500" }
+          { id: 301, title: "City Skyline", cover: "https://picsum.photos/id/130/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/130/800/800' }] },
+          { id: 302, title: "Light Streaks", cover: "https://picsum.photos/id/140/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/140/800/800' }] },
+          { id: 303, title: "Midnight Tower", cover: "https://picsum.photos/id/150/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/150/800/800' }] },
+          { id: 304, title: "Harbor Lights", cover: "https://picsum.photos/id/160/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/160/800/800' }] },
+          { id: 305, title: "Bridges", cover: "https://picsum.photos/id/170/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/170/800/800' }] },
+          { id: 306, title: "Dawn Sky", cover: "https://picsum.photos/id/180/400/400", media: [{ type: 'image', url: 'https://picsum.photos/id/180/800/800' }] }
         ]
       }
     ];
 
-    // Persistence
-    let currentLevelIndex = parseInt(localStorage.getItem('tma_level_idx') || '0');
+    // Local Storage State
+    let selectedLevel = parseInt(localStorage.getItem('tma_sel_lvl') || '0');
+    let maxUnlockedLevel = parseInt(localStorage.getItem('tma_max_lvl') || '0');
     let spins = parseInt(localStorage.getItem('tma_spins') ?? '3');
-    let unlockedTileIds = new Set(JSON.parse(localStorage.getItem('tma_unlocked_ids') || '[]'));
-    let lastDailyReset = parseInt(localStorage.getItem('tma_last_reset') || '0');
+    let unlockedIds = new Set(JSON.parse(localStorage.getItem('tma_unlocked_ids') || '[]'));
+    let lastReset = parseInt(localStorage.getItem('tma_last_reset') || '0');
     let isSpinning = false;
 
-    // Daily Reset
+    // Daily 24H Reset
     const now = Date.now();
-    if (now - lastDailyReset > 24 * 60 * 60 * 1000) {
+    if (now - lastReset > 24 * 60 * 60 * 1000) {
       spins = Math.max(spins, 3);
       localStorage.setItem('tma_spins', spins);
       localStorage.setItem('tma_last_reset', now.toString());
     }
 
+    // Modal Gallery Viewer State
+    let activeMediaPack = [];
+    let currentMediaIdx = 0;
+
     const boardEl = document.getElementById('board');
+    const levelTabsEl = document.getElementById('level-tabs');
     const spinCountEl = document.getElementById('spin-count');
-    const levelTitleEl = document.getElementById('level-title');
-    const progressFillEl = document.getElementById('progress-fill');
     const btnAction = document.getElementById('btn-action');
-    const modal = document.getElementById('reveal-modal');
-    const revealImg = document.getElementById('reveal-img');
-    const revealTitle = document.getElementById('reveal-title');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const albumCount = document.getElementById('album-count');
+
+    const modal = document.getElementById('media-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const mediaContainer = document.getElementById('media-container');
+    const mediaNav = document.getElementById('media-nav');
+    const mediaCounter = document.getElementById('media-counter');
+    const prevBtn = document.getElementById('prev-media');
+    const nextBtn = document.getElementById('next-media');
     const modalCloseBtn = document.getElementById('modal-close-btn');
 
     function saveState() {
-      localStorage.setItem('tma_level_idx', currentLevelIndex);
+      localStorage.setItem('tma_sel_lvl', selectedLevel);
+      localStorage.setItem('tma_max_lvl', maxUnlockedLevel);
       localStorage.setItem('tma_spins', spins);
-      localStorage.setItem('tma_unlocked_ids', JSON.stringify(Array.from(unlockedTileIds)));
+      localStorage.setItem('tma_unlocked_ids', JSON.stringify(Array.from(unlockedIds)));
+    }
+
+    function renderLevelTabs() {
+      levelTabsEl.innerHTML = '';
+      gameLevels.forEach((lvl, idx) => {
+        const tab = document.createElement('div');
+        const isUnlocked = idx <= maxUnlockedLevel;
+        tab.className = `level-tab ${idx === selectedLevel ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
+        tab.textContent = isUnlocked ? lvl.name : `🔒 ${lvl.name}`;
+        tab.addEventListener('click', () => {
+          if (isUnlocked && !isSpinning) {
+            selectedLevel = idx;
+            saveState();
+            renderLevelTabs();
+            renderBoard();
+          }
+        });
+        levelTabsEl.appendChild(tab);
+      });
     }
 
     function renderBoard() {
-      const activeLevel = gameLevels[currentLevelIndex];
-      levelTitleEl.textContent = activeLevel.theme;
+      const activeLvl = gameLevels[selectedLevel];
       boardEl.innerHTML = '';
 
-      let levelUnlockedCount = 0;
-
-      activeLevel.tiles.forEach((tile, index) => {
-        const isUnlocked = unlockedTileIds.has(tile.id);
-        if (isUnlocked) levelUnlockedCount++;
-
+      activeLvl.tiles.forEach((tile, index) => {
+        const isUnlocked = unlockedIds.has(tile.id);
         const div = document.createElement('div');
         div.className = `tile ${isUnlocked ? 'unlocked' : ''}`;
         div.id = `tile-${index}`;
-        div.innerHTML = `<img src="${tile.url}" alt="${tile.title}" />`;
+        
+        const mediaCountBadge = tile.media.length > 1 ? `<div class="badge-count">1/${tile.media.length}</div>` : '';
+        div.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />${isUnlocked ? mediaCountBadge : ''}`;
+
+        // Tap unlocked tile to inspect media bundle
+        div.addEventListener('click', () => {
+          if (unlockedIds.has(tile.id) && !isSpinning) {
+            openMediaViewer(tile);
+          }
+        });
+
         boardEl.appendChild(div);
       });
 
-      const progressPercent = (levelUnlockedCount / activeLevel.tiles.length) * 100;
-      progressFillEl.style.width = `${progressPercent}%`;
+      renderAlbum();
     }
 
-    function checkLevelAdvancement() {
-      const activeLevel = gameLevels[currentLevelIndex];
-      const allUnlocked = activeLevel.tiles.every(t => unlockedTileIds.has(t.id));
+    function renderAlbum() {
+      galleryGrid.innerHTML = '';
+      let totalUnlocked = 0;
 
-      if (allUnlocked && currentLevelIndex < gameLevels.length - 1) {
-        currentLevelIndex++;
-        saveState();
-        setTimeout(() => {
-          alert(`🏆 Level Cleared! Unlocking ${gameLevels[currentLevelIndex].theme}!`);
-          renderBoard();
-        }, 600);
-      }
+      gameLevels.forEach(lvl => {
+        lvl.tiles.forEach(tile => {
+          if (unlockedIds.has(tile.id)) {
+            totalUnlocked++;
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />`;
+            card.addEventListener('click', () => openMediaViewer(tile));
+            galleryGrid.appendChild(card);
+          }
+        });
+      });
+
+      albumCount.textContent = `${totalUnlocked} items`;
     }
 
     function updateControls() {
@@ -240,21 +398,16 @@
     });
 
     function runTileSpin() {
-      const activeTiles = gameLevels[currentLevelIndex].tiles;
-      
-      // Find all tiles that are NOT yet unlocked in the current level
+      const activeTiles = gameLevels[selectedLevel].tiles;
       const lockedIndices = [];
+
       activeTiles.forEach((tile, idx) => {
-        if (!unlockedTileIds.has(tile.id)) {
-          lockedIndices.push(idx);
-        }
+        if (!unlockedIds.has(tile.id)) lockedIndices.push(idx);
       });
 
-      // Target selection: Guaranteed new tile if available
       let targetIndex;
       if (lockedIndices.length > 0) {
-        const randomPick = Math.floor(Math.random() * lockedIndices.length);
-        targetIndex = lockedIndices[randomPick];
+        targetIndex = lockedIndices[Math.floor(Math.random() * lockedIndices.length)];
       } else {
         targetIndex = Math.floor(Math.random() * activeTiles.length);
       }
@@ -266,17 +419,14 @@
 
       let currentIndex = 0;
       let speed = 50;
-      
-      // Calculate steps so it always stops exactly on targetIndex
       const numTiles = activeTiles.length;
-      const fullRotations = 3; // Spin around at least 3 times
-      const totalSteps = (fullRotations * numTiles) + targetIndex;
+      const totalSteps = (3 * numTiles) + targetIndex;
       let step = 0;
 
-      function highlightStep() {
+      function stepAnimation() {
         document.querySelectorAll('.tile').forEach(t => t.classList.remove('active-highlight'));
-        const activeTileEl = document.getElementById(`tile-${currentIndex % numTiles}`);
-        if (activeTileEl) activeTileEl.classList.add('active-highlight');
+        const activeEl = document.getElementById(`tile-${currentIndex % numTiles}`);
+        if (activeEl) activeEl.classList.add('active-highlight');
 
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
@@ -284,49 +434,94 @@
         currentIndex++;
 
         if (step <= totalSteps) {
-          if (step > totalSteps - 7) speed += 40; // Smooth deceleration
-          setTimeout(highlightStep, speed);
+          if (step > totalSteps - 6) speed += 40;
+          setTimeout(stepAnimation, speed);
         } else {
           finishSpin(targetIndex);
         }
       }
 
-      highlightStep();
+      stepAnimation();
     }
 
     function finishSpin(landedIndex) {
       isSpinning = false;
-      const wonTile = gameLevels[currentLevelIndex].tiles[landedIndex];
-      unlockedTileIds.add(wonTile.id);
+      const wonTile = gameLevels[selectedLevel].tiles[landedIndex];
+      unlockedIds.add(wonTile.id);
+
+      // Check if current level is completely cleared to unlock the next level
+      const allCurrentUnlocked = gameLevels[selectedLevel].tiles.every(t => unlockedIds.has(t.id));
+      if (allCurrentUnlocked && selectedLevel === maxUnlockedLevel && maxUnlockedLevel < gameLevels.length - 1) {
+        maxUnlockedLevel++;
+      }
+
       saveState();
+      renderLevelTabs();
       renderBoard();
 
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-      revealTitle.textContent = `Unlocked: ${wonTile.title}`;
-      revealImg.src = wonTile.url;
-      modal.classList.add('active');
+      openMediaViewer(wonTile);
       updateControls();
     }
 
+    function openMediaViewer(tile) {
+      activeMediaPack = tile.media;
+      currentMediaIdx = 0;
+      modalTitle.textContent = tile.title;
+      renderCurrentMedia();
+      modal.classList.add('active');
+    }
+
+    function renderCurrentMedia() {
+      const item = activeMediaPack[currentMediaIdx];
+      mediaContainer.innerHTML = '';
+
+      if (item.type === 'video') {
+        mediaContainer.innerHTML = `<video src="${item.url}" controls autoplay loop></video>`;
+      } else {
+        mediaContainer.innerHTML = `<img src="${item.url}" alt="Reward" />`;
+      }
+
+      if (activeMediaPack.length > 1) {
+        mediaNav.style.display = 'flex';
+        mediaCounter.textContent = `${currentMediaIdx + 1}/${activeMediaPack.length}`;
+      } else {
+        mediaNav.style.display = 'none';
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentMediaIdx > 0) {
+        currentMediaIdx--;
+        renderCurrentMedia();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentMediaIdx < activeMediaPack.length - 1) {
+        currentMediaIdx++;
+        renderCurrentMedia();
+      }
+    });
+
     modalCloseBtn.addEventListener('click', () => {
       modal.classList.remove('active');
-      checkLevelAdvancement();
+      mediaContainer.innerHTML = '';
     });
 
     function triggerSimulatedAd() {
-      alert("Simulating Ad View (Connecting to AdsGram in next step)...");
+      alert("Watching ad to claim +1 Spin...");
       setTimeout(() => {
         spins += 1;
         saveState();
         updateControls();
-        alert("Reward: +1 Spin Added!");
-      }, 800);
+        alert("+1 Spin Added!");
+      }, 700);
     }
 
+    renderLevelTabs();
     renderBoard();
     updateControls();
   </script>
 </body>
 </html>
- 
