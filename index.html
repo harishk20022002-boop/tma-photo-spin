@@ -14,7 +14,7 @@
       --gold: #ffd32a;
       --dim: #8e8e93;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
     .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -59,23 +59,45 @@
       border-radius: 12px;
       overflow: hidden;
       position: relative;
-      border: 2px solid transparent;
+      border: 2px solid #2a2b36;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: transform 0.1s, border-color 0.1s;
     }
 
-    .tile img { width: 100%; height: 100%; object-fit: cover; filter: blur(14px) grayscale(100%); transition: filter 0.3s; }
-    .tile.unlocked img { filter: none; }
-    .tile.active-highlight { border-color: var(--gold); transform: scale(1.06); box-shadow: 0 0 16px var(--gold); }
+    /* Locked state */
+    .tile.is-locked {
+      background: #16171f;
+      border: 2px dashed #333645;
+    }
+    .tile.is-locked .lock-icon {
+      font-size: 1.6rem;
+      color: #555a6e;
+    }
+
+    /* Unlocked state */
+    .tile.is-unlocked img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tile.active-highlight {
+      border-color: var(--gold) !important;
+      transform: scale(1.06);
+      box-shadow: 0 0 16px var(--gold);
+      z-index: 2;
+    }
 
     .badge-count {
       position: absolute;
       bottom: 4px;
       right: 4px;
-      background: rgba(0,0,0,0.75);
-      font-size: 0.7rem;
+      background: rgba(0,0,0,0.8);
+      font-size: 0.65rem;
       padding: 2px 6px;
       border-radius: 6px;
       font-weight: bold;
@@ -105,6 +127,17 @@
       width: 100%;
       max-width: 380px;
       margin-bottom: 30px;
+      min-height: 80px;
+    }
+
+    .gallery-empty {
+      grid-column: span 4;
+      text-align: center;
+      color: var(--dim);
+      font-size: 0.85rem;
+      padding: 20px 0;
+      border: 1px dashed #2a2b36;
+      border-radius: 8px;
     }
 
     .gallery-card {
@@ -170,35 +203,34 @@
 
   <!-- Album Section -->
   <div class="gallery-header">
-    <span>Current Session Album</span>
+    <span>My Unlocked Album</span>
     <span id="album-count">0 items</span>
   </div>
   <div class="gallery-grid" id="gallery-grid"></div>
 
   <!-- Media Pack Viewer Modal -->
   <div class="modal" id="media-modal">
-    <h3 id="modal-title" style="margin-bottom: 8px;">Collection</h3>
+    <h3 id="modal-title" style="margin-bottom: 8px;">Photo Unlocked</h3>
     <div class="media-container" id="media-container"></div>
     <div class="modal-controls" id="media-nav" style="display: none;">
       <button class="nav-btn" id="prev-media">◀ Prev</button>
       <span id="media-counter" style="font-size: 0.85rem; color: #aaa;">1/1</span>
       <button class="nav-btn" id="next-media">Next ▶</button>
     </div>
-    <button class="modal-close" id="modal-close-btn">Close</button>
+    <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
   </div>
 
   <script>
-    // Initialize Telegram WebApp SDK
     const tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
     }
 
-    // Wipe any existing browser cache so it always starts fresh
-    localStorage.clear();
+    // Force clear any old local storage state
+    try { localStorage.clear(); } catch(e) {}
 
-    // Multi-Item Game Levels
+    // Game Levels Data
     const gameLevels = [
       {
         levelIndex: 0,
@@ -217,9 +249,7 @@
             id: 102, 
             title: "Urban Motion", 
             cover: "https://picsum.photos/id/20/400/400",
-            media: [
-              { type: 'image', url: 'https://picsum.photos/id/20/800/800' }
-            ]
+            media: [{ type: 'image', url: 'https://picsum.photos/id/20/800/800' }]
           },
           { 
             id: 103, 
@@ -276,14 +306,13 @@
       }
     ];
 
-    // Ephemeral State (Fresh on every launch)
+    // Clean ephemeral game state on every reload
     let selectedLevel = 0;
     let maxUnlockedLevel = 0;
     let spins = 3;
-    let unlockedIds = new Set();
+    let unlockedIds = new Set(); // Empty at launch
     let isSpinning = false;
 
-    // Modal State
     let activeMediaPack = [];
     let currentMediaIdx = 0;
 
@@ -328,17 +357,18 @@
       activeLvl.tiles.forEach((tile, index) => {
         const isUnlocked = unlockedIds.has(tile.id);
         const div = document.createElement('div');
-        div.className = `tile ${isUnlocked ? 'unlocked' : ''}`;
+        div.className = `tile ${isUnlocked ? 'is-unlocked' : 'is-locked'}`;
         div.id = `tile-${index}`;
         
-        const mediaCountBadge = tile.media.length > 1 ? `<div class="badge-count">1/${tile.media.length}</div>` : '';
-        div.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />${isUnlocked ? mediaCountBadge : ''}`;
-
-        div.addEventListener('click', () => {
-          if (unlockedIds.has(tile.id) && !isSpinning) {
-            openMediaViewer(tile);
-          }
-        });
+        if (isUnlocked) {
+          const mediaCountBadge = tile.media.length > 1 ? `<div class="badge-count">1/${tile.media.length}</div>` : '';
+          div.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />${mediaCountBadge}`;
+          div.addEventListener('click', () => {
+            if (!isSpinning) openMediaViewer(tile);
+          });
+        } else {
+          div.innerHTML = `<span class="lock-icon">🔒</span>`;
+        }
 
         boardEl.appendChild(div);
       });
@@ -362,6 +392,10 @@
           }
         });
       });
+
+      if (totalUnlocked === 0) {
+        galleryGrid.innerHTML = `<div class="gallery-empty">No photos unlocked yet. Spin above to reveal!</div>`;
+      }
 
       albumCount.textContent = `${totalUnlocked} items`;
     }
@@ -504,6 +538,7 @@
       }, 700);
     }
 
+    // Initialize UI on launch
     renderLevelTabs();
     renderBoard();
     updateControls();
