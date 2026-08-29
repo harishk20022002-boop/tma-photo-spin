@@ -30,8 +30,8 @@
       background: #181922;
       border: 1px solid #333;
       border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 16px;
+      padding: 12px;
+      margin-bottom: 12px;
       width: 100%;
       max-width: 380px;
       text-align: center;
@@ -42,12 +42,26 @@
     .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
 
+    /* Static Banner Ad Containers */
+    .banner-ad-container {
+      width: 100%;
+      max-width: 380px;
+      min-height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 8px 0;
+      background: #15161e;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
     .level-tabs {
       display: flex;
       gap: 8px;
       width: 100%;
       max-width: 380px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       overflow-x: auto;
       padding-bottom: 4px;
     }
@@ -71,8 +85,8 @@
       gap: 10px;
       width: 100%;
       max-width: 380px;
-      margin-bottom: 16px;
-      max-height: 52vh;
+      margin-bottom: 12px;
+      max-height: 48vh;
       overflow-y: auto;
       padding: 4px;
     }
@@ -134,7 +148,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
 
     .btn {
@@ -237,25 +251,37 @@
   </div>
 
   <div class="level-tabs" id="level-tabs"></div>
+
+  <!-- Top Banner Ad (Above the Tiles) -->
+  <div class="banner-ad-container">
+    <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
+  </div>
+
+  <!-- The Tile Board -->
   <div class="tile-board" id="board"></div>
 
+  <!-- Action Buttons -->
   <div class="btn-group">
     <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
     <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+1 Spin)</button>
   </div>
 
+  <!-- Bottom Banner Ad (Below the Tiles / Buttons) -->
+  <div class="banner-ad-container">
+    <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
+  </div>
+
+  <!-- Media Viewer Modal -->
   <div class="modal" id="media-modal">
     <h3 id="modal-title" style="margin-bottom: 8px;">Item Unlocked</h3>
     <div class="media-container" id="media-container"></div>
     <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
   </div>
 
+  <!-- 10-Second Ad Modal Overlay -->
   <div id="ad-overlay">
-    <div style="font-size: 0.9rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
-    <div class="ad-box" id="exoclick-slot">
-      <!-- Updated Ad Tag -->
-      <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
-    </div>
+    <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
+    <div class="ad-box" id="exoclick-slot"></div>
     <button class="ad-claim-btn" id="ad-claim-btn" disabled>Watch ad (10s)</button>
   </div>
 
@@ -372,6 +398,7 @@
 
     const adOverlay = document.getElementById('ad-overlay');
     const adClaimBtn = document.getElementById('ad-claim-btn');
+    const exoclickSlot = document.getElementById('exoclick-slot');
 
     function saveGameState() {
       saveStorage("quest_selected_lvl", selectedLevel);
@@ -539,9 +566,12 @@
     });
 
     function showExoClickAd() {
+      // Re-inject a clean ad slot into the overlay
+      exoclickSlot.innerHTML = '<ins class="eas6a97888e2" data-zoneid="6014424"></ins>';
+
       adOverlay.classList.add('active');
 
-      // Re-trigger / serve ExoClick ad unit
+      // Request impression from ExoClick
       try {
         (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
       } catch (e) {}
@@ -566,16 +596,22 @@
 
     adClaimBtn.addEventListener('click', () => {
       adOverlay.classList.remove('active');
+      exoclickSlot.innerHTML = ''; // Clean up container
       spins += 1;
       saveGameState();
       updateControls();
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     });
 
-    // Initialize View
+    // Initial Load
     renderLevelTabs();
     renderBoard();
     updateControls();
+
+    // Trigger initial page-load banner ads
+    try {
+      (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
+    } catch (e) {}
   </script>
 </body>
 </html>
