@@ -8,9 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Photo Spin Quest</title>
   
-  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- ExoClick Ad Provider SDK -->
   <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
 
   <style>
@@ -25,6 +23,19 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
+    .browser-notice {
+      background: #181922;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
     .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
 
@@ -35,6 +46,7 @@
       max-width: 380px;
       margin-bottom: 14px;
       overflow-x: auto;
+      padding-bottom: 4px;
     }
     .level-tab {
       background: #23252f;
@@ -57,6 +69,9 @@
       width: 100%;
       max-width: 380px;
       margin-bottom: 16px;
+      max-height: 55vh;
+      overflow-y: auto;
+      padding: 4px;
     }
 
     .tile {
@@ -84,11 +99,23 @@
       background: var(--card);
       border: 2px solid #2ed573;
     }
-    .tile.is-unlocked img {
+    .tile.is-unlocked img, .tile.is-unlocked video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .video-tag {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: bold;
     }
 
     .tile.active-highlight {
@@ -96,17 +123,6 @@
       transform: scale(1.06);
       box-shadow: 0 0 16px var(--gold);
       z-index: 2;
-    }
-
-    .badge-count {
-      position: absolute;
-      bottom: 4px;
-      right: 4px;
-      background: rgba(0,0,0,0.8);
-      font-size: 0.65rem;
-      padding: 2px 6px;
-      border-radius: 6px;
-      font-weight: bold;
     }
 
     .btn {
@@ -122,37 +138,6 @@
     }
     .btn-spin { background: #2ed573; color: #000; }
     .btn-ad { background: #ffa502; color: #000; }
-
-    .gallery-header { width: 100%; max-width: 380px; font-size: 1rem; font-weight: bold; margin-bottom: 10px; color: var(--gold); display: flex; justify-content: space-between; }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      width: 100%;
-      max-width: 380px;
-      margin-bottom: 30px;
-      min-height: 80px;
-    }
-
-    .gallery-empty {
-      grid-column: span 4;
-      text-align: center;
-      color: var(--dim);
-      font-size: 0.85rem;
-      padding: 20px 0;
-      border: 1px dashed #2a2b36;
-      border-radius: 8px;
-    }
-
-    .gallery-card {
-      aspect-ratio: 1;
-      background: var(--card);
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #333;
-      cursor: pointer;
-    }
-    .gallery-card img { width: 100%; height: 100%; object-fit: cover; }
 
     /* Media Viewer Modal */
     .modal {
@@ -178,13 +163,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       border: 1px solid #444;
     }
     .media-container img, .media-container video { width: 100%; height: 100%; object-fit: contain; }
 
-    .modal-controls { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
-    .nav-btn { background: #2f3542; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-weight: bold; }
     .modal-close { background: #fff; color: #000; padding: 10px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
 
     /* ExoClick Ad Overlay */
@@ -223,7 +206,6 @@
       border: none;
       cursor: pointer;
       font-size: 1rem;
-      transition: opacity 0.2s;
     }
     .ad-claim-btn:disabled {
       background: #444;
@@ -234,8 +216,13 @@
 </head>
 <body>
 
+  <div class="browser-notice">
+    <h4 style="color: var(--gold); margin-bottom: 4px;">Photo Spin Quest</h4>
+    <p>Daily lucky spin game to unlock exclusive galleries & clips.</p>
+  </div>
+
   <div class="top-bar">
-    <div style="font-weight: bold; font-size: 1.1rem;">Photo Spin Quest</div>
+    <div style="font-weight: bold; font-size: 1.1rem;">Spin Quest</div>
     <div class="spins-badge">Spins: <span id="spin-count">3</span></div>
   </div>
 
@@ -244,33 +231,17 @@
 
   <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
 
-  <div class="gallery-header">
-    <span>My Unlocked Album</span>
-    <span id="album-count">0 items</span>
-  </div>
-  <div class="gallery-grid" id="gallery-grid"></div>
-
-  <!-- Media Viewer Modal -->
   <div class="modal" id="media-modal">
-    <h3 id="modal-title" style="margin-bottom: 8px;">Photo Unlocked</h3>
+    <h3 id="modal-title" style="margin-bottom: 8px;">Item Unlocked</h3>
     <div class="media-container" id="media-container"></div>
-    <div class="modal-controls" id="media-nav" style="display: none;">
-      <button class="nav-btn" id="prev-media">◀ Prev</button>
-      <span id="media-counter" style="font-size: 0.85rem; color: #aaa;">1/1</span>
-      <button class="nav-btn" id="next-media">Next ▶</button>
-    </div>
     <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
   </div>
 
-  <!-- ExoClick Rewarded Overlay -->
   <div id="ad-overlay">
     <div style="font-size: 0.9rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
-    
     <div class="ad-box" id="exoclick-slot">
-      <!-- ExoClick Zone Tag -->
       <ins class="eas6a97888e10" data-zoneid="6013872"></ins>
     </div>
-
     <button class="ad-claim-btn" id="ad-claim-btn" disabled>Claim +1 Spin (5s)</button>
   </div>
 
@@ -281,103 +252,119 @@
       tg.expand();
     }
 
-    try {
-      localStorage.clear();
-      sessionStorage.clear();
-    } catch(e) {}
-
-    // Multi-Level Configuration with Custom Media
+    // 4 Distinct Levels with Individual Link Tiles
     const gameLevels = [
       {
         levelIndex: 0,
-        name: "Lvl 1: Desire",
+        name: "Lvl 1: Bmlf",
         tiles: [
-          {
-            id: 101,
-            title: "Amber Glow Pack",
-            cover: "https://files.catbox.moe/yk9n5y.jpg",
-            media: [
-              { type: 'image', url: 'https://files.catbox.moe/yk9n5y.jpg' },
-              { type: 'image', url: 'https://files.catbox.moe/b2oz3d.jpg' }
-            ]
-          },
-          {
-            id: 102,
-            title: "Midnight Motion",
-            cover: "https://files.catbox.moe/r6vpix.jpg",
-            media: [
-              { type: 'video', url: 'https://files.catbox.moe/z1eax0.mp4' },
-              { type: 'image', url: 'https://files.catbox.moe/r6vpix.jpg' }
-            ]
-          },
-          {
-            id: 103,
-            title: "Sunset Velvet",
-            cover: "https://files.catbox.moe/wlwgdn.jpg",
-            media: [
-              { type: 'image', url: 'https://files.catbox.moe/wlwgdn.jpg' },
-              { type: 'image', url: 'https://files.catbox.moe/93dbkg.jpg' }
-            ]
-          },
-          {
-            id: 104,
-            title: "Neon Pulse Clip",
-            cover: "https://files.catbox.moe/66q8wy.jpg",
-            media: [
-              { type: 'video', url: 'https://files.catbox.moe/kmsdc7.mp4' },
-              { type: 'image', url: 'https://files.catbox.moe/66q8wy.jpg' }
-            ]
-          },
-          {
-            id: 105,
-            title: "Silk & Shadow",
-            cover: "https://files.catbox.moe/vi7mxf.jpg",
-            media: [
-              { type: 'image', url: 'https://files.catbox.moe/vi7mxf.jpg' },
-              { type: 'image', url: 'https://files.catbox.moe/bf3npt.jpg' }
-            ]
-          },
-          {
-            id: 106,
-            title: "VIP Reel & Portrait",
-            cover: "https://files.catbox.moe/r8vik7.jpg",
-            media: [
-              { type: 'video', url: 'https://files.catbox.moe/grkzay.mp4' },
-              { type: 'image', url: 'https://files.catbox.moe/r8vik7.jpg' }
-            ]
-          }
+          { id: 101, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 102, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
+          { id: 103, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" }
         ]
       },
-      
+      {
+        levelIndex: 1,
+        name: "Lvl 2: north east Hot GF",
+        tiles: [
+          { id: 201, type: "video", url: "https://files.catbox.moe/5ta2r8.mp4" },
+          { id: 202, type: "image", url: "https://files.catbox.moe/fgqyul.jpg" },
+          { id: 203, type: "image", url: "https://files.catbox.moe/6ye6pp.jpg" },
+          { id: 204, type: "image", url: "https://files.catbox.moe/xgzuv1.jpg" },
+          { id: 205, type: "image", url: "https://files.catbox.moe/llv48p.jpg" },
+          { id: 206, type: "image", url: "https://files.catbox.moe/svkrqf.jpg" }
+        ]
+      },
+      {
+        levelIndex: 2,
+        name: "Lvl 3: Igfk",
+        tiles: [
+          { id: 301, type: "video", url: "https://files.catbox.moe/z1eax0.mp4" },
+          { id: 302, type: "video", url: "https://files.catbox.moe/grkzay.mp4" },
+          { id: 303, type: "video", url: "https://files.catbox.moe/kmsdc7.mp4" },
+          { id: 304, type: "image", url: "https://files.catbox.moe/b2oz3d.jpg" },
+          { id: 305, type: "image", url: "https://files.catbox.moe/r6vpix.jpg" },
+          { id: 306, type: "image", url: "https://files.catbox.moe/21t1mb.jpg" },
+          { id: 307, type: "image", url: "https://files.catbox.moe/wlwgdn.jpg" },
+          { id: 308, type: "image", url: "https://files.catbox.moe/93dbkg.jpg" },
+          { id: 309, type: "image", url: "https://files.catbox.moe/66q8wy.jpg" },
+          { id: 310, type: "image", url: "https://files.catbox.moe/bf3npt.jpg" },
+          { id: 311, type: "image", url: "https://files.catbox.moe/r8vik7.jpg" },
+          { id: 312, type: "image", url: "https://files.catbox.moe/vi7mxf.jpg" },
+          { id: 313, type: "image", url: "https://files.catbox.moe/yk9n5y.jpg" }
+        ]
+      },
+      {
+        levelIndex: 3,
+        name: "Lvl 4: Jagruthi",
+        tiles: [
+          { id: 401, type: "image", url: "https://files.catbox.moe/etvw1l.jpg" },
+          { id: 402, type: "image", url: "https://files.catbox.moe/9nhsde.jpg" },
+          { id: 403, type: "image", url: "https://files.catbox.moe/ix3ldu.jpg" },
+          { id: 404, type: "image", url: "https://files.catbox.moe/sh6gli.jpg" },
+          { id: 405, type: "image", url: "https://files.catbox.moe/1eyprc.jpg" },
+          { id: 406, type: "video", url: "https://files.catbox.moe/msp6yu.mp4" },
+          { id: 407, type: "image", url: "https://files.catbox.moe/7ctdm0.jpg" },
+          { id: 408, type: "image", url: "https://files.catbox.moe/39uqd4.jpg" },
+          { id: 409, type: "image", url: "https://files.catbox.moe/t1ek68.jpg" },
+          { id: 410, type: "video", url: "https://files.catbox.moe/lvrb3i.mp4" },
+          { id: 411, type: "video", url: "https://files.catbox.moe/iwta5q.mp4" },
+          { id: 412, type: "image", url: "https://files.catbox.moe/hwaq33.jpg" },
+          { id: 413, type: "image", url: "https://files.catbox.moe/2z1ojf.jpg" },
+          { id: 414, type: "image", url: "https://files.catbox.moe/fb1iti.jpg" },
+          { id: 415, type: "image", url: "https://files.catbox.moe/yaxc00.jpg" },
+          { id: 416, type: "image", url: "https://files.catbox.moe/mlkbc3.jpg" },
+          { id: 417, type: "image", url: "https://files.catbox.moe/l4rnkt.jpg" },
+          { id: 418, type: "video", url: "https://files.catbox.moe/a2399d.mp4" },
+          { id: 419, type: "video", url: "https://files.catbox.moe/zhvdvm.mp4" },
+          { id: 420, type: "video", url: "https://files.catbox.moe/ei1lg4.mp4" },
+          { id: 421, type: "video", url: "https://files.catbox.moe/0ssq9g.mp4" },
+          { id: 422, type: "video", url: "https://files.catbox.moe/7qorxn.mp4" }
+        ]
+      }
     ];
 
-    let selectedLevel = 0;
-    let maxUnlockedLevel = 0;
-    let spins = 3;
-    let unlockedIds = new Set();
-    let isSpinning = false;
+    // --- Persistent Storage State Management ---
+    function loadStorage(key, fallback) {
+      try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
 
-    let activeMediaPack = [];
-    let currentMediaIdx = 0;
+    function saveStorage(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch (e) {}
+    }
+
+    let selectedLevel = loadStorage("quest_selected_lvl", 0);
+    let maxUnlockedLevel = loadStorage("quest_max_lvl", 0);
+    let spins = loadStorage("quest_spins", 3);
+    let unlockedIds = new Set(loadStorage("quest_unlocked_ids", []));
+    let isSpinning = false;
 
     const boardEl = document.getElementById('board');
     const levelTabsEl = document.getElementById('level-tabs');
     const spinCountEl = document.getElementById('spin-count');
     const btnAction = document.getElementById('btn-action');
-    const galleryGrid = document.getElementById('gallery-grid');
-    const albumCount = document.getElementById('album-count');
 
     const modal = document.getElementById('media-modal');
     const modalTitle = document.getElementById('modal-title');
     const mediaContainer = document.getElementById('media-container');
-    const mediaNav = document.getElementById('media-nav');
-    const mediaCounter = document.getElementById('media-counter');
-    const prevBtn = document.getElementById('prev-media');
-    const nextBtn = document.getElementById('next-media');
     const modalCloseBtn = document.getElementById('modal-close-btn');
 
     const adOverlay = document.getElementById('ad-overlay');
     const adClaimBtn = document.getElementById('ad-claim-btn');
+
+    function saveGameState() {
+      saveStorage("quest_selected_lvl", selectedLevel);
+      saveStorage("quest_max_lvl", maxUnlockedLevel);
+      saveStorage("quest_spins", spins);
+      saveStorage("quest_unlocked_ids", Array.from(unlockedIds));
+    }
 
     function renderLevelTabs() {
       levelTabsEl.innerHTML = '';
@@ -389,6 +376,7 @@
         tab.addEventListener('click', () => {
           if (isUnlocked && !isSpinning) {
             selectedLevel = idx;
+            saveGameState();
             renderLevelTabs();
             renderBoard();
           }
@@ -408,8 +396,12 @@
         div.id = `tile-${index}`;
         
         if (isUnlocked) {
-          const mediaCountBadge = tile.media.length > 1 ? `<div class="badge-count">1/${tile.media.length}</div>` : '';
-          div.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />${mediaCountBadge}`;
+          const videoBadge = tile.type === 'video' ? `<div class="video-tag">🎬 Video</div>` : '';
+          if (tile.type === 'video') {
+            div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video>${videoBadge}`;
+          } else {
+            div.innerHTML = `<img src="${tile.url}" alt="Unlocked" />`;
+          }
           div.addEventListener('click', () => {
             if (!isSpinning) openMediaViewer(tile);
           });
@@ -419,32 +411,6 @@
 
         boardEl.appendChild(div);
       });
-
-      renderAlbum();
-    }
-
-    function renderAlbum() {
-      galleryGrid.innerHTML = '';
-      let totalUnlocked = 0;
-
-      gameLevels.forEach(lvl => {
-        lvl.tiles.forEach(tile => {
-          if (unlockedIds.has(tile.id)) {
-            totalUnlocked++;
-            const card = document.createElement('div');
-            card.className = 'gallery-card';
-            card.innerHTML = `<img src="${tile.cover}" alt="${tile.title}" />`;
-            card.addEventListener('click', () => openMediaViewer(tile));
-            galleryGrid.appendChild(card);
-          }
-        });
-      });
-
-      if (totalUnlocked === 0) {
-        galleryGrid.innerHTML = `<div class="gallery-empty">No photos unlocked yet. Spin above to reveal!</div>`;
-      }
-
-      albumCount.textContent = `${totalUnlocked} items`;
     }
 
     function updateControls() {
@@ -484,18 +450,22 @@
 
       isSpinning = true;
       spins--;
+      saveGameState();
       updateControls();
 
       let currentIndex = 0;
-      let speed = 50;
+      let speed = 40;
       const numTiles = activeTiles.length;
-      const totalSteps = (3 * numTiles) + targetIndex;
+      const totalSteps = (2 * numTiles) + targetIndex;
       let step = 0;
 
       function stepAnimation() {
         document.querySelectorAll('.tile').forEach(t => t.classList.remove('active-highlight'));
         const activeEl = document.getElementById(`tile-${currentIndex % numTiles}`);
-        if (activeEl) activeEl.classList.add('active-highlight');
+        if (activeEl) {
+          activeEl.classList.add('active-highlight');
+          activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
 
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
@@ -523,6 +493,7 @@
         maxUnlockedLevel++;
       }
 
+      saveGameState();
       renderLevelTabs();
       renderBoard();
 
@@ -532,44 +503,17 @@
     }
 
     function openMediaViewer(tile) {
-      activeMediaPack = tile.media;
-      currentMediaIdx = 0;
-      modalTitle.textContent = tile.title;
-      renderCurrentMedia();
-      modal.classList.add('active');
-    }
-
-    function renderCurrentMedia() {
-      const item = activeMediaPack[currentMediaIdx];
+      modalTitle.textContent = tile.type === 'video' ? '🎬 Video Unlocked' : '📸 Photo Unlocked';
       mediaContainer.innerHTML = '';
 
-      if (item.type === 'video') {
-        mediaContainer.innerHTML = `<video src="${item.url}" controls autoplay loop playsinline></video>`;
+      if (tile.type === 'video') {
+        mediaContainer.innerHTML = `<video src="${tile.url}" controls autoplay loop playsinline></video>`;
       } else {
-        mediaContainer.innerHTML = `<img src="${item.url}" alt="Reward" />`;
+        mediaContainer.innerHTML = `<img src="${tile.url}" alt="Unlocked" />`;
       }
 
-      if (activeMediaPack.length > 1) {
-        mediaNav.style.display = 'flex';
-        mediaCounter.textContent = `${currentMediaIdx + 1}/${activeMediaPack.length}`;
-      } else {
-        mediaNav.style.display = 'none';
-      }
+      modal.classList.add('active');
     }
-
-    prevBtn.addEventListener('click', () => {
-      if (currentMediaIdx > 0) {
-        currentMediaIdx--;
-        renderCurrentMedia();
-      }
-    });
-
-    nextBtn.addEventListener('click', () => {
-      if (currentMediaIdx < activeMediaPack.length - 1) {
-        currentMediaIdx++;
-        renderCurrentMedia();
-      }
-    });
 
     modalCloseBtn.addEventListener('click', () => {
       modal.classList.remove('active');
@@ -581,9 +525,7 @@
 
       try {
         (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
-      } catch (e) {
-        console.error("Ad provider error:", e);
-      }
+      } catch (e) {}
 
       let countdown = 5;
       adClaimBtn.disabled = true;
@@ -604,10 +546,12 @@
     adClaimBtn.addEventListener('click', () => {
       adOverlay.classList.remove('active');
       spins += 1;
+      saveGameState();
       updateControls();
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     });
 
+    // Initialize View
     renderLevelTabs();
     renderBoard();
     updateControls();
