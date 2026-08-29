@@ -42,17 +42,6 @@
     .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
 
-    /* Header Ad Container */
-    .header-ad-container {
-      width: 100%;
-      max-width: 380px;
-      margin-bottom: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
     .level-tabs {
       display: flex;
       gap: 8px;
@@ -83,7 +72,7 @@
       width: 100%;
       max-width: 380px;
       margin-bottom: 16px;
-      max-height: 55vh;
+      max-height: 52vh;
       overflow-y: auto;
       padding: 4px;
     }
@@ -139,16 +128,23 @@
       z-index: 2;
     }
 
-    .btn {
+    .btn-group {
       width: 100%;
       max-width: 380px;
-      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
       border-radius: 14px;
       border: none;
       font-weight: bold;
       font-size: 1rem;
       cursor: pointer;
-      margin-bottom: 24px;
     }
     .btn-spin { background: #2ed573; color: #000; }
     .btn-ad { background: #ffa502; color: #000; }
@@ -240,16 +236,13 @@
     <div class="spins-badge">Spins: <span id="spin-count">3</span></div>
   </div>
 
-  <!-- Header Banner Ad -->
-  <div class="header-ad-container">
-    <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
-    <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-  </div>
-
   <div class="level-tabs" id="level-tabs"></div>
   <div class="tile-board" id="board"></div>
 
-  <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
+  <div class="btn-group">
+    <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
+    <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+1 Spin)</button>
+  </div>
 
   <div class="modal" id="media-modal">
     <h3 id="modal-title" style="margin-bottom: 8px;">Item Unlocked</h3>
@@ -260,9 +253,10 @@
   <div id="ad-overlay">
     <div style="font-size: 0.9rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
     <div class="ad-box" id="exoclick-slot">
-      <ins class="eas6a97888e10" data-zoneid="6013872"></ins>
+      <!-- Updated Ad Tag -->
+      <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
     </div>
-    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Claim +1 Spin (5s)</button>
+    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Watch ad (10s)</button>
   </div>
 
   <script>
@@ -272,7 +266,6 @@
       tg.expand();
     }
 
-    // 4 Distinct Levels with Individual Link Tiles
     const gameLevels = [
       {
         levelIndex: 0,
@@ -344,7 +337,6 @@
       }
     ];
 
-    // --- Persistent Storage State Management ---
     function loadStorage(key, fallback) {
       try {
         const item = localStorage.getItem(key);
@@ -365,11 +357,13 @@
     let spins = loadStorage("quest_spins", 3);
     let unlockedIds = new Set(loadStorage("quest_unlocked_ids", []));
     let isSpinning = false;
+    let adInterval = null;
 
     const boardEl = document.getElementById('board');
     const levelTabsEl = document.getElementById('level-tabs');
     const spinCountEl = document.getElementById('spin-count');
     const btnAction = document.getElementById('btn-action');
+    const btnWatchAd = document.getElementById('btn-watch-ad');
 
     const modal = document.getElementById('media-modal');
     const modalTitle = document.getElementById('modal-title');
@@ -437,10 +431,10 @@
       spinCountEl.textContent = spins;
       if (spins > 0) {
         btnAction.className = 'btn btn-spin';
-        btnAction.textContent = `SPIN (Remaining: ${spins})`;
+        btnAction.textContent = `SPIN TILES (${spins} Left)`;
       } else {
         btnAction.className = 'btn btn-ad';
-        btnAction.textContent = 'Watch Ad to get +1 Spin';
+        btnAction.textContent = 'Out of Spins - Watch Ad';
       }
     }
 
@@ -451,6 +445,10 @@
       } else {
         showExoClickAd();
       }
+    });
+
+    btnWatchAd.addEventListener('click', () => {
+      if (!isSpinning) showExoClickAd();
     });
 
     function runTileSpin() {
@@ -543,22 +541,25 @@
     function showExoClickAd() {
       adOverlay.classList.add('active');
 
+      // Re-trigger / serve ExoClick ad unit
       try {
         (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
       } catch (e) {}
 
-      let countdown = 5;
+      let countdown = 10;
       adClaimBtn.disabled = true;
-      adClaimBtn.textContent = `Claim +1 Spin (${countdown}s)`;
+      adClaimBtn.textContent = `Watch ad (${countdown}s)`;
 
-      const timer = setInterval(() => {
+      if (adInterval) clearInterval(adInterval);
+
+      adInterval = setInterval(() => {
         countdown--;
         if (countdown > 0) {
-          adClaimBtn.textContent = `Claim +1 Spin (${countdown}s)`;
+          adClaimBtn.textContent = `Watch ad (${countdown}s)`;
         } else {
-          clearInterval(timer);
+          clearInterval(adInterval);
           adClaimBtn.disabled = false;
-          adClaimBtn.textContent = "Collect +1 Spin";
+          adClaimBtn.textContent = "Claim +1 Spin";
         }
       }, 1000);
     }
