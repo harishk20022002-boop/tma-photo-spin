@@ -22,9 +22,10 @@
       --text: #ffffff;
       --gold: #ffd32a;
       --dim: #8e8e93;
+      --blue: #2ed573;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    body { background: var(--bg); color: var(--text); padding: 14px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
     .browser-notice {
       background: #181922;
@@ -39,7 +40,7 @@
       color: #aaa;
     }
 
-    .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
 
     /* Static Banner Ad Containers */
@@ -61,7 +62,7 @@
       gap: 8px;
       width: 100%;
       max-width: 380px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       overflow-x: auto;
       padding-bottom: 4px;
     }
@@ -71,7 +72,7 @@
       border: 1px solid #333;
       padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
@@ -79,16 +80,15 @@
     .level-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
     .level-tab.locked { opacity: 0.35; cursor: not-allowed; }
 
+    /* Strict 3x3 Tile Board */
     .tile-board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 9px;
       width: 100%;
       max-width: 380px;
       margin-bottom: 12px;
-      max-height: 48vh;
-      overflow-y: auto;
-      padding: 4px;
+      padding: 2px;
     }
 
     .tile {
@@ -108,7 +108,7 @@
       border: 2px dashed #2f3342;
     }
     .tile.is-locked .lock-icon {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: #555b70;
     }
 
@@ -123,14 +123,14 @@
       display: block;
     }
 
-    .video-tag {
+    .tile-tag {
       position: absolute;
       top: 4px;
       right: 4px;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.8);
       color: #fff;
       font-size: 0.65rem;
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 6px;
       font-weight: bold;
     }
@@ -151,24 +151,31 @@
       margin-bottom: 12px;
     }
 
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
     .btn {
       width: 100%;
-      padding: 14px;
-      border-radius: 14px;
+      padding: 13px;
+      border-radius: 12px;
       border: none;
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
     }
     .btn-spin { background: #2ed573; color: #000; }
     .btn-ad { background: #ffa502; color: #000; }
+    .btn-vault { background: #3742fa; color: #fff; }
 
-    /* Media Viewer Modal */
+    /* Modals */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.92);
+      background: rgba(0,0,0,0.94);
       z-index: 100;
       flex-direction: column;
       align-items: center;
@@ -187,14 +194,69 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       border: 1px solid #444;
+      position: relative;
     }
     .media-container img, .media-container video { width: 100%; height: 100%; object-fit: contain; }
 
-    .modal-close { background: #fff; color: #000; padding: 10px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
+    .album-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .album-nav-btn {
+      background: #23252f;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-    /* ExoClick Ad Overlay */
+    .modal-close { background: #fff; color: #000; padding: 9px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
+
+    /* Unlocked Vault View */
+    .vault-content {
+      width: 100%;
+      max-width: 360px;
+      max-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      background: #181922;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid #333;
+    }
+    .vault-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      overflow-y: auto;
+      padding: 4px;
+      max-height: 55vh;
+      margin: 12px 0;
+    }
+    .vault-item {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #101116;
+      position: relative;
+      cursor: pointer;
+      border: 1px solid #333;
+    }
+    .vault-item img, .vault-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Ad Overlay */
     #ad-overlay {
       display: none;
       position: fixed;
@@ -242,7 +304,7 @@
 
   <div class="browser-notice">
     <h4 style="color: var(--gold); margin-bottom: 4px;">Photo Spin Quest</h4>
-    <p>Daily lucky spin game to unlock exclusive galleries & clips.</p>
+    <p>Daily lucky spin game to unlock galleries, albums & clips.</p>
   </div>
 
   <div class="top-bar">
@@ -252,37 +314,57 @@
 
   <div class="level-tabs" id="level-tabs"></div>
 
-  <!-- Top Banner Ad (Above the Tiles) -->
+  <!-- Top Banner Ad -->
   <div class="banner-ad-container">
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
-  <!-- The Tile Board -->
+  <!-- 3x3 Tile Board (9 tiles) -->
   <div class="tile-board" id="board"></div>
 
-  <!-- Action Buttons -->
+  <!-- Action Controls -->
   <div class="btn-group">
-    <button id="btn-action" class="btn btn-spin">SPIN THE TILES</button>
-    <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+1 Spin)</button>
+    <button id="btn-action" class="btn btn-spin">SPIN TILES</button>
+    <div class="btn-row">
+      <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+1 Spin)</button>
+      <button id="btn-open-vault" class="btn btn-vault">📁 Vault (<span id="vault-count">0</span>)</button>
+    </div>
   </div>
 
-  <!-- Bottom Banner Ad (Below the Tiles / Buttons) -->
+  <!-- Bottom Banner Ad -->
   <div class="banner-ad-container">
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
-  <!-- Media Viewer Modal -->
+  <!-- Single Item / Album Media Viewer Modal -->
   <div class="modal" id="media-modal">
-    <h3 id="modal-title" style="margin-bottom: 8px;">Item Unlocked</h3>
+    <h3 id="modal-title" style="margin-bottom: 6px;">Item Unlocked</h3>
+    <div class="album-nav" id="album-nav" style="display: none;">
+      <button class="album-nav-btn" id="album-prev">◀</button>
+      <span id="album-counter">1 / 1</span>
+      <button class="album-nav-btn" id="album-next">▶</button>
+    </div>
     <div class="media-container" id="media-container"></div>
     <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
   </div>
 
-  <!-- 10-Second Ad Modal Overlay -->
+  <!-- Unlocked Media Vault Modal -->
+  <div class="modal" id="vault-modal">
+    <div class="vault-content">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="color: var(--gold);">Unlocked Vault</h3>
+        <button id="vault-close-btn" style="background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer;">✕</button>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--dim); margin-top: 4px;">Browse all your unlocked photos, videos, and albums.</p>
+      <div class="vault-grid" id="vault-grid"></div>
+    </div>
+  </div>
+
+  <!-- 5-Second Ad Modal Overlay -->
   <div id="ad-overlay">
     <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
     <div class="ad-box" id="exoclick-slot"></div>
-    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Watch ad (10s)</button>
+    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Watch ad (5s)</button>
   </div>
 
   <script>
@@ -292,6 +374,7 @@
       tg.expand();
     }
 
+    // Fixed 9 tiles per level with Album grouping for surplus media
     const gameLevels = [
       {
         levelIndex: 0,
@@ -299,19 +382,28 @@
         tiles: [
           { id: 101, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
           { id: 102, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
-          { id: 103, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" }
+          { id: 103, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" },
+          { id: 104, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 105, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
+          { id: 106, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" },
+          { id: 107, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 108, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
+          { id: 109, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" }
         ]
       },
       {
         levelIndex: 1,
-        name: "Lvl 2: north east Hot GF",
+        name: "Lvl 2: North East GF",
         tiles: [
           { id: 201, type: "video", url: "https://files.catbox.moe/5ta2r8.mp4" },
           { id: 202, type: "image", url: "https://files.catbox.moe/fgqyul.jpg" },
           { id: 203, type: "image", url: "https://files.catbox.moe/6ye6pp.jpg" },
           { id: 204, type: "image", url: "https://files.catbox.moe/xgzuv1.jpg" },
           { id: 205, type: "image", url: "https://files.catbox.moe/llv48p.jpg" },
-          { id: 206, type: "image", url: "https://files.catbox.moe/svkrqf.jpg" }
+          { id: 206, type: "image", url: "https://files.catbox.moe/svkrqf.jpg" },
+          { id: 207, type: "video", url: "https://files.catbox.moe/5ta2r8.mp4" },
+          { id: 208, type: "image", url: "https://files.catbox.moe/fgqyul.jpg" },
+          { id: 209, type: "image", url: "https://files.catbox.moe/6ye6pp.jpg" }
         ]
       },
       {
@@ -326,11 +418,18 @@
           { id: 306, type: "image", url: "https://files.catbox.moe/21t1mb.jpg" },
           { id: 307, type: "image", url: "https://files.catbox.moe/wlwgdn.jpg" },
           { id: 308, type: "image", url: "https://files.catbox.moe/93dbkg.jpg" },
-          { id: 309, type: "image", url: "https://files.catbox.moe/66q8wy.jpg" },
-          { id: 310, type: "image", url: "https://files.catbox.moe/bf3npt.jpg" },
-          { id: 311, type: "image", url: "https://files.catbox.moe/r8vik7.jpg" },
-          { id: 312, type: "image", url: "https://files.catbox.moe/vi7mxf.jpg" },
-          { id: 313, type: "image", url: "https://files.catbox.moe/yk9n5y.jpg" }
+          {
+            id: 309,
+            type: "album",
+            name: "Lvl 3 Special Album",
+            items: [
+              { type: "image", url: "https://files.catbox.moe/66q8wy.jpg" },
+              { type: "image", url: "https://files.catbox.moe/bf3npt.jpg" },
+              { type: "image", url: "https://files.catbox.moe/r8vik7.jpg" },
+              { type: "image", url: "https://files.catbox.moe/vi7mxf.jpg" },
+              { type: "image", url: "https://files.catbox.moe/yk9n5y.jpg" }
+            ]
+          }
         ]
       },
       {
@@ -344,21 +443,35 @@
           { id: 405, type: "image", url: "https://files.catbox.moe/1eyprc.jpg" },
           { id: 406, type: "video", url: "https://files.catbox.moe/msp6yu.mp4" },
           { id: 407, type: "image", url: "https://files.catbox.moe/7ctdm0.jpg" },
-          { id: 408, type: "image", url: "https://files.catbox.moe/39uqd4.jpg" },
-          { id: 409, type: "image", url: "https://files.catbox.moe/t1ek68.jpg" },
-          { id: 410, type: "video", url: "https://files.catbox.moe/lvrb3i.mp4" },
-          { id: 411, type: "video", url: "https://files.catbox.moe/iwta5q.mp4" },
-          { id: 412, type: "image", url: "https://files.catbox.moe/hwaq33.jpg" },
-          { id: 413, type: "image", url: "https://files.catbox.moe/2z1ojf.jpg" },
-          { id: 414, type: "image", url: "https://files.catbox.moe/fb1iti.jpg" },
-          { id: 415, type: "image", url: "https://files.catbox.moe/yaxc00.jpg" },
-          { id: 416, type: "image", url: "https://files.catbox.moe/mlkbc3.jpg" },
-          { id: 417, type: "image", url: "https://files.catbox.moe/l4rnkt.jpg" },
-          { id: 418, type: "video", url: "https://files.catbox.moe/a2399d.mp4" },
-          { id: 419, type: "video", url: "https://files.catbox.moe/zhvdvm.mp4" },
-          { id: 420, type: "video", url: "https://files.catbox.moe/ei1lg4.mp4" },
-          { id: 421, type: "video", url: "https://files.catbox.moe/0ssq9g.mp4" },
-          { id: 422, type: "video", url: "https://files.catbox.moe/7qorxn.mp4" }
+          {
+            id: 408,
+            type: "album",
+            name: "Jagruthi Photos Set",
+            items: [
+              { type: "image", url: "https://files.catbox.moe/39uqd4.jpg" },
+              { type: "image", url: "https://files.catbox.moe/t1ek68.jpg" },
+              { type: "image", url: "https://files.catbox.moe/hwaq33.jpg" },
+              { type: "image", url: "https://files.catbox.moe/2z1ojf.jpg" },
+              { type: "image", url: "https://files.catbox.moe/fb1iti.jpg" },
+              { type: "image", url: "https://files.catbox.moe/yaxc00.jpg" },
+              { type: "image", url: "https://files.catbox.moe/mlkbc3.jpg" },
+              { type: "image", url: "https://files.catbox.moe/l4rnkt.jpg" }
+            ]
+          },
+          {
+            id: 409,
+            type: "album",
+            name: "Jagruthi Video Pack",
+            items: [
+              { type: "video", url: "https://files.catbox.moe/lvrb3i.mp4" },
+              { type: "video", url: "https://files.catbox.moe/iwta5q.mp4" },
+              { type: "video", url: "https://files.catbox.moe/a2399d.mp4" },
+              { type: "video", url: "https://files.catbox.moe/zhvdvm.mp4" },
+              { type: "video", url: "https://files.catbox.moe/ei1lg4.mp4" },
+              { type: "video", url: "https://files.catbox.moe/0ssq9g.mp4" },
+              { type: "video", url: "https://files.catbox.moe/7qorxn.mp4" }
+            ]
+          }
         ]
       }
     ];
@@ -385,16 +498,30 @@
     let isSpinning = false;
     let adInterval = null;
 
+    // Album State
+    let activeAlbum = null;
+    let albumIndex = 0;
+
     const boardEl = document.getElementById('board');
     const levelTabsEl = document.getElementById('level-tabs');
     const spinCountEl = document.getElementById('spin-count');
+    const vaultCountEl = document.getElementById('vault-count');
     const btnAction = document.getElementById('btn-action');
     const btnWatchAd = document.getElementById('btn-watch-ad');
+    const btnOpenVault = document.getElementById('btn-open-vault');
 
     const modal = document.getElementById('media-modal');
     const modalTitle = document.getElementById('modal-title');
     const mediaContainer = document.getElementById('media-container');
     const modalCloseBtn = document.getElementById('modal-close-btn');
+    const albumNav = document.getElementById('album-nav');
+    const albumCounter = document.getElementById('album-counter');
+    const albumPrev = document.getElementById('album-prev');
+    const albumNext = document.getElementById('album-next');
+
+    const vaultModal = document.getElementById('vault-modal');
+    const vaultGrid = document.getElementById('vault-grid');
+    const vaultCloseBtn = document.getElementById('vault-close-btn');
 
     const adOverlay = document.getElementById('ad-overlay');
     const adClaimBtn = document.getElementById('ad-claim-btn');
@@ -437,9 +564,14 @@
         div.id = `tile-${index}`;
         
         if (isUnlocked) {
-          const videoBadge = tile.type === 'video' ? `<div class="video-tag">🎬 Video</div>` : '';
-          if (tile.type === 'video') {
-            div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video>${videoBadge}`;
+          if (tile.type === 'album') {
+            const firstItem = tile.items[0];
+            const preview = firstItem.type === 'video'
+              ? `<video src="${firstItem.url}#t=0.5" preload="metadata" muted playsinline></video>`
+              : `<img src="${firstItem.url}" alt="Album Preview" />`;
+            div.innerHTML = `${preview}<div class="tile-tag">📚 ${tile.items.length}</div>`;
+          } else if (tile.type === 'video') {
+            div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video><div class="tile-tag">🎬 Video</div>`;
           } else {
             div.innerHTML = `<img src="${tile.url}" alt="Unlocked" />`;
           }
@@ -456,6 +588,7 @@
 
     function updateControls() {
       spinCountEl.textContent = spins;
+      vaultCountEl.textContent = unlockedIds.size;
       if (spins > 0) {
         btnAction.className = 'btn btn-spin';
         btnAction.textContent = `SPIN TILES (${spins} Left)`;
@@ -476,6 +609,15 @@
 
     btnWatchAd.addEventListener('click', () => {
       if (!isSpinning) showExoClickAd();
+    });
+
+    btnOpenVault.addEventListener('click', () => {
+      renderVaultGrid();
+      vaultModal.classList.add('active');
+    });
+
+    vaultCloseBtn.addEventListener('click', () => {
+      vaultModal.classList.remove('active');
     });
 
     function runTileSpin() {
@@ -509,7 +651,6 @@
         const activeEl = document.getElementById(`tile-${currentIndex % numTiles}`);
         if (activeEl) {
           activeEl.classList.add('active-highlight');
-          activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
@@ -548,35 +689,104 @@
     }
 
     function openMediaViewer(tile) {
-      modalTitle.textContent = tile.type === 'video' ? '🎬 Video Unlocked' : '📸 Photo Unlocked';
-      mediaContainer.innerHTML = '';
-
-      if (tile.type === 'video') {
-        mediaContainer.innerHTML = `<video src="${tile.url}" controls autoplay loop playsinline></video>`;
+      if (tile.type === 'album') {
+        activeAlbum = tile.items;
+        albumIndex = 0;
+        modalTitle.textContent = `📚 ${tile.name || 'Unlocked Album'}`;
+        albumNav.style.display = 'flex';
+        renderAlbumItem();
       } else {
-        mediaContainer.innerHTML = `<img src="${tile.url}" alt="Unlocked" />`;
+        activeAlbum = null;
+        albumNav.style.display = 'none';
+        modalTitle.textContent = tile.type === 'video' ? '🎬 Video Unlocked' : '📸 Photo Unlocked';
+        renderSingleMedia(tile.type, tile.url);
       }
 
       modal.classList.add('active');
     }
 
+    function renderSingleMedia(type, url) {
+      mediaContainer.innerHTML = '';
+      if (type === 'video') {
+        mediaContainer.innerHTML = `<video src="${url}" controls autoplay loop playsinline></video>`;
+      } else {
+        mediaContainer.innerHTML = `<img src="${url}" alt="Unlocked Media" />`;
+      }
+    }
+
+    function renderAlbumItem() {
+      if (!activeAlbum || activeAlbum.length === 0) return;
+      const current = activeAlbum[albumIndex];
+      albumCounter.textContent = `${albumIndex + 1} / ${activeAlbum.length}`;
+      renderSingleMedia(current.type, current.url);
+    }
+
+    albumPrev.addEventListener('click', () => {
+      if (!activeAlbum) return;
+      albumIndex = (albumIndex - 1 + activeAlbum.length) % activeAlbum.length;
+      renderAlbumItem();
+    });
+
+    albumNext.addEventListener('click', () => {
+      if (!activeAlbum) return;
+      albumIndex = (albumIndex + 1) % activeAlbum.length;
+      renderAlbumItem();
+    });
+
     modalCloseBtn.addEventListener('click', () => {
       modal.classList.remove('active');
       mediaContainer.innerHTML = '';
+      activeAlbum = null;
     });
 
-    function showExoClickAd() {
-      // Re-inject a clean ad slot into the overlay
-      exoclickSlot.innerHTML = '<ins class="eas6a97888e2" data-zoneid="6014424"></ins>';
+    function renderVaultGrid() {
+      vaultGrid.innerHTML = '';
+      let totalFound = 0;
 
+      gameLevels.forEach(lvl => {
+        lvl.tiles.forEach(tile => {
+          if (unlockedIds.has(tile.id)) {
+            totalFound++;
+            const div = document.createElement('div');
+            div.className = 'vault-item';
+
+            if (tile.type === 'album') {
+              const first = tile.items[0];
+              const tag = `<div class="tile-tag">📚 ${tile.items.length}</div>`;
+              div.innerHTML = first.type === 'video'
+                ? `<video src="${first.url}#t=0.5" preload="metadata" muted playsinline></video>${tag}`
+                : `<img src="${first.url}" alt="Vault Album" />${tag}`;
+            } else if (tile.type === 'video') {
+              div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video><div class="tile-tag">🎬</div>`;
+            } else {
+              div.innerHTML = `<img src="${tile.url}" alt="Vault Item" />`;
+            }
+
+            div.addEventListener('click', () => {
+              vaultModal.classList.remove('active');
+              openMediaViewer(tile);
+            });
+
+            vaultGrid.appendChild(div);
+          }
+        });
+      });
+
+      if (totalFound === 0) {
+        vaultGrid.innerHTML = '<p style="grid-column: span 3; text-align: center; color: #777; padding: 24px 0;">No unlocked media yet. Spin the tiles to unlock!</p>';
+      }
+    }
+
+    // 5-Second Ad Handler
+    function showExoClickAd() {
+      exoclickSlot.innerHTML = '<ins class="eas6a97888e2" data-zoneid="6014424"></ins>';
       adOverlay.classList.add('active');
 
-      // Request impression from ExoClick
       try {
         (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
       } catch (e) {}
 
-      let countdown = 10;
+      let countdown = 5; // Updated to 5s
       adClaimBtn.disabled = true;
       adClaimBtn.textContent = `Watch ad (${countdown}s)`;
 
@@ -596,19 +806,18 @@
 
     adClaimBtn.addEventListener('click', () => {
       adOverlay.classList.remove('active');
-      exoclickSlot.innerHTML = ''; // Clean up container
+      exoclickSlot.innerHTML = '';
       spins += 1;
       saveGameState();
       updateControls();
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     });
 
-    // Initial Load
+    // Initial Bootstrap
     renderLevelTabs();
     renderBoard();
     updateControls();
 
-    // Trigger initial page-load banner ads
     try {
       (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
     } catch (e) {}
