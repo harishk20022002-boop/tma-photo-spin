@@ -11,7 +11,6 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
 
-  <!-- ExoClick Site Verification -->
   <meta name="6a97888e-site-verification" content="09827d4f030fe971425d121c18ba2745">
 
   <style>
@@ -314,15 +313,12 @@
 
   <div class="level-tabs" id="level-tabs"></div>
 
-  <!-- Top Banner Ad -->
   <div class="banner-ad-container">
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
-  <!-- 3x3 Tile Board (9 tiles) -->
   <div class="tile-board" id="board"></div>
 
-  <!-- Action Controls -->
   <div class="btn-group">
     <button id="btn-action" class="btn btn-spin">SPIN TILES</button>
     <div class="btn-row">
@@ -331,12 +327,10 @@
     </div>
   </div>
 
-  <!-- Bottom Banner Ad -->
   <div class="banner-ad-container">
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
-  <!-- Single Item / Album Media Viewer Modal -->
   <div class="modal" id="media-modal">
     <h3 id="modal-title" style="margin-bottom: 6px;">Item Unlocked</h3>
     <div class="album-nav" id="album-nav" style="display: none;">
@@ -348,7 +342,6 @@
     <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
   </div>
 
-  <!-- Unlocked Media Vault Modal -->
   <div class="modal" id="vault-modal">
     <div class="vault-content">
       <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -360,7 +353,6 @@
     </div>
   </div>
 
-  <!-- 5-Second Ad Modal Overlay -->
   <div id="ad-overlay">
     <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
     <div class="ad-box" id="exoclick-slot"></div>
@@ -474,7 +466,6 @@
           }
         ]
       },
-                  //  CORRECTED LEVEL 5 BLOCK
       {
         levelIndex: 4,
         name: "Lvl 5: Bhopal GF",
@@ -502,8 +493,6 @@
           }
         ]
       }
-
-
     ];
 
     function loadStorage(key, fallback) {
@@ -816,7 +805,7 @@
         (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
       } catch (e) {}
 
-      let countdown = 5; // Updated to 5s
+      let countdown = 5;
       adClaimBtn.disabled = true;
       adClaimBtn.textContent = `Watch ad (${countdown}s)`;
 
