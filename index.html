@@ -11,6 +11,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
 
+  <!-- ExoClick Site Verification -->
   <meta name="6a97888e-site-verification" content="09827d4f030fe971425d121c18ba2745">
 
   <style>
@@ -21,7 +22,6 @@
       --text: #ffffff;
       --gold: #ffd32a;
       --dim: #8e8e93;
-      --blue: #2ed573;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg); color: var(--text); padding: 14px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
@@ -79,7 +79,7 @@
     .level-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
     .level-tab.locked { opacity: 0.35; cursor: not-allowed; }
 
-    /* Strict 3x3 Tile Board */
+    /* 3x3 Tile Grid */
     .tile-board {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -169,7 +169,7 @@
     .btn-ad { background: #ffa502; color: #000; }
     .btn-vault { background: #3742fa; color: #fff; }
 
-    /* Modals */
+    /* Media Viewer Modal */
     .modal {
       display: none;
       position: fixed;
@@ -219,7 +219,7 @@
 
     .modal-close { background: #fff; color: #000; padding: 9px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
 
-    /* Unlocked Vault View */
+    /* Unlocked Media Vault View */
     .vault-content {
       width: 100%;
       max-width: 360px;
@@ -303,7 +303,7 @@
 
   <div class="browser-notice">
     <h4 style="color: var(--gold); margin-bottom: 4px;">Photo Spin Quest</h4>
-    <p>Daily lucky spin game to unlock galleries, albums & clips.</p>
+    <p>Daily lucky spin game to unlock exclusive galleries & clips.</p>
   </div>
 
   <div class="top-bar">
@@ -313,12 +313,15 @@
 
   <div class="level-tabs" id="level-tabs"></div>
 
+  <!-- Top Banner Ad -->
   <div class="banner-ad-container">
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
+  <!-- 3x3 Tile Board -->
   <div class="tile-board" id="board"></div>
 
+  <!-- Action Controls -->
   <div class="btn-group">
     <button id="btn-action" class="btn btn-spin">SPIN TILES</button>
     <div class="btn-row">
@@ -327,10 +330,12 @@
     </div>
   </div>
 
+  <!-- Bottom Banner Ad -->
   <div class="banner-ad-container">
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
+  <!-- Media Viewer Modal -->
   <div class="modal" id="media-modal">
     <h3 id="modal-title" style="margin-bottom: 6px;">Item Unlocked</h3>
     <div class="album-nav" id="album-nav" style="display: none;">
@@ -342,6 +347,7 @@
     <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
   </div>
 
+  <!-- Vault Modal -->
   <div class="modal" id="vault-modal">
     <div class="vault-content">
       <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -353,6 +359,7 @@
     </div>
   </div>
 
+  <!-- 5-Second Ad Reward Overlay -->
   <div id="ad-overlay">
     <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
     <div class="ad-box" id="exoclick-slot"></div>
@@ -366,7 +373,6 @@
       tg.expand();
     }
 
-    // Fixed 9 tiles per level with Album grouping for surplus media
     const gameLevels = [
       {
         levelIndex: 0,
@@ -468,32 +474,20 @@
       },
       {
         levelIndex: 4,
-        name: "Lvl 5: Bhopal GF",
+        name: "Lvl 5: Diamond Collection",
         tiles: [
-          { id: 501, type: "image", url: "https://files.catbox.moe/cqy1od.jpg" },
-          { id: 502, type: "video", url: "https://files.catbox.moe/2328ov.mp4" },
-          { id: 503, type: "video", url: "https://files.catbox.moe/3zjq0p.mp4" },
-          { id: 504, type: "video", url: "https://files.catbox.moe/huadej.mp4" },
-          { id: 505, type: "video", url: "https://files.catbox.moe/q3jeba.mp4" },
-          { id: 506, type: "video", url: "https://files.catbox.moe/ctjq8f.mp4" },
-          { id: 507, type: "image", url: "https://files.catbox.moe/cqy1od.jpg" },
-          { id: 508, type: "video", url: "https://files.catbox.moe/2328ov.mp4" },
-          {
-            id: 509,
-            type: "album",
-            name: "Bhopal GF Complete Pack",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/cqy1od.jpg" },
-              { type: "video", url: "https://files.catbox.moe/2328ov.mp4" },
-              { type: "video", url: "https://files.catbox.moe/3zjq0p.mp4" },
-              { type: "video", url: "https://files.catbox.moe/huadej.mp4" },
-              { type: "video", url: "https://files.catbox.moe/q3jeba.mp4" },
-              { type: "video", url: "https://files.catbox.moe/ctjq8f.mp4" }
-            ]
-          }
+          { id: 501, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 502, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
+          { id: 503, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 504, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" },
+          { id: 505, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 506, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
+          { id: 507, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+          { id: 508, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" },
+          { id: 509, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" }
         ]
-      }
-            {
+      },
+      {
         levelIndex: 5,
         name: "Lvl 6: Hot Delhi Girl",
         tiles: [
@@ -515,8 +509,7 @@
             ]
           }
         ]
-    }
-    
+      }
     ];
 
     function loadStorage(key, fallback) {
@@ -541,7 +534,6 @@
     let isSpinning = false;
     let adInterval = null;
 
-    // Album State
     let activeAlbum = null;
     let albumIndex = 0;
 
@@ -611,10 +603,10 @@
             const firstItem = tile.items[0];
             const preview = firstItem.type === 'video'
               ? `<video src="${firstItem.url}#t=0.5" preload="metadata" muted playsinline></video>`
-              : `<img src="${firstItem.url}" alt="Album Preview" />`;
+              : `<img src="${firstItem.url}" alt="Album" />`;
             div.innerHTML = `${preview}<div class="tile-tag">📚 ${tile.items.length}</div>`;
           } else if (tile.type === 'video') {
-            div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video><div class="tile-tag">🎬 Video</div>`;
+            div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video><div class="tile-tag">🎬</div>`;
           } else {
             div.innerHTML = `<img src="${tile.url}" alt="Unlocked" />`;
           }
@@ -820,7 +812,6 @@
       }
     }
 
-    // 5-Second Ad Handler
     function showExoClickAd() {
       exoclickSlot.innerHTML = '<ins class="eas6a97888e2" data-zoneid="6014424"></ins>';
       adOverlay.classList.add('active');
@@ -856,7 +847,6 @@
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     });
 
-    // Initial Bootstrap
     renderLevelTabs();
     renderBoard();
     updateControls();
