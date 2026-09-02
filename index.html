@@ -11,10 +11,14 @@
   
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-  <script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script>
 
   <!-- ExoClick Site Verification -->
   <meta name="6a97888e-site-verification" content="09827d4f030fe971425d121c18ba2745">
+
+  <!-- ExoClick Interstitial Zone 6017838 (Method B) -->
+  <script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script>
+  <ins class="eas6a97888e33" data-zoneid="6017838"></ins>
+  <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
 
   <style>
     :root {
@@ -263,48 +267,6 @@
       object-fit: cover;
       display: block;
     }
-
-    #ad-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.96);
-      z-index: 200;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    #ad-overlay.active { display: flex; }
-    
-    .ad-box {
-      width: 300px;
-      min-height: 250px;
-      background: #181922;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      margin-bottom: 18px;
-      border: 1px solid #333;
-    }
-    
-    .ad-claim-btn {
-      background: #2ed573;
-      color: #000;
-      padding: 12px 28px;
-      border-radius: 20px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .ad-claim-btn:disabled {
-      background: #444;
-      color: #888;
-      cursor: not-allowed;
-    }
   </style>
 </head>
 <body>
@@ -365,13 +327,6 @@
       <p style="font-size: 0.8rem; color: var(--dim); margin-top: 4px;">Browse all your unlocked photos, videos, and albums.</p>
       <div class="vault-grid" id="vault-grid"></div>
     </div>
-  </div>
-
-  <!-- 5-Second Hunger Loop Rewarded Interstitial Overlay -->
-  <div id="ad-overlay">
-    <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
-    <div class="ad-box" id="exoclick-slot"></div>
-    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Watch ad (5s)</button>
   </div>
 
   <script>
@@ -618,7 +573,6 @@
     let spins = loadStorage("quest_spins", 3);
     let unlockedIds = new Set(loadStorage("quest_unlocked_ids", []));
     let isSpinning = false;
-    let adInterval = null;
 
     let activeAlbum = null;
     let albumIndex = 0;
@@ -643,10 +597,6 @@
     const vaultModal = document.getElementById('vault-modal');
     const vaultGrid = document.getElementById('vault-grid');
     const vaultCloseBtn = document.getElementById('vault-close-btn');
-
-    const adOverlay = document.getElementById('ad-overlay');
-    const adClaimBtn = document.getElementById('ad-claim-btn');
-    const exoclickSlot = document.getElementById('exoclick-slot');
 
     function saveGameState() {
       saveStorage("quest_selected_lvl", selectedLevel);
@@ -717,6 +667,23 @@
         btnAction.className = 'btn btn-ad';
         btnAction.textContent = '⚡ Out of Spins - Get +3 Spins';
       }
+    }
+
+    // Method B: Triggers Native ExoClick Interstitial & Rewards +3 Spins
+    function showExoClickAd() {
+      try {
+        (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
+      } catch (e) {}
+
+      spins += 3;
+      saveGameState();
+      updateControls();
+
+      if (tg?.HapticFeedback) {
+        tg.HapticFeedback.notificationOccurred('success');
+      }
+
+      alert("⚡ +3 Spins Added! Keep spinning to unlock media.");
     }
 
     btnAction.addEventListener('click', () => {
@@ -897,42 +864,6 @@
         vaultGrid.innerHTML = '<p style="grid-column: span 3; text-align: center; color: #777; padding: 24px 0;">No unlocked media yet. Spin the tiles to unlock!</p>';
       }
     }
-
-    // Hunger Loop Handler: 5s Rewarded Interstitial (Zone 6017838)
-    function showExoClickAd() {
-      exoclickSlot.innerHTML = '<ins class="eas6a97888e33" data-zoneid="6017838"></ins>';
-      adOverlay.classList.add('active');
-
-      try {
-        (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
-      } catch (e) {}
-
-      let countdown = 5;
-      adClaimBtn.disabled = true;
-      adClaimBtn.textContent = `Watch ad (${countdown}s)`;
-
-      if (adInterval) clearInterval(adInterval);
-
-      adInterval = setInterval(() => {
-        countdown--;
-        if (countdown > 0) {
-          adClaimBtn.textContent = `Watch ad (${countdown}s)`;
-        } else {
-          clearInterval(adInterval);
-          adClaimBtn.disabled = false;
-          adClaimBtn.textContent = "Claim +3 Spins ⚡";
-        }
-      }, 1000);
-    }
-
-    adClaimBtn.addEventListener('click', () => {
-      adOverlay.classList.remove('active');
-      exoclickSlot.innerHTML = '';
-      spins += 3;
-      saveGameState();
-      updateControls();
-      if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-    });
 
     renderLevelTabs();
     renderBoard();
