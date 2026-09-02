@@ -332,7 +332,7 @@
   <div class="btn-group">
     <button id="btn-action" class="btn btn-spin">SPIN TILES</button>
     <div class="btn-row">
-      <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+1 Spin)</button>
+      <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+3 Spins)</button>
       <button id="btn-open-vault" class="btn btn-vault">📁 Vault (<span id="vault-count">0</span>)</button>
     </div>
   </div>
@@ -715,7 +715,7 @@
         btnAction.textContent = `SPIN TILES (${spins} Left)`;
       } else {
         btnAction.className = 'btn btn-ad';
-        btnAction.textContent = 'Out of Spins - Watch Ad';
+        btnAction.textContent = '⚡ Out of Spins - Get +3 Spins';
       }
     }
 
@@ -919,7 +919,7 @@
         } else {
           clearInterval(adInterval);
           adClaimBtn.disabled = false;
-          adClaimBtn.textContent = "Claim +1 Spin";
+          adClaimBtn.textContent = "Claim +3 Spins ⚡";
         }
       }, 1000);
     }
@@ -927,7 +927,7 @@
     adClaimBtn.addEventListener('click', () => {
       adOverlay.classList.remove('active');
       exoclickSlot.innerHTML = '';
-      spins += 1;
+      spins += 3;
       saveGameState();
       updateControls();
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
