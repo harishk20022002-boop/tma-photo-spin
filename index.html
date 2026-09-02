@@ -11,6 +11,7 @@
   
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
+  <script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script>
 
   <!-- ExoClick Site Verification -->
   <meta name="6a97888e-site-verification" content="09827d4f030fe971425d121c18ba2745">
@@ -325,14 +326,14 @@
     <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
   </div>
 
-  <!-- Tile Board (Dynamic size based on level contents) -->
+  <!-- Dynamic Tile Board -->
   <div class="tile-board" id="board"></div>
 
   <!-- Action Controls -->
   <div class="btn-group">
     <button id="btn-action" class="btn btn-spin">SPIN TILES</button>
     <div class="btn-row">
-      <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+1 Spin)</button>
+      <button id="btn-watch-ad" class="btn btn-ad">⚡ Watch Ad (+3 Spins)</button>
       <button id="btn-open-vault" class="btn btn-vault">📁 Vault (<span id="vault-count">0</span>)</button>
     </div>
   </div>
@@ -366,7 +367,7 @@
     </div>
   </div>
 
-  <!-- 5-Second Ad Reward Overlay -->
+  <!-- 5-Second Hunger Loop Rewarded Interstitial Overlay -->
   <div id="ad-overlay">
     <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
     <div class="ad-box" id="exoclick-slot"></div>
@@ -493,8 +494,7 @@
           }
         ]
       },
-
-           {
+      {
         levelIndex: 5,
         name: "Lvl 6: Beautiful Mallu Girl",
         tiles: [
@@ -596,7 +596,6 @@
           }
         ]
       }
- 
     ];
 
     function loadStorage(key, fallback) {
@@ -716,7 +715,7 @@
         btnAction.textContent = `SPIN TILES (${spins} Left)`;
       } else {
         btnAction.className = 'btn btn-ad';
-        btnAction.textContent = 'Out of Spins - Watch Ad';
+        btnAction.textContent = '⚡ Out of Spins - Get +3 Spins';
       }
     }
 
@@ -899,8 +898,9 @@
       }
     }
 
+    // Hunger Loop Handler: 5s Rewarded Interstitial (Zone 6017838)
     function showExoClickAd() {
-      exoclickSlot.innerHTML = '<ins class="eas6a97888e2" data-zoneid="6014424"></ins>';
+      exoclickSlot.innerHTML = '<ins class="eas6a97888e33" data-zoneid="6017838"></ins>';
       adOverlay.classList.add('active');
 
       try {
@@ -920,7 +920,7 @@
         } else {
           clearInterval(adInterval);
           adClaimBtn.disabled = false;
-          adClaimBtn.textContent = "Claim +1 Spin";
+          adClaimBtn.textContent = "Claim +3 Spins ⚡";
         }
       }, 1000);
     }
@@ -928,7 +928,7 @@
     adClaimBtn.addEventListener('click', () => {
       adOverlay.classList.remove('active');
       exoclickSlot.innerHTML = '';
-      spins += 1;
+      spins += 3;
       saveGameState();
       updateControls();
       if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
