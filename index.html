@@ -15,11 +15,6 @@
   <!-- ExoClick Site Verification -->
   <meta name="6a97888e-site-verification" content="09827d4f030fe971425d121c18ba2745">
 
-  <!-- ExoClick Interstitial Zone 6017838 (Method B) -->
-  <script async type="application/javascript" src="https://a.pemsrv.com/ad-provider.js"></script>
-  <ins class="eas6a97888e33" data-zoneid="6017838"></ins>
-  <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-
   <style>
     :root {
       --bg: #0f1015;
@@ -669,11 +664,15 @@
       }
     }
 
-    // Method B: Triggers Native ExoClick Interstitial & Rewards +3 Spins
+    // Direct Ad Delivery: Bypasses Telegram sandbox restrictions
     function showExoClickAd() {
-      try {
-        (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
-      } catch (e) {}
+      const sponsorUrl = "https://syndication.exoclick.com/splash.php?idzone=6017838";
+
+      if (window.Telegram?.WebApp?.openLink) {
+        tg.openLink(sponsorUrl);
+      } else {
+        window.open(sponsorUrl, '_blank');
+      }
 
       spins += 3;
       saveGameState();
@@ -682,8 +681,6 @@
       if (tg?.HapticFeedback) {
         tg.HapticFeedback.notificationOccurred('success');
       }
-
-      alert("⚡ +3 Spins Added! Keep spinning to unlock media.");
     }
 
     btnAction.addEventListener('click', () => {
