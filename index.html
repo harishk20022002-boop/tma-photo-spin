@@ -379,224 +379,472 @@
       tg.ready();
       tg.expand();
     }
-
     const gameLevels = [
+  {
+    levelIndex: 0,
+    name: "Lvl 1: Bmlf",
+    tiles: [
+      { id: 101, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
+      { id: 102, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
+      { id: 103, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" }
+    ]
+  },
+  {
+    levelIndex: 1,
+    name: "Lvl 2: North East GF",
+    tiles: [
+      { id: 201, type: "video", url: "https://files.catbox.moe/5ta2r8.mp4" },
+      { id: 202, type: "image", url: "https://files.catbox.moe/fgqyul.jpg" },
+      { id: 203, type: "image", url: "https://files.catbox.moe/6ye6pp.jpg" },
+      { id: 204, type: "image", url: "https://files.catbox.moe/xgzuv1.jpg" },
+      { id: 205, type: "image", url: "https://files.catbox.moe/llv48p.jpg" },
+      { id: 206, type: "image", url: "https://files.catbox.moe/svkrqf.jpg" }
+    ]
+  },
+  {
+    levelIndex: 2,
+    name: "Lvl 3: Igfk",
+    tiles: [
+      { id: 301, type: "video", url: "https://files.catbox.moe/z1eax0.mp4" },
+      { id: 302, type: "video", url: "https://files.catbox.moe/grkzay.mp4" },
+      { id: 303, type: "video", url: "https://files.catbox.moe/kmsdc7.mp4" },
+      { id: 304, type: "image", url: "https://files.catbox.moe/b2oz3d.jpg" },
+      { id: 305, type: "image", url: "https://files.catbox.moe/r6vpix.jpg" },
+      { id: 306, type: "image", url: "https://files.catbox.moe/21t1mb.jpg" },
+      { id: 307, type: "image", url: "https://files.catbox.moe/wlwgdn.jpg" },
+      { id: 308, type: "image", url: "https://files.catbox.moe/93dbkg.jpg" },
       {
-        levelIndex: 0,
-        name: "Lvl 1: Bmlf",
-        tiles: [
-          { id: 101, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
-          { id: 102, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
-          { id: 103, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" }
-        ]
-      },
-      {
-        levelIndex: 1,
-        name: "Lvl 2: North East GF",
-        tiles: [
-          { id: 201, type: "video", url: "https://files.catbox.moe/5ta2r8.mp4" },
-          { id: 202, type: "image", url: "https://files.catbox.moe/fgqyul.jpg" },
-          { id: 203, type: "image", url: "https://files.catbox.moe/6ye6pp.jpg" },
-          { id: 204, type: "image", url: "https://files.catbox.moe/xgzuv1.jpg" },
-          { id: 205, type: "image", url: "https://files.catbox.moe/llv48p.jpg" },
-          { id: 206, type: "image", url: "https://files.catbox.moe/svkrqf.jpg" }
-        ]
-      },
-      {
-        levelIndex: 2,
-        name: "Lvl 3: Igfk",
-        tiles: [
-          { id: 301, type: "video", url: "https://files.catbox.moe/z1eax0.mp4" },
-          { id: 302, type: "video", url: "https://files.catbox.moe/grkzay.mp4" },
-          { id: 303, type: "video", url: "https://files.catbox.moe/kmsdc7.mp4" },
-          { id: 304, type: "image", url: "https://files.catbox.moe/b2oz3d.jpg" },
-          { id: 305, type: "image", url: "https://files.catbox.moe/r6vpix.jpg" },
-          { id: 306, type: "image", url: "https://files.catbox.moe/21t1mb.jpg" },
-          { id: 307, type: "image", url: "https://files.catbox.moe/wlwgdn.jpg" },
-          { id: 308, type: "image", url: "https://files.catbox.moe/93dbkg.jpg" },
-          {
-            id: 309,
-            type: "album",
-            name: "Lvl 3 Special Album",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/66q8wy.jpg" },
-              { type: "image", url: "https://files.catbox.moe/bf3npt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/r8vik7.jpg" },
-              { type: "image", url: "https://files.catbox.moe/vi7mxf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/yk9n5y.jpg" }
-            ]
-          }
-        ]
-      },
-      {
-        levelIndex: 3,
-        name: "Lvl 4: Jagruthi",
-        tiles: [
-          { id: 401, type: "image", url: "https://files.catbox.moe/etvw1l.jpg" },
-          { id: 402, type: "image", url: "https://files.catbox.moe/9nhsde.jpg" },
-          { id: 403, type: "image", url: "https://files.catbox.moe/ix3ldu.jpg" },
-          { id: 404, type: "image", url: "https://files.catbox.moe/sh6gli.jpg" },
-          { id: 405, type: "image", url: "https://files.catbox.moe/1eyprc.jpg" },
-          { id: 406, type: "video", url: "https://files.catbox.moe/msp6yu.mp4" },
-          { id: 407, type: "image", url: "https://files.catbox.moe/7ctdm0.jpg" },
-          {
-            id: 408,
-            type: "album",
-            name: "Jagruthi Photos Set",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/39uqd4.jpg" },
-              { type: "image", url: "https://files.catbox.moe/t1ek68.jpg" },
-              { type: "image", url: "https://files.catbox.moe/hwaq33.jpg" },
-              { type: "image", url: "https://files.catbox.moe/2z1ojf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/fb1iti.jpg" },
-              { type: "image", url: "https://files.catbox.moe/yaxc00.jpg" },
-              { type: "image", url: "https://files.catbox.moe/mlkbc3.jpg" },
-              { type: "image", url: "https://files.catbox.moe/l4rnkt.jpg" }
-            ]
-          },
-          {
-            id: 409,
-            type: "album",
-            name: "Jagruthi Video Pack",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/lvrb3i.mp4" },
-              { type: "video", url: "https://files.catbox.moe/iwta5q.mp4" },
-              { type: "video", url: "https://files.catbox.moe/a2399d.mp4" },
-              { type: "video", url: "https://files.catbox.moe/zhvdvm.mp4" },
-              { type: "video", url: "https://files.catbox.moe/ei1lg4.mp4" },
-              { type: "video", url: "https://files.catbox.moe/0ssq9g.mp4" },
-              { type: "video", url: "https://files.catbox.moe/7qorxn.mp4" }
-            ]
-          }
-        ]
-      },
-      {
-        levelIndex: 4,
-        name: "Lvl 5: Hot Delhi Girl",
-        tiles: [
-          { id: 501, type: "image", url: "https://files.catbox.moe/a349dv.jpg" },
-          { id: 502, type: "image", url: "https://files.catbox.moe/fjqisz.jpg" },
-          { id: 503, type: "image", url: "https://files.catbox.moe/2v4nkv.jpg" },
-          { id: 504, type: "image", url: "https://files.catbox.moe/p2t1vu.jpg" },
-          { id: 505, type: "image", url: "https://files.catbox.moe/trf9kg.jpg" },
-          { id: 506, type: "image", url: "https://files.catbox.moe/h459gq.jpg" },
-          { id: 507, type: "image", url: "https://files.catbox.moe/lg6yog.jpg" },
-          { id: 508, type: "image", url: "https://files.catbox.moe/a5xfa0.jpg" },
-          {
-            id: 509,
-            type: "album",
-            name: "Hot Delhi Girl Video Pack",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/jzya3o.mp4" },
-              { type: "video", url: "https://files.catbox.moe/eba94q.mp4" }
-            ]
-          }
-        ]
-      },
-      {
-        levelIndex: 5,
-        name: "Lvl 6: Beautiful Mallu Girl",
-        tiles: [
-          {
-            id: 601,
-            type: "album",
-            name: "Mallu Pack 1",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/xi9xjx.jpg" },
-              { type: "image", url: "https://files.catbox.moe/lnexvs.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rknq54.jpg" },
-              { type: "image", url: "https://files.catbox.moe/3nd8u1.jpg" }
-            ]
-          },
-          {
-            id: 602,
-            type: "album",
-            name: "Mallu Pack 2",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/006ksc.jpg" },
-              { type: "image", url: "https://files.catbox.moe/vumbxt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rfczzt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/6x1jr2.jpg" }
-            ]
-          },
-          {
-            id: 603,
-            type: "album",
-            name: "Mallu Pack 3",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/6tftyu.jpg" },
-              { type: "image", url: "https://files.catbox.moe/84uqxg.jpg" },
-              { type: "image", url: "https://files.catbox.moe/66k7z7.jpg" },
-              { type: "image", url: "https://files.catbox.moe/7hvdef.jpg" }
-            ]
-          },
-          {
-            id: 604,
-            type: "album",
-            name: "Mallu Pack 4",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/qpnvua.jpg" },
-              { type: "image", url: "https://files.catbox.moe/7iem2y.jpg" },
-              { type: "image", url: "https://files.catbox.moe/ojhdjo.jpg" },
-              { type: "image", url: "https://files.catbox.moe/uff9zr.jpg" }
-            ]
-          },
-          {
-            id: 605,
-            type: "album",
-            name: "Mallu Pack 5",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/u5abhe.jpg" },
-              { type: "image", url: "https://files.catbox.moe/wlyqfu.jpg" },
-              { type: "image", url: "https://files.catbox.moe/v7apu5.jpg" },
-              { type: "image", url: "https://files.catbox.moe/3bzph1.jpg" }
-            ]
-          },
-          {
-            id: 606,
-            type: "album",
-            name: "Mallu Pack 6",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/xge71f.jpg" },
-              { type: "image", url: "https://files.catbox.moe/02wdm1.jpg" },
-              { type: "image", url: "https://files.catbox.moe/haeb95.jpg" },
-              { type: "image", url: "https://files.catbox.moe/2vwmzx.jpg" }
-            ]
-          },
-          {
-            id: 607,
-            type: "album",
-            name: "Mallu Pack 7",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/l2nuoi.jpg" },
-              { type: "image", url: "https://files.catbox.moe/z9tj8v.jpg" },
-              { type: "image", url: "https://files.catbox.moe/eao1u3.jpg" },
-              { type: "image", url: "https://files.catbox.moe/o06c4q.jpg" }
-            ]
-          },
-          {
-            id: 608,
-            type: "album",
-            name: "Mallu Pack 8",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/ck3fuv.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rht1j2.jpg" },
-              { type: "image", url: "https://files.catbox.moe/e0wxqq.jpg" }
-            ]
-          },
-          {
-            id: 609,
-            type: "album",
-            name: "Mallu Pack 9",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/xa6ri7.jpg" },
-              { type: "image", url: "https://files.catbox.moe/t4tv0q.jpg" }
-            ]
-          }
+        id: 309,
+        type: "album",
+        name: "Lvl 3 Special Album",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/66q8wy.jpg" },
+          { type: "image", url: "https://files.catbox.moe/bf3npt.jpg" },
+          { type: "image", url: "https://files.catbox.moe/r8vik7.jpg" },
+          { type: "image", url: "https://files.catbox.moe/vi7mxf.jpg" },
+          { type: "image", url: "https://files.catbox.moe/yk9n5y.jpg" }
         ]
       }
- 
-    ];
+    ]
+  },
+  {
+    levelIndex: 3,
+    name: "Lvl 4: Jagruthi",
+    tiles: [
+      { id: 401, type: "image", url: "https://files.catbox.moe/etvw1l.jpg" },
+      { id: 402, type: "image", url: "https://files.catbox.moe/9nhsde.jpg" },
+      { id: 403, type: "image", url: "https://files.catbox.moe/ix3ldu.jpg" },
+      { id: 404, type: "image", url: "https://files.catbox.moe/sh6gli.jpg" },
+      { id: 405, type: "image", url: "https://files.catbox.moe/1eyprc.jpg" },
+      { id: 406, type: "video", url: "https://files.catbox.moe/msp6yu.mp4" },
+      { id: 407, type: "image", url: "https://files.catbox.moe/7ctdm0.jpg" },
+      {
+        id: 408,
+        type: "album",
+        name: "Jagruthi Photos Set",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/39uqd4.jpg" },
+          { type: "image", url: "https://files.catbox.moe/t1ek68.jpg" },
+          { type: "image", url: "https://files.catbox.moe/hwaq33.jpg" },
+          { type: "image", url: "https://files.catbox.moe/2z1ojf.jpg" },
+          { type: "image", url: "https://files.catbox.moe/fb1iti.jpg" },
+          { type: "image", url: "https://files.catbox.moe/yaxc00.jpg" },
+          { type: "image", url: "https://files.catbox.moe/mlkbc3.jpg" },
+          { type: "image", url: "https://files.catbox.moe/l4rnkt.jpg" }
+        ]
+      },
+      {
+        id: 409,
+        type: "album",
+        name: "Jagruthi Video Pack",
+        items: [
+          { type: "video", url: "https://files.catbox.moe/lvrb3i.mp4" },
+          { type: "video", url: "https://files.catbox.moe/iwta5q.mp4" },
+          { type: "video", url: "https://files.catbox.moe/a2399d.mp4" },
+          { type: "video", url: "https://files.catbox.moe/zhvdvm.mp4" },
+          { type: "video", url: "https://files.catbox.moe/ei1lg4.mp4" },
+          { type: "video", url: "https://files.catbox.moe/0ssq9g.mp4" },
+          { type: "video", url: "https://files.catbox.moe/7qorxn.mp4" }
+        ]
+      }
+    ]
+  },
+  {
+    levelIndex: 4,
+    name: "Lvl 5: Hot Delhi Girl",
+    tiles: [
+      { id: 501, type: "image", url: "https://files.catbox.moe/a349dv.jpg" },
+      { id: 502, type: "image", url: "https://files.catbox.moe/fjqisz.jpg" },
+      { id: 503, type: "image", url: "https://files.catbox.moe/2v4nkv.jpg" },
+      { id: 504, type: "image", url: "https://files.catbox.moe/p2t1vu.jpg" },
+      { id: 505, type: "image", url: "https://files.catbox.moe/trf9kg.jpg" },
+      { id: 506, type: "image", url: "https://files.catbox.moe/h459gq.jpg" },
+      { id: 507, type: "image", url: "https://files.catbox.moe/lg6yog.jpg" },
+      { id: 508, type: "image", url: "https://files.catbox.moe/a5xfa0.jpg" },
+      {
+        id: 509,
+        type: "album",
+        name: "Hot Delhi Girl Video Pack",
+        items: [
+          { type: "video", url: "https://files.catbox.moe/jzya3o.mp4" },
+          { type: "video", url: "https://files.catbox.moe/eba94q.mp4" }
+        ]
+      }
+    ]
+  },
+  {
+    levelIndex: 5,
+    name: "Lvl 6: Beautiful Mallu Girl",
+    tiles: [
+      {
+        id: 601,
+        type: "album",
+        name: "Mallu Pack 1",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/xi9xjx.jpg" },
+          { type: "image", url: "https://files.catbox.moe/lnexvs.jpg" },
+          { type: "image", url: "https://files.catbox.moe/rknq54.jpg" },
+          { type: "image", url: "https://files.catbox.moe/3nd8u1.jpg" }
+        ]
+      },
+      {
+        id: 602,
+        type: "album",
+        name: "Mallu Pack 2",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/006ksc.jpg" },
+          { type: "image", url: "https://files.catbox.moe/vumbxt.jpg" },
+          { type: "image", url: "https://files.catbox.moe/rfczzt.jpg" },
+          { type: "image", url: "https://files.catbox.moe/6x1jr2.jpg" }
+        ]
+      },
+      {
+        id: 603,
+        type: "album",
+        name: "Mallu Pack 3",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/6tftyu.jpg" },
+          { type: "image", url: "https://files.catbox.moe/84uqxg.jpg" },
+          { type: "image", url: "https://files.catbox.moe/66k7z7.jpg" },
+          { type: "image", url: "https://files.catbox.moe/7hvdef.jpg" }
+        ]
+      },
+      {
+        id: 604,
+        type: "album",
+        name: "Mallu Pack 4",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/qpnvua.jpg" },
+          { type: "image", url: "https://files.catbox.moe/7iem2y.jpg" },
+          { type: "image", url: "https://files.catbox.moe/ojhdjo.jpg" },
+          { type: "image", url: "https://files.catbox.moe/uff9zr.jpg" }
+        ]
+      },
+      {
+        id: 605,
+        type: "album",
+        name: "Mallu Pack 5",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/u5abhe.jpg" },
+          { type: "image", url: "https://files.catbox.moe/wlyqfu.jpg" },
+          { type: "image", url: "https://files.catbox.moe/v7apu5.jpg" },
+          { type: "image", url: "https://files.catbox.moe/3bzph1.jpg" }
+        ]
+      },
+      {
+        id: 606,
+        type: "album",
+        name: "Mallu Pack 6",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/xge71f.jpg" },
+          { type: "image", url: "https://files.catbox.moe/02wdm1.jpg" },
+          { type: "image", url: "https://files.catbox.moe/haeb95.jpg" },
+          { type: "image", url: "https://files.catbox.moe/2vwmzx.jpg" }
+        ]
+      },
+      {
+        id: 607,
+        type: "album",
+        name: "Mallu Pack 7",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/l2nuoi.jpg" },
+          { type: "image", url: "https://files.catbox.moe/z9tj8v.jpg" },
+          { type: "image", url: "https://files.catbox.moe/eao1u3.jpg" },
+          { type: "image", url: "https://files.catbox.moe/o06c4q.jpg" }
+        ]
+      },
+      {
+        id: 608,
+        type: "album",
+        name: "Mallu Pack 8",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/ck3fuv.jpg" },
+          { type: "image", url: "https://files.catbox.moe/rht1j2.jpg" },
+          { type: "image", url: "https://files.catbox.moe/e0wxqq.jpg" }
+        ]
+      },
+      {
+        id: 609,
+        type: "album",
+        name: "Mallu Pack 9",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/xa6ri7.jpg" },
+          { type: "image", url: "https://files.catbox.moe/t4tv0q.jpg" }
+        ]
+      }
+    ]
+  },
+
+  // ========== NEW LEVELS ==========
+  {
+    levelIndex: 6,
+    name: "Lvl 7: Sanya",
+    tiles: [
+      { id: 701, type: "image", url: "https://files.catbox.moe/23qmyt.jpg" },
+      { id: 702, type: "image", url: "https://files.catbox.moe/8685ez.jpg" },
+      { id: 703, type: "image", url: "https://files.catbox.moe/n91d3h.jpg" },
+      { id: 704, type: "video", url: "https://files.catbox.moe/jiyro5.mp4" },
+      { id: 705, type: "video", url: "https://files.catbox.moe/nmwx61.mp4" },
+      {
+        id: 706,
+        type: "album",
+        name: "Sanya Photos Pack",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/zx3o8w.jpg" },
+          { type: "image", url: "https://files.catbox.moe/jzvgyf.jpg" },
+          { type: "image", url: "https://files.catbox.moe/copr0q.jpg" },
+          { type: "image", url: "https://files.catbox.moe/ez5crx.jpg" },
+          { type: "image", url: "https://files.catbox.moe/0c9cyy.jpg" }
+        ]
+      },
+      {
+        id: 707,
+        type: "album",
+        name: "Sanya Videos Pack 1",
+        items: [
+          { type: "video", url: "https://files.catbox.moe/tzjmwb.mp4" },
+          { type: "video", url: "https://files.catbox.moe/tqx6p4.mp4" },
+          { type: "video", url: "https://files.catbox.moe/m6ay19.mp4" }
+        ]
+      },
+      {
+        id: 708,
+        type: "album",
+        name: "Sanya Videos Pack 2",
+        items: [
+          { type: "video", url: "https://files.catbox.moe/ys6nkx.mp4" },
+          { type: "video", url: "https://files.catbox.moe/stayp0.mp4" }
+        ]
+      },
+      {
+        id: 709,
+        type: "album",
+        name: "Sanya Extra",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/zx3o8w.jpg" } // placeholder if needed, or remove if exact
+        ]
+      }
+    ]
+  },
+  {
+    levelIndex: 7,
+    name: "Lvl 8: Milf",
+    tiles: [
+      {
+        id: 801,
+        type: "album",
+        name: "Milf Pack 1",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/cdkwxy.jpg" },
+          { type: "image", url: "https://files.catbox.moe/w7mahy.jpg" },
+          { type: "image", url: "https://files.catbox.moe/22y6tc.jpg" },
+          { type: "image", url: "https://files.catbox.moe/xdzfy8.jpg" }
+        ]
+      },
+      {
+        id: 802,
+        type: "album",
+        name: "Milf Pack 2",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/mbkf2q.jpg" },
+          { type: "image", url: "https://files.catbox.moe/xkwxo8.jpg" },
+          { type: "image", url: "https://files.catbox.moe/psw3oo.jpg" },
+          { type: "image", url: "https://files.catbox.moe/xahw0t.jpg" }
+        ]
+      },
+      {
+        id: 803,
+        type: "album",
+        name: "Milf Pack 3",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/sw1hao.jpg" },
+          { type: "image", url: "https://files.catbox.moe/lt6wvr.jpg" },
+          { type: "image", url: "https://files.catbox.moe/6c8rd2.jpg" },
+          { type: "image", url: "https://files.catbox.moe/cabmkl.jpg" }
+        ]
+      },
+      {
+        id: 804,
+        type: "album",
+        name: "Milf Pack 4",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/o8vsyf.jpg" },
+          { type: "image", url: "https://files.catbox.moe/u8u04c.jpg" },
+          { type: "image", url: "https://files.catbox.moe/caylee.jpg" },
+          { type: "image", url: "https://files.catbox.moe/pvfn25.jpg" }
+        ]
+      },
+      {
+        id: 805,
+        type: "album",
+        name: "Milf Pack 5",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/eo6a8j.jpg" },
+          { type: "image", url: "https://files.catbox.moe/2wju1v.jpg" },
+          { type: "image", url: "https://files.catbox.moe/r3djua.jpg" },
+          { type: "image", url: "https://files.catbox.moe/rq72zd.jpg" }
+        ]
+      },
+      {
+        id: 806,
+        type: "album",
+        name: "Milf Pack 6",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/3gmofd.jpg" },
+          { type: "image", url: "https://files.catbox.moe/t56wnq.jpg" },
+          { type: "image", url: "https://files.catbox.moe/x64ks5.jpg" },
+          { type: "image", url: "https://files.catbox.moe/a508ft.jpg" }
+        ]
+      },
+      {
+        id: 807,
+        type: "album",
+        name: "Milf Pack 7",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/kr923t.jpg" },
+          { type: "image", url: "https://files.catbox.moe/7attwz.jpg" },
+          { type: "image", url: "https://files.catbox.moe/wjbztc.jpg" },
+          { type: "image", url: "https://files.catbox.moe/ywtnzn.jpg" }
+        ]
+      },
+      {
+        id: 808,
+        type: "album",
+        name: "Milf Videos",
+        items: [
+          { type: "video", url: "https://files.catbox.moe/zyb90l.mp4" },
+          { type: "video", url: "https://files.catbox.moe/j4eg8h.mp4" }
+        ]
+      },
+      {
+        id: 809,
+        type: "album",
+        name: "Milf Extra Photos",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/cdkwxy.jpg" } // will clean
+        ]
+      }
+    ]
+  },
+  {
+    levelIndex: 8,
+    name: "Lvl 9: Delhi Girl",
+    tiles: [
+      {
+        id: 901,
+        type: "album",
+        name: "Delhi Girl Pack 1",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/ss9ndv.jpg" },
+          { type: "image", url: "https://files.catbox.moe/kmoyqe.jpg" },
+          { type: "image", url: "https://files.catbox.moe/trc8nf.jpg" },
+          { type: "image", url: "https://files.catbox.moe/6244m8.jpg" }
+        ]
+      },
+      {
+        id: 902,
+        type: "album",
+        name: "Delhi Girl Pack 2",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/jgwni0.jpg" },
+          { type: "image", url: "https://files.catbox.moe/66ulrb.jpg" },
+          { type: "image", url: "https://files.catbox.moe/vb1pg1.jpg" },
+          { type: "image", url: "https://files.catbox.moe/oujzat.jpg" }
+        ]
+      },
+      {
+        id: 903,
+        type: "album",
+        name: "Delhi Girl Pack 3",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/wawsdr.jpg" },
+          { type: "image", url: "https://files.catbox.moe/7vyc74.jpg" },
+          { type: "image", url: "https://files.catbox.moe/keuuld.jpg" },
+          { type: "image", url: "https://files.catbox.moe/99odes.jpg" }
+        ]
+      },
+      {
+        id: 904,
+        type: "album",
+        name: "Delhi Girl Pack 4",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/bgu6pb.jpg" },
+          { type: "image", url: "https://files.catbox.moe/pmmioi.jpg" },
+          { type: "image", url: "https://files.catbox.moe/kn17hv.jpg" },
+          { type: "image", url: "https://files.catbox.moe/gewvjh.jpg" }
+        ]
+      },
+      {
+        id: 905,
+        type: "album",
+        name: "Delhi Girl Pack 5",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/rwxkkv.jpg" },
+          { type: "image", url: "https://files.catbox.moe/c2ecbt.jpg" },
+          { type: "image", url: "https://files.catbox.moe/77e6td.jpg" },
+          { type: "image", url: "https://files.catbox.moe/43zx8u.jpg" }
+        ]
+      },
+      {
+        id: 906,
+        type: "album",
+        name: "Delhi Girl Pack 6",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/voy7k3.jpg" },
+          { type: "image", url: "https://files.catbox.moe/9u1p22.jpg" },
+          { type: "image", url: "https://files.catbox.moe/dqtyrq.jpg" },
+          { type: "image", url: "https://files.catbox.moe/45m7vo.jpg" }
+        ]
+      },
+      {
+        id: 907,
+        type: "album",
+        name: "Delhi Girl Pack 7",
+        items: [
+          { type: "image", url: "https://files.catbox.moe/3fvhzi.jpg" }
+        ]
+      },
+      {
+        id: 908,
+        type: "album",
+        name: "Delhi Girl Videos",
+        items: [
+          { type: "video", url: "https://files.catbox.moe/1yf46d.mp4" },
+          { type: "video", url: "https://files.catbox.moe/brtwpd.mp4" },
+          { type: "video", url: "https://files.catbox.moe/udn7jk.mp4" },
+          { type: "video", url: "https://files.catbox.moe/bwqjj3.mp4" }
+        ]
+      },
+      {
+        id: 909,
+        type: "image",
+        url: "https://files.catbox.moe/ss9ndv.jpg"
+      }
+    ]
+  }
+];
+
+    
 
     function loadStorage(key, fallback) {
       try {
