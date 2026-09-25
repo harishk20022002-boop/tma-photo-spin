@@ -3,20 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium File Locker</title>
+    <title>Digital Asset Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        .bg-gradient-animated {
+            background: linear-gradient(-45deg, #6366f1, #a855f7, #ec4899, #3b82f6);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .shimmer {
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
             background-size: 200% 100%;
-            animation: shimmer 2s infinite;
+            animation: shimmer 2.5s infinite;
         }
 
         @keyframes shimmer {
@@ -24,249 +37,304 @@
             100% { background-position: 200% 0; }
         }
 
-        .pulse-soft {
-            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: .8; transform: scale(0.98); }
+        .modal-hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
         }
         
-        /* Modal transition styles */
-        .modal-enter { opacity: 0; pointer-events: none; }
-        .modal-enter-active { opacity: 1; pointer-events: auto; transition: opacity 300ms ease-out; }
-        .modal-exit { opacity: 1; }
-        .modal-exit-active { opacity: 0; pointer-events: none; transition: opacity 300ms ease-in; }
+        .modal-visible {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .modal-content {
+            transform: scale(0.95) translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .modal-visible .modal-content {
+            transform: scale(1) translateY(0);
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex flex-col relative">
 
-    <!-- Main Card -->
-    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md relative overflow-hidden transition-all duration-500" id="main-card">
-        <!-- Decoration -->
-        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
-        
-        <div class="text-center">
-            <!-- Icon Container -->
-            <div id="icon-container" class="mx-auto w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
-                <!-- Locked SVG -->
-                <svg id="icon-locked" class="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                </svg>
-                <!-- Unlocked SVG (Hidden initially) -->
-                <svg id="icon-unlocked" class="w-12 h-12 text-green-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
-                </svg>
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-animated flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900">Digital Asset Hub</h1>
             </div>
-
-            <!-- File Info -->
-            <h1 class="text-2xl font-bold text-gray-800 mb-2">Premium_Assets_Pack.zip</h1>
-            <div class="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-8">
-                <span class="flex items-center">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
-                    145 MB
-                </span>
-                <span>•</span>
-                <span id="status-text" class="font-medium text-red-500 bg-red-50 px-2 py-0.5 rounded">Locked</span>
-            </div>
-
-            <!-- Actions -->
-            <div id="action-container" class="space-y-4">
-                <button id="btn-unlock" class="w-full relative group overflow-hidden bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center pulse-soft">
-                    <div class="absolute inset-0 shimmer"></div>
-                    <svg class="w-5 h-5 mr-2 relative z-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
-                    <span class="relative z-10">Watch Ad to Unlock</span>
-                </button>
-                <p class="text-xs text-gray-400">Support the creator by watching a short sponsor video.</p>
-            </div>
-
-            <!-- Download Container (Hidden initially) -->
-            <div id="download-container" class="hidden space-y-4">
-                <button id="btn-download" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:-translate-y-1">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Download File
-                </button>
-                <p class="text-xs text-green-600 font-medium bg-green-50 py-2 rounded-lg">File successfully unlocked!</p>
+            <div class="hidden sm:block text-sm font-medium text-gray-500 bg-gray-100 px-4 py-2 rounded-full">
+                Unlock Premium Content Below
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Simulated Ad Modal -->
-    <div id="ad-modal" class="fixed inset-0 bg-gray-900/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center modal-enter">
-        <div class="w-full max-w-2xl px-4 flex flex-col h-full md:h-auto md:max-h-[80vh] justify-center">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Featured Collections</h2>
+            <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">Discover our exclusive digital assets. Select a package below, watch a short sponsor message, and download your files instantly.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            <!-- Ad Header -->
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-400 text-sm font-medium tracking-wider uppercase">Advertisement</span>
-                <div class="bg-gray-800 text-white px-4 py-1.5 rounded-full text-sm font-bold flex items-center shadow-inner">
-                    <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Reward in: <span id="countdown-timer" class="ml-1 w-4 text-center">10</span>s
-                </div>
-            </div>
-
-            <!-- Ad Content (Simulated Video) -->
-            <div class="bg-black aspect-video rounded-xl overflow-hidden relative shadow-2xl border border-gray-800 flex items-center justify-center group">
-                <!-- Abstract Ad Placeholder Graphic -->
-                <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-black opacity-80"></div>
-                <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
-                    <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4 backdrop-blur-md border border-white/20 pulse-soft">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
+                <div class="relative h-64 overflow-hidden bg-gray-200">
+                    <img src="https://files.catbox.moe/xcbcgs.jpg" alt="Girl Portrait Collection 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        LOCKED
                     </div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Supercharge Your Workflow</h2>
-                    <p class="text-gray-300 max-w-md">Try our new AI-powered developer tools today. Build faster, smarter, and better.</p>
                 </div>
-                <!-- Fake progress bar -->
-                <div class="absolute bottom-0 left-0 h-1 bg-gray-800 w-full">
-                    <div id="ad-progress" class="h-full bg-indigo-500 w-0 transition-all duration-1000 ease-linear"></div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 1</h3>
+                    <p class="text-sm text-gray-500 mb-6 flex-grow">High-resolution portrait collection for your creative projects.</p>
+                    
+                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
+                            data-title="Girl Portrait Collection 1" 
+                            data-zip="https://files.catbox.moe/d15ucs.zip">
+                        <div class="absolute inset-0 shimmer"></div>
+                        <span class="relative z-10 flex items-center">
+                            Unlock to Download
+                        </span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Ad Footer / Actions -->
-            <div class="mt-6 flex justify-end">
-                <button id="btn-skip" disabled class="bg-gray-700 text-gray-400 font-medium py-2.5 px-6 rounded-lg cursor-not-allowed transition-colors duration-300 flex items-center">
-                    Please Wait...
+            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
+                <div class="relative h-64 overflow-hidden bg-gray-200">
+                    <img src="https://files.catbox.moe/ffq8qa.jpg" alt="Girl Portrait Collection 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        LOCKED
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 2</h3>
+                    <p class="text-sm text-gray-500 mb-6 flex-grow">Stunning visual assets carefully curated for designers.</p>
+                    
+                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
+                            data-title="Girl Portrait Collection 2" 
+                            data-zip="https://files.catbox.moe/2l21bq.zip">
+                        <div class="absolute inset-0 shimmer"></div>
+                        <span class="relative z-10 flex items-center">
+                            Unlock to Download
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
+                <div class="relative h-64 overflow-hidden bg-gray-200">
+                    <img src="https://files.catbox.moe/5ctndv.jpg" alt="Girl Portrait Collection 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        LOCKED
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 3</h3>
+                    <p class="text-sm text-gray-500 mb-6 flex-grow">A diverse bundle of creative assets to enhance your portfolio.</p>
+                    
+                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
+                            data-title="Girl Portrait Collection 3" 
+                            data-zip="https://files.catbox.moe/yn0z50.zip">
+                        <div class="absolute inset-0 shimmer"></div>
+                        <span class="relative z-10 flex items-center">
+                            Unlock to Download
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
+                <div class="relative h-64 overflow-hidden bg-gray-200">
+                    <img src="https://files.catbox.moe/i89lhm.jpg" alt="Girl Portrait Collection 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        LOCKED
+                    </div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 4</h3>
+                    <p class="text-sm text-gray-500 mb-6 flex-grow">Exclusive resources for modern digital creators.</p>
+                    
+                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
+                            data-title="Girl Portrait Collection 4" 
+                            data-zip="https://files.catbox.moe/wog8x2.zip">
+                        <div class="absolute inset-0 shimmer"></div>
+                        <span class="relative z-10 flex items-center">
+                            Unlock to Download
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="unlock-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" id="modal-backdrop"></div>
+        
+        <!-- Modal Content Container -->
+        <div class="modal-content relative bg-white w-full max-w-2xl mx-4 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+                    </span>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Unlocking</h3>
+                        <p id="modal-item-title" class="text-lg font-bold text-gray-900 leading-tight">Item Title Here</p>
+                    </div>
+                </div>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-700 transition-colors p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
+            </div>
+
+            <div class="p-6 md:p-8 flex-grow flex flex-col items-center justify-center bg-gray-50">
+                
+                <!-- Timer Display -->
+                <div id="timer-container" class="mb-6 flex items-center bg-white px-5 py-2.5 rounded-full shadow-sm border border-gray-200">
+                    <div class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse mr-3"></div>
+                    <span class="text-gray-600 font-medium">Sponsor message finishes in: </span>
+                    <span id="countdown-timer" class="ml-2 text-xl font-bold text-indigo-600 w-8 text-center">15</span>
+                    <span class="text-gray-600 font-medium ml-1">sec</span>
+                </div>
+
+                <!-- ExoClick Ad Container -->
+                <div id="ad-container" class="w-full min-h-[250px] bg-white rounded-xl shadow-inner relative flex items-center justify-center border-2 border-dashed border-gray-300 p-2 overflow-hidden">
+                    
+                    <!-- EXOCLICK SCRIPT INJECTION -->
+                    <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+                    <ins class="eas6a97888e37" data-zoneid="6039354"  data-ex-av="name"></ins> 
+                    <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+                    <!-- END EXOCLICK SCRIPT INJECTION -->
+                    
+                </div>
+
+                <div id="success-container" class="hidden flex-col items-center justify-center text-center py-6 w-full">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-900 mb-2">Ready for Download!</h4>
+                    <p class="text-gray-500 mb-8 max-w-md">Thank you for your patience. Your file has been successfully unlocked.</p>
+                    
+                    <a id="actual-download-btn" href="#" target="_blank" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white text-lg font-bold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download File Now
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Elements
-            const btnUnlock = document.getElementById('btn-unlock');
-            const btnDownload = document.getElementById('btn-download');
-            const btnSkip = document.getElementById('btn-skip');
-            const adModal = document.getElementById('ad-modal');
-            const countdownTimer = document.getElementById('countdown-timer');
-            const adProgress = document.getElementById('ad-progress');
+            // DOM Elements
+            const unlockBtns = document.querySelectorAll('.unlock-btn');
+            const modal = document.getElementById('unlock-modal');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const closeModalBtn = document.getElementById('close-modal');
             
-            const actionContainer = document.getElementById('action-container');
-            const downloadContainer = document.getElementById('download-container');
-            const iconLocked = document.getElementById('icon-locked');
-            const iconUnlocked = document.getElementById('icon-unlocked');
-            const iconContainer = document.getElementById('icon-container');
-            const statusText = document.getElementById('status-text');
+            const modalItemTitle = document.getElementById('modal-item-title');
+            const timerContainer = document.getElementById('timer-container');
+            const countdownTimer = document.getElementById('countdown-timer');
+            const adContainer = document.getElementById('ad-container');
+            const successContainer = document.getElementById('success-container');
+            const actualDownloadBtn = document.getElementById('actual-download-btn');
 
-            // Config
-            const AD_DURATION = 10; // seconds
-            let currentTimer = AD_DURATION;
+            // State
+            const AD_DURATION = 15;
             let timerInterval;
+            let currentTimer = AD_DURATION;
 
-            // Start Ad Flow
-            btnUnlock.addEventListener('click', () => {
-                // Reset timer
+            // Attach event listeners to all Unlock buttons
+            unlockBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const title = btn.getAttribute('data-title');
+                    const zipLink = btn.getAttribute('data-zip');
+                    openModal(title, zipLink);
+                });
+            });
+
+            function openModal(title, zipLink) {
+                // Populate dynamic content
+                modalItemTitle.textContent = title;
+                actualDownloadBtn.href = zipLink;
+
+                // Reset UI to default ad view
                 currentTimer = AD_DURATION;
                 countdownTimer.textContent = currentTimer;
-                adProgress.style.width = '0%';
                 
-                // Show modal
-                adModal.classList.remove('modal-enter', 'modal-exit-active');
-                adModal.classList.add('modal-enter-active');
+                adContainer.classList.remove('hidden');
+                timerContainer.classList.remove('hidden');
+                timerContainer.classList.add('flex');
                 
-                // Reset skip button
-                btnSkip.disabled = true;
-                btnSkip.classList.add('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
-                btnSkip.classList.remove('bg-white', 'text-gray-900', 'hover:bg-gray-100', 'cursor-pointer');
-                btnSkip.innerHTML = 'Please Wait...';
+                successContainer.classList.add('hidden');
+                successContainer.classList.remove('flex');
 
-                // Start countdown
-                setTimeout(() => {
-                    // Start progress bar animation
-                    adProgress.style.width = '100%';
-                    adProgress.style.transitionDuration = `${AD_DURATION}s`;
+                // Show modal overlay
+                modal.classList.remove('modal-hidden');
+                modal.classList.add('modal-visible');
 
-                    timerInterval = setInterval(() => {
-                        currentTimer--;
-                        countdownTimer.textContent = currentTimer;
-
-                        if (currentTimer <= 0) {
-                            clearInterval(timerInterval);
-                            adFinished();
-                        }
-                    }, 1000);
-                }, 100); // slight delay to ensure transition applies
-            });
-
-            // When Ad Finishes
-            function adFinished() {
-                countdownTimer.textContent = '0';
-                
-                // Enable skip/close button
-                btnSkip.disabled = false;
-                btnSkip.classList.remove('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
-                btnSkip.classList.add('bg-white', 'text-gray-900', 'hover:bg-gray-100', 'cursor-pointer');
-                btnSkip.innerHTML = 'Continue to File <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>';
+                startCountdown();
             }
 
-            // Close Ad Modal & Unlock File
-            btnSkip.addEventListener('click', () => {
-                if(btnSkip.disabled) return;
-
-                // Hide Modal
-                adModal.classList.remove('modal-enter-active');
-                adModal.classList.add('modal-exit-active');
+            function closeModal() {
+                modal.classList.remove('modal-visible');
+                modal.classList.add('modal-hidden');
                 
-                setTimeout(() => {
-                    adModal.classList.add('modal-enter'); // reset for future if needed
-                }, 300);
-
-                // Update Main UI to Unlocked State
-                unlockFileUI();
-            });
-
-            function unlockFileUI() {
-                // Hide unlock button, show download button
-                actionContainer.classList.add('hidden');
-                downloadContainer.classList.remove('hidden');
-
-                // Update Icons
-                iconLocked.classList.add('hidden');
-                iconUnlocked.classList.remove('hidden');
-                iconContainer.classList.remove('bg-gray-100');
-                iconContainer.classList.add('bg-green-50');
-
-                // Update Status
-                statusText.textContent = 'Unlocked';
-                statusText.classList.remove('text-red-500', 'bg-red-50');
-                statusText.classList.add('text-green-600', 'bg-green-100');
-            }
-
-            // Dummy File Download
-            btnDownload.addEventListener('click', () => {
-                // Create a minimal valid empty zip file in base64 to simulate real download
-                // "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==" represents an empty ZIP file
-                const zipBase64 = "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==";
-                const byteCharacters = atob(zipBase64);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                // Clear the timer if they close the modal early
+                if (timerInterval) {
+                    clearInterval(timerInterval);
                 }
-                const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([byteArray], {type: "application/zip"});
-                
-                // Create object URL and trigger download
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'Premium_Assets_Pack.zip';
-                document.body.appendChild(a);
-                a.click();
-                
-                // Cleanup
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 100);
+            }
 
-                // Visual feedback on button
-                const originalText = btnDownload.innerHTML;
-                btnDownload.innerHTML = '<svg class="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Downloading...';
+            // Close events
+            closeModalBtn.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', closeModal);
+
+            // Timer management
+            function startCountdown() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                }
+
+                timerInterval = setInterval(() => {
+                    currentTimer--;
+                    countdownTimer.textContent = currentTimer;
+
+                    if (currentTimer <= 0) {
+                        clearInterval(timerInterval);
+                        onAdFinished();
+                    }
+                }, 1000);
+            }
+
+            function onAdFinished() {
+                // Swap Ad view for Success view
+                adContainer.classList.add('hidden');
+                timerContainer.classList.add('hidden');
+                timerContainer.classList.remove('flex');
                 
-                setTimeout(() => {
-                    btnDownload.innerHTML = originalText;
-                }, 2000);
-            });
+                successContainer.classList.remove('hidden');
+                successContainer.classList.add('flex');
+            }
         });
     </script>
 </body>
