@@ -6,6 +6,7 @@
     <title>Nexus | Premium Digital Assets</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -34,18 +35,20 @@
             }
         }
     </script>
+    
     <style>
         .timer-circle {
             transition: stroke-dashoffset 1s linear;
         }
         /* Ensure the ad wrapper has some space even before load and acts as a distinct target */
         .ad-wrapper {
-            min-height: 120px; 
+            min-height: 250px; /* Assuming a 300x250 or similar ad size */
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             cursor: pointer;
+            overflow: hidden;
         }
         /* A subtle overlay to ensure we can catch mouse events over the ad frame wrapper before clicking inside */
         .ad-detector-overlay {
@@ -56,22 +59,22 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-violet-500/30 selection:text-violet-200">
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
 
-    <header class="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+    <header class="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-tight text-white">Nexus<span class="text-violet-400">Assets</span></h1>
+                    <h1 class="text-xl font-extrabold tracking-tight text-white">Nexus<span class="text-indigo-400">Assets</span></h1>
                 </div>
             </div>
             <nav class="hidden md:flex gap-6">
-                <a href="#" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Trending</a>
-                <a href="#" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Graphics</a>
-                <a href="#" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">UI Kits</a>
+                <a href="#" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Trending</a>
+                <a href="#" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Premium Packs</a>
+                <a href="#" class="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Support</a>
             </nav>
         </div>
     </header>
@@ -79,28 +82,28 @@
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <div class="mb-12 text-center sm:text-left">
             <h2 class="text-4xl font-extrabold text-white mb-3 tracking-tight">Curated Premium Assets</h2>
-            <p class="text-slate-400 text-lg">High-quality digital resources to accelerate your workflow.</p>
+            <p class="text-zinc-400 text-lg">High-quality digital resources to accelerate your workflow. Unlock and download instantly.</p>
         </div>
 
         <div id="asset-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Cards dynamically injected here -->
+            <!-- Cards dynamically injected here via JavaScript -->
         </div>
     </main>
 
-    <div id="unlock-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col" id="modal-content">
+    <div id="unlock-modal" class="fixed inset-0 z-50 bg-zinc-950/90 backdrop-blur-md hidden flex-col items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-zinc-900 border border-zinc-700 rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col" id="modal-content">
             
-            <div class="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-900/50">
+            <div class="flex items-center justify-between p-5 border-b border-zinc-800 bg-zinc-900/50">
                 <h3 class="text-lg font-bold text-white">Secure Asset Download</h3>
-                <button id="close-modal-btn" class="text-slate-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-slate-800">
+                <button id="close-modal-btn" class="text-zinc-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-zinc-800 focus:outline-none">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
 
             <div class="p-6 flex flex-col items-center w-full">
-                <!-- Asset Info Snippet -->
-                <div class="flex items-center gap-4 w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50 mb-6 shadow-inner">
-                    <img id="modal-thumb" class="w-16 h-16 rounded-xl object-cover bg-slate-700 flex-shrink-0 border border-slate-600" src="" alt="Thumbnail">
+                <!-- Asset Info Snippet inside Modal -->
+                <div class="flex items-center gap-4 w-full p-4 bg-zinc-800/50 rounded-2xl border border-zinc-700/50 mb-6 shadow-inner">
+                    <img id="modal-thumb" class="w-16 h-16 rounded-xl object-cover bg-zinc-700 flex-shrink-0 border border-zinc-600" src="" alt="Thumbnail">
                     <div class="flex-grow min-w-0">
                         <p id="modal-asset-name" class="text-base font-bold text-white truncate">Asset Name</p>
                         <p class="text-xs font-medium text-emerald-400 mt-1 flex items-center gap-1">
@@ -110,47 +113,47 @@
                     </div>
                 </div>
 
-                <!-- PROMINENT ADVERTISEMENT CONTAINER -->
-                <div class="w-full mb-6 bg-slate-950 rounded-2xl border border-slate-800 p-3 text-center shadow-inner relative group transition-all duration-300" id="ad-wrapper-container">
+                <div class="w-full mb-6 bg-zinc-950 rounded-2xl border border-zinc-800 p-3 text-center shadow-inner relative transition-all duration-300" id="ad-wrapper-container">
                     
                     <!-- Pulsating Click Prompt -->
-                    <div id="click-prompt" class="animate-pulse bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-sm py-2 px-4 rounded-xl mb-3 shadow-[0_0_15px_rgba(245,158,11,0.15)] flex flex-col items-center gap-1">
+                    <div id="click-prompt" class="animate-pulse bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-sm py-3 px-4 rounded-xl mb-3 shadow-[0_0_15px_rgba(245,158,11,0.15)] flex flex-col items-center gap-1 transition-opacity duration-300">
                         <span class="flex items-center gap-2">
-                            <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
-                            CLICK ON THE AD BELOW TO START COUNTDOWN
+                            <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                            CLICK ON THE AD TO START THE 15-SECOND COUNTDOWN!
                         </span>
                     </div>
 
-                    <div id="ad-wrapper" class="ad-wrapper w-full overflow-hidden rounded-xl bg-slate-900 flex justify-center items-center border border-slate-800/50 hover:border-violet-500/50 transition-colors">
+                    <!-- The Ad Wrapper for tracking clicks -->
+                    <div id="ad-wrapper" class="ad-wrapper w-full rounded-xl bg-zinc-900 border border-zinc-800/50 hover:border-indigo-500/50 transition-colors">
                         <div class="ad-detector-overlay"></div>
+                        
                         <!-- EXACT AD SNIPPET PROVIDED -->
-                        <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-                        <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
+                        <!-- Placeholder Comment: Insert ad scripts here -->
+                        <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
+                        <ins class="eas6a97888e2" data-zoneid="6014424"></ins> 
                         <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
                     </div>
                 </div>
 
-                <!-- Timer UI (Hidden Initially until ad click) -->
                 <div id="timer-container" class="hidden flex-col items-center justify-center w-full py-2">
                     <div class="relative w-20 h-20 flex items-center justify-center mb-3">
                         <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#1e293b" stroke-width="8" />
-                            <circle id="progress-circle" class="timer-circle" cx="50" cy="50" r="45" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="0" stroke-linecap="round" />
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#27272a" stroke-width="8" />
+                            <circle id="progress-circle" class="timer-circle" cx="50" cy="50" r="45" fill="none" stroke="#6366f1" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="0" stroke-linecap="round" />
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
                             <span id="countdown-text" class="text-2xl font-bold text-white drop-shadow-md">15</span>
                         </div>
                     </div>
-                    <p id="timer-status-text" class="text-sm text-violet-400 text-center font-semibold animate-pulse">Generating secure link...</p>
+                    <p id="timer-status-text" class="text-sm text-indigo-400 text-center font-semibold animate-pulse">Generating secure link...</p>
                 </div>
 
-                <!-- Download Button (Hidden Initially) -->
                 <div id="download-container" class="hidden flex-col items-center justify-center w-full py-2 animate-[fadeIn_0.5s_ease-out]">
                     <a href="#" id="download-btn" target="_blank" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold rounded-xl flex items-center justify-center gap-3 transition-all duration-300 animate-pulse-glow shadow-xl shadow-emerald-900/40 border border-emerald-400/30">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Download File Now
+                        Download Now
                     </a>
-                    <p class="text-xs text-slate-500 mt-4 text-center font-medium">Your download is ready. Thank you for your support!</p>
+                    <p class="text-xs text-zinc-500 mt-4 text-center font-medium">Your file is ready. Thank you for your support!</p>
                 </div>
 
             </div>
@@ -162,31 +165,31 @@
         const assets = [
             {
                 id: 1,
-                title: 'Asset Pack 1',
+                title: 'Premium Asset Pack 1',
                 image: 'https://files.catbox.moe/xcbcgs.jpg',
                 downloadUrl: 'https://files.catbox.moe/d15ucs.zip',
-                category: 'Graphics'
+                category: 'Premium'
             },
             {
                 id: 2,
-                title: 'Asset Pack 2',
+                title: 'Premium Asset Pack 2',
                 image: 'https://files.catbox.moe/ffq8qa.jpg',
                 downloadUrl: 'https://files.catbox.moe/2l21bq.zip',
-                category: 'UI Kits'
+                category: 'Premium'
             },
             {
                 id: 3,
-                title: 'Asset Pack 3',
+                title: 'Premium Asset Pack 3',
                 image: 'https://files.catbox.moe/5ctndv.jpg',
                 downloadUrl: 'https://files.catbox.moe/yn0z50.zip',
-                category: 'Presets'
+                category: 'Premium'
             },
             {
                 id: 4,
-                title: 'Asset Pack 4',
+                title: 'Premium Asset Pack 4',
                 image: 'https://files.catbox.moe/i89lhm.jpg',
                 downloadUrl: 'https://files.catbox.moe/wog8x2.zip',
-                category: 'Icons'
+                category: 'Premium'
             }
         ];
 
@@ -214,29 +217,31 @@
         let countdownInterval;
         const totalWaitTime = 15;
         const circleCircumference = 2 * Math.PI * 45; // 2 * pi * r
-        let timerStarted = false;
-        let isMouseOverAd = false;
         
+        // CRITICAL: Variables for tracking ad click via window.blur
+        let isHoveringAd = false;
+        let countdownStarted = false;
+
         function renderAssets() {
             gridContainer.innerHTML = '';
             assets.forEach(asset => {
                 const card = document.createElement('div');
-                card.className = 'group flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-violet-500/50 hover:shadow-2xl hover:shadow-violet-900/20 transition-all duration-300';
+                card.className = 'group flex flex-col bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-900/20 transition-all duration-300';
                 
                 card.innerHTML = `
-                    <div class="relative w-full aspect-[4/3] overflow-hidden bg-slate-950">
+                    <div class="relative w-full aspect-[4/3] overflow-hidden bg-zinc-950">
                         <img src="${asset.image}" alt="${asset.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-80"></div>
                         <div class="absolute top-4 left-4">
-                            <span class="px-3 py-1.5 bg-slate-950/80 backdrop-blur-md text-slate-200 text-xs font-bold uppercase tracking-widest rounded-lg border border-slate-700/50 shadow-sm">${asset.category}</span>
+                            <span class="px-3 py-1.5 bg-zinc-950/80 backdrop-blur-md text-zinc-200 text-xs font-bold uppercase tracking-widest rounded-lg border border-zinc-700/50 shadow-sm">${asset.category}</span>
                         </div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-bold text-white mb-6 group-hover:text-violet-400 transition-colors">${asset.title}</h3>
+                        <h3 class="text-xl font-bold text-white mb-6 group-hover:text-indigo-400 transition-colors">${asset.title}</h3>
                         
-                        <button onclick="openModal(${asset.id})" class="w-full mt-auto py-3.5 rounded-xl bg-slate-800 hover:bg-violet-600 text-white font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-violet-600/30 border border-slate-700 hover:border-violet-500">
+                        <button onclick="openModal(${asset.id})" class="w-full mt-auto py-3.5 rounded-xl bg-zinc-800 hover:bg-indigo-600 text-white font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-indigo-600/30 border border-zinc-700 hover:border-indigo-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            Unlock & Download
+                            Unlock
                         </button>
                     </div>
                 `;
@@ -254,9 +259,11 @@
             downloadBtn.href = asset.downloadUrl;
 
             // Reset UI state for new interaction
-            timerStarted = false;
+            countdownStarted = false;
+            isHoveringAd = false;
             clearInterval(countdownInterval);
             
+            // Show prompt, hide timers/downloads
             clickPrompt.classList.remove('hidden');
             adWrapperContainer.classList.remove('opacity-50');
             timerContainer.classList.add('hidden');
@@ -264,22 +271,25 @@
             downloadContainer.classList.add('hidden');
             downloadContainer.classList.remove('flex');
             
+            // Reset SVG Circle
             progressCircle.style.strokeDashoffset = 0;
             countdownText.textContent = totalWaitTime;
 
             // Show Modal
             modal.classList.remove('hidden');
+            
+            // Force focus to window so the blur event works accurately on the first click
+            window.focus();
+
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 modalContent.classList.remove('scale-95');
-                // Ensure window is focused so our blur trick works accurately
-                window.focus();
             }, 10);
         }
 
         function closeModal() {
             clearInterval(countdownInterval);
-            timerStarted = false;
+            countdownStarted = false;
             
             modal.classList.add('opacity-0');
             modalContent.classList.add('scale-95');
@@ -289,8 +299,8 @@
             }, 300);
         }
 
-        function startTimer() {
-            timerStarted = true;
+        function startCountdown() {
+            countdownStarted = true;
             let timeLeft = totalWaitTime;
             clearInterval(countdownInterval);
             
@@ -318,41 +328,45 @@
         function showDownloadButton() {
             timerContainer.classList.add('hidden');
             timerContainer.classList.remove('flex');
-            adWrapperContainer.classList.add('hidden'); // Optional: hide ad when ready, or leave dimmed
             
             downloadContainer.classList.remove('hidden');
             downloadContainer.classList.add('flex');
         }
 
-        // Logic to detect if the user clicked inside the iframe ad
+        // --- THE HACK: DETECTING AD CLICKS VIA BLUR ---
+        // We track if the mouse is currently over the ad wrapper.
         adWrapper.addEventListener('mouseenter', () => {
-            isMouseOverAd = true;
+            isHoveringAd = true;
         });
 
         adWrapper.addEventListener('mouseleave', () => {
-            isMouseOverAd = false;
-            // Return focus to window just in case they moved out without clicking
+            isHoveringAd = false;
+            // Return focus to the main window just in case they moved out without clicking.
+            // This ensures the next time they enter and click, the blur event fires properly.
             window.focus(); 
         });
 
+        // When the window loses focus, check if the mouse was hovering over the ad.
+        // If it was, that means the blur was caused by clicking inside the cross-origin iframe.
         window.addEventListener('blur', () => {
-            // If the window loses focus while the mouse is over the ad, 
-            // it means they clicked the ad iframe!
-            if (isMouseOverAd && !timerStarted && !modal.classList.contains('hidden')) {
-                startTimer();
+            if (isHoveringAd && !countdownStarted && !modal.classList.contains('hidden')) {
+                startCountdown();
             }
         });
 
         // Event Listeners for UI
         closeModalBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
+            // Close if clicking outside the modal content
             if (e.target === modal) closeModal();
         });
 
-        // Initialize setup
+        // Initialize setup on load
         document.addEventListener('DOMContentLoaded', () => {
             progressCircle.style.strokeDasharray = circleCircumference;
             renderAssets();
+            // Ensure window is focused initially
+            window.focus();
         });
     </script>
 </body>
