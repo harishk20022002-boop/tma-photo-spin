@@ -1,463 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Asset Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #0f172a;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Asset Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        .bg-gradient-animated {
-            background: linear-gradient(-45deg, #6366f1, #a855f7, #ec4899, #3b82f6);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
+  <!-- ExoClick Popunder Script (Zone 6039372 - 2 in 20 min) -->
+  <script type="application/javascript">
+  (function() {
+      function randStr(e,t){for(var n="",r=t||"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",o=0;o<e;o++)n+=r.charAt(Math.floor(Math.random()*r.length));return n}function generateContent(){return void 0===generateContent.val&&(generateContent.val="document.dispatchEvent("+randStr(4*Math.random()+3)+");"),generateContent.val}try{Object.defineProperty(document.currentScript,"innerHTML",{get:generateContent}),Object.defineProperty(document.currentScript,"textContent",{get:generateContent})}catch(e){};
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+      //version 12.0.0
+      var adConfig = {
+      "ads_host": "a.pemsrv.com",
+      "syndication_host": "s.pemsrv.com",
+      "idzone": 6039372,
+      "popup_fallback": false,
+      "popup_force": false,
+      "chrome_enabled": true,
+      "new_tab": false,
+      "frequency_period": 20,
+      "frequency_count": 2,
+      "trigger_method": 3,
+      "trigger_class": "",
+      "trigger_delay": 0,
+      "capping_enabled": true,
+      "tcf_enabled": true,
+      "agego_cross_site_enabled": true,
+      "only_inline": false
+  };
 
-        .shimmer {
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
-            background-size: 200% 100%;
-            animation: shimmer 2.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .modal-hidden {
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-            transition: all 0.3s ease-in-out;
-        }
-        
-        .modal-visible {
-            opacity: 1;
-            pointer-events: auto;
-            visibility: visible;
-            transition: all 0.3s ease-in-out;
-        }
-        
-        .modal-content {
-            transform: scale(0.95) translateY(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .modal-visible .modal-content {
-            transform: scale(1) translateY(0);
-        }
-    </style>
+  window.document.querySelectorAll||(document.querySelectorAll=document.body.querySelectorAll=Object.querySelectorAll=function(e,o,t,i,n){var r=document,a=r.createStyleSheet();for(n=r.all,o=[],t=(e=e.replace(/\[for\b/gi,"[htmlFor").split(",")).length;t--;){for(a.addRule(e[t],"k:v"),i=n.length;i--;)n[i].currentStyle.k&&o.push(n[i]);a.removeRule(0)}return o});var popMagic={version:12,cookie_name:"",url:"",config:{},open_count:0,top:null,browser:null,venor_loaded:!1,venor:!1,tcfData:null,native_ad_class:".msg-native-widget-item",remoteLicensedDomains:["exdynsrv.com",atob("ZXhvc3J2LmNvbQ=="),atob("ZXhvY2xpY2suY29t"),"opoxv.com","exacdn.com","pemsrv.com"],configTpl:{ads_host:"",syndication_host:"",idzone:"",frequency_period:720,frequency_count:1,trigger_method:1,trigger_class:"",popup_force:!1,popup_fallback:!1,chrome_enabled:!0,new_tab:!1,cat:"",tags:"",el:"",sub:"",sub2:"",sub3:"",block_ad_types:"",only_inline:!1,trigger_delay:0,capping_enabled:!0,tcf_enabled:!1,agego_cross_site_enabled:!0,cookieconsent:!0,should_fire:function(){return!0},on_redirect:null},isAdsDomainLicensed:function(){for(var e=this.config.ads_host,o=this.remoteLicensedDomains.concat([".local","localhost","127.0.0.1"]),t=0;t<o.length;t++){var i=o[t];if("string"==typeof i)if("."===i.charAt(0)){var n=i,r=i.substring(1);if(e.slice(-n.length)===n||e===r)return!0}else{var a=e===i,c="."+i,p=e.slice(-c.length)===c;if(a||p)return!0}}return!1},init:function(e){if(void 0!==e.idzone&&e.idzone){void 0===e.customTargeting&&(e.customTargeting=[]),window.customTargeting=e.customTargeting||null;var o=Object.keys(e.customTargeting).filter(function(e){return 0<=e.search("ex_")});for(var t in o.length&&o.forEach(function(e){return this.configTpl[e]=null}.bind(this)),this.configTpl)Object.prototype.hasOwnProperty.call(this.configTpl,t)&&(void 0!==e[t]?this.config[t]=e[t]:this.config[t]=this.configTpl[t]);if(void 0!==this.config.idzone&&""!==this.config.idzone){!0!==this.config.only_inline&&this.isAdsDomainLicensed()&&this.loadHosted();var i=this;this.checkTCFConsent(function(){"complete"===document.readyState?i.preparePopWait():i.addEventToElement(window,"load",i.preparePop)})}}},getCountFromCookie:function(){if(!this.config.cookieconsent)return 0;var e=popMagic.getCookie(popMagic.cookie_name),o=void 0===e?0:parseInt(e);return isNaN(o)&&(o=0),o},getLastOpenedTimeFromCookie:function(){var e=popMagic.getCookie(popMagic.cookie_name),o=null;if(e){var t=parseInt(e.split(";")[1]);o=0<t?t:0}return isNaN(o)&&(o=null),o},shouldShow:function(e){if(e=e||!1,!popMagic.config.capping_enabled){var o=!0,t=popMagic.config.should_fire;try{e||"function"!=typeof t||(o=Boolean(t()))}catch(e){console.error("Error executing should fire callback function:",e)}return o&&0===popMagic.open_count}if(popMagic.open_count>=popMagic.config.frequency_count)return!1;var i=popMagic.getCountFromCookie(),n=popMagic.getLastOpenedTimeFromCookie(),r=Math.floor(Date.now()/1e3),a=n+popMagic.config.trigger_delay;return!(n&&r<a)&&!((popMagic.open_count=i)>=popMagic.config.frequency_count)},venorShouldShow:function(){return popMagic.venor_loaded&&"0"===popMagic.venor},setAsOpened:function(e){var o=e?e.target||e.srcElement:null,t={id:"",tagName:"",classes:"",text:"",href:"",elm:""};void 0!==o&&null!=o&&(t={id:void 0!==o.id&&null!=o.id?o.id:"",tagName:void 0!==o.tagName&&null!=o.tagName?o.tagName:"",classes:void 0!==o.classList&&null!=o.classList?o.classList:"",text:void 0!==o.outerText&&null!=o.outerText?o.outerText:"",href:void 0!==o.href&&null!=o.href?o.href:"",elm:o});var i=new CustomEvent("creativeDisplayed-"+popMagic.config.idzone,{detail:t});if(document.dispatchEvent(i),popMagic.config.capping_enabled){var n=1;n=0!==popMagic.open_count?popMagic.open_count+1:popMagic.getCountFromCookie()+1;var r=Math.floor(Date.now()/1e3);popMagic.config.cookieconsent&&popMagic.setCookie(popMagic.cookie_name,n+";"+r,popMagic.config.frequency_period)}else++popMagic.open_count},loadHosted:function(){var e=document.createElement("script");for(var o in e.type="application/javascript",e.async=!0,e.src="//"+this.config.ads_host+"/popunder1000.js",e.id="popmagicldr",this.config)Object.prototype.hasOwnProperty.call(this.config,o)&&"ads_host"!==o&&"syndication_host"!==o&&e.setAttribute("data-msg-"+o,this.config[o]);var t=document.getElementsByTagName("body").item(0);t.firstChild?t.insertBefore(e,t.firstChild):t.appendChild(e)},preparePopWait:function(){setTimeout(popMagic.preparePop,400)},preparePop:function(){if("object"!=typeof msgJsPop101||!Object.prototype.hasOwnProperty.call(msgJsPop101,"add")){if(popMagic.top=self,popMagic.top!==self)try{top.document.location.toString()&&(popMagic.top=top)}catch(e){}if(popMagic.cookie_name="zone-cap-"+popMagic.config.idzone,popMagic.config.capping_enabled||(document.cookie=popMagic.cookie_name+"=;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/"),popMagic.shouldShow(!0)){var e=new XMLHttpRequest;e.onreadystatechange=function(){e.readyState==XMLHttpRequest.DONE&&(popMagic.venor_loaded=!0,200==e.status?popMagic.venor=e.responseText:popMagic.venor="0")};var o=("https:"!==document.location.protocol&&"http:"!==document.location.protocol?"https:":document.location.protocol)+"//"+popMagic.config.syndication_host+"/venor.php?cookieconsent="+popMagic.config.cookieconsent;e.open("GET",popMagic.addNuvtValueToUrl(o),!0),e.withCredentials=!0;try{e.send()}catch(e){popMagic.venor_loaded=!0}}if(popMagic.buildUrl(),popMagic.browser=popMagic.browserDetector.getBrowserInfo(),popMagic.config.chrome_enabled||!popMagic.browser.isChrome){var t=popMagic.getPopMethod(popMagic.browser);popMagic.addEvent("click",t),popMagic.prefetchAgToken()}}},getPopMethod:function(e){return popMagic.config.popup_force?popMagic.methods.popup:popMagic.config.popup_fallback&&e.isChrome&&68<=e.version&&!e.isMobile?popMagic.methods.popup:e.isMobile?popMagic.methods.default:e.isChrome?popMagic.methods.chromeTab:popMagic.methods.default},checkTCFConsent:function(t){if(this.config.tcf_enabled&&"function"==typeof window.__tcfapi){var i=this;window.__tcfapi("addEventListener",2,function(e,o){o&&("tcloaded"!==(i.tcfData=e).eventStatus&&"useractioncomplete"!==e.eventStatus||(window.__tcfapi("removeEventListener",2,function(){},e.listenerId),t()))})}else t()},buildUrl:function(){var t,e="https:"!==document.location.protocol&&"http:"!==document.location.protocol?"https:":document.location.protocol,o=top===self?document.URL:document.referrer,i={type:"inline",name:"popMagic",ver:this.version},n="";customTargeting&&Object.keys(customTargeting).length&&("object"==typeof customTargeting?Object.keys(customTargeting):customTargeting).forEach(function(e){"object"==typeof customTargeting?t=customTargeting[e]:Array.isArray(customTargeting)&&(t=scriptEl.getAttribute(e));var o=e.replace("data-msg-","").replace(atob("ZGF0YS1leG8t"),"");n+="&"+o+"="+t});var r,a,c=this.tcfData&&this.tcfData.gdprApplies&&!0===this.tcfData.gdprApplies?1:0;this.url=e+"//"+this.config.syndication_host+"/v1/link.php?cat="+this.config.cat+"&idzone="+this.config.idzone+"&type=8&p="+encodeURIComponent(o)+"&sub="+this.config.sub+(""!==this.config.sub2?"&sub2="+this.config.sub2:"")+(""!==this.config.sub3?"&sub3="+this.config.sub3:"")+"&block=1&el="+this.config.el+"&tags="+this.config.tags+(""!==this.config.block_ad_types?"&block_ad_types="+this.config.block_ad_types:"")+"&scr_info="+(a=(r=i).type+"|"+r.name+"|"+r.ver,encodeURIComponent(btoa(a)))+n+"&gdpr="+c+"&cb="+Math.floor(1e9*Math.random()),this.tcfData&&this.tcfData.tcString?this.url+="&gdpr_consent="+encodeURIComponent(this.tcfData.tcString):this.url+="&cookieconsent="+this.config.cookieconsent},addSuvtValueToUrl:function(e){var o=popMagic.getCookie("__suvt");if(o){var t=-1!==e.indexOf("?")?"&":"?";return e+t+"suvt="+o}return e},addNuvtValueToUrl:function(e){var o=popMagic.getCookie("__nuvt");if(o){var t=-1!==e.indexOf("?")?"&":"?";return e+t+"nuvt="+encodeURIComponent(o)}return e},isAgegoEnabled:function(){return"undefined"!=typeof Promise&&void 0!==window.AGEGO&&!0===this.config.agego_cross_site_enabled},prefetchAgToken:function(){if(popMagic.isAgegoEnabled())try{window.AGEGO("prefetchToken")}catch(e){}},addAgeGoToken:function(o){if(!popMagic.isAgegoEnabled())return Promise.resolve(o);try{var e=window.AGEGO("getTokenUrl",o);return e&&"function"==typeof e.then?e:Promise.resolve(o)}catch(e){return Promise.resolve(o)}},addEventToElement:function(e,o,t){e.addEventListener?e.addEventListener(o,t,!1):e.attachEvent?(e["e"+o+t]=t,e[o+t]=function(){e["e"+o+t](window.event)},e.attachEvent("on"+o,e[o+t])):e["on"+o]=e["e"+o+t]},getTriggerClasses:function(){var e,o=[];-1===popMagic.config.trigger_class.indexOf(",")?e=popMagic.config.trigger_class.split(" "):e=popMagic.config.trigger_class.replace(/\s/g,"").split(",");for(var t=0;t<e.length;t++)""!==e[t]&&o.push("."+e[t]);return o},isNativeAdTarget:function(e){if(!e||"function"!=typeof e.closest)return!1;try{return null!==e.closest(popMagic.native_ad_class)}catch(e){return!1}},addEvent:function(e,o){var t,i=function(e){popMagic.isNativeAdTarget(e?e.target||e.srcElement:null)||o.call(this,e)};if("3"!=popMagic.config.trigger_method)if("2"!=popMagic.config.trigger_method||""==popMagic.config.trigger_class)if("4"!=popMagic.config.trigger_method||""==popMagic.config.trigger_class)if("5"!=popMagic.config.trigger_method||""==popMagic.config.trigger_class)popMagic.addEventToElement(document,e,i);else{var n="a"+popMagic.getTriggerClasses().map(function(e){return":not("+e+")"}).join("");t=document.querySelectorAll(n);for(var r=0;r<t.length;r++)popMagic.addEventToElement(t[r],e,i)}else{var a=popMagic.getTriggerClasses();popMagic.addEventToElement(document,e,function(o){a.some(function(e){return null!==o.target.closest(e)})||i.call(o.target,o)})}else{var c=popMagic.getTriggerClasses();for(t=document.querySelectorAll(c.join(", ")),r=0;r<t.length;r++)popMagic.addEventToElement(t[r],e,i)}else for(t=document.querySelectorAll("a"),r=0;r<t.length;r++)popMagic.addEventToElement(t[r],e,i)},setCookie:function(e,o,t){if(!this.config.cookieconsent)return!1;t=parseInt(t,10);var i=new Date;i.setMinutes(i.getMinutes()+parseInt(t));var n=encodeURIComponent(o)+"; expires="+i.toUTCString()+"; path=/";document.cookie=e+"="+n},getCookie:function(e){if(!this.config.cookieconsent)return!1;var o,t,i,n=document.cookie.split(";");for(o=0;o<n.length;o++)if(t=n[o].substr(0,n[o].indexOf("=")),i=n[o].substr(n[o].indexOf("=")+1),(t=t.replace(/^\s+|\s+$/g,""))===e)return decodeURIComponent(i)},randStr:function(e,o){for(var t="",i=o||"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",n=0;n<e;n++)t+=i.charAt(Math.floor(Math.random()*i.length));return t},isValidUserEvent:function(e){return!!("isTrusted"in e&&e.isTrusted&&"ie"!==popMagic.browser.name&&"safari"!==popMagic.browser.name)||0!=e.screenX&&0!=e.screenY},isValidHref:function(e){if(void 0===e||""==e)return!1;return!/\s?javascript\s?:/i.test(e)},findLinkToOpen:function(e){var o=e,t=!1;try{for(var i=0;i<20&&!o.getAttribute("href")&&o!==document&&"html"!==o.nodeName.toLowerCase();)o=o.parentNode,i++;var n=o.getAttribute("target");n&&-1!==n.indexOf("_blank")||(t=o.getAttribute("href"))}catch(e){}return popMagic.isValidHref(t)||(t=!1),t||window.location.href},getPuId:function(){return"ok_"+Math.floor(89999999*Math.random()+1e7)},executeOnRedirect:function(){try{popMagic.config.capping_enabled||"function"!=typeof popMagic.config.on_redirect||popMagic.config.on_redirect()}catch(e){console.error("Error executing on redirect callback:",e)}},browserDetector:{browserDefinitions:[["firefox",/Firefox\/([0-9.]+)(?:\s|$)/],["opera",/Opera\/([0-9.]+)(?:\s|$)/],["opera",/OPR\/([0-9.]+)(:?\s|$)$/],["edge",/Edg(?:e|)\/([0-9._]+)/],["ie",/Trident\/7\.0.*rv:([0-9.]+)\).*Gecko$/],["ie",/MSIE\s([0-9.]+);.*Trident\/[4-7].0/],["ie",/MSIE\s(7\.0)/],["safari",/Version\/([0-9._]+).*Safari/],["chrome",/(?!Chrom.*Edg(?:e|))Chrom(?:e|ium)\/([0-9.]+)(:?\s|$)/],["chrome",/(?!Chrom.*OPR)Chrom(?:e|ium)\/([0-9.]+)(:?\s|$)/],["bb10",/BB10;\sTouch.*Version\/([0-9.]+)/],["android",/Android\s([0-9.]+)/],["ios",/Version\/([0-9._]+).*Mobile.*Safari.*/],["yandexbrowser",/YaBrowser\/([0-9._]+)/],["crios",/CriOS\/([0-9.]+)(:?\s|$)/]],isChromeOrChromium:function(){var e=window.navigator,o=(e.userAgent||"").toLowerCase(),t=e.vendor||"";if(-1!==o.indexOf("crios"))return!0;if(e.userAgentData&&Array.isArray(e.userAgentData.brands)&&0<e.userAgentData.brands.length){var i=e.userAgentData.brands,n=i.some(function(e){return"Google Chrome"===e.brand}),r=i.some(function(e){return"Chromium"===e.brand})&&2===i.length;return n||r}var a=!!window.chrome,c=-1!==o.indexOf("edg"),p=!!window.opr||-1!==o.indexOf("opr"),s=!(!e.brave||!e.brave.isBrave),g=-1!==o.indexOf("vivaldi"),l=-1!==o.indexOf("yabrowser"),d=-1!==o.indexOf("samsungbrowser"),u=-1!==o.indexOf("ucbrowser");return a&&"Google Inc."===t&&!c&&!p&&!s&&!g&&!l&&!d&&!u},getBrowserInfo:function(){var e=window.navigator.userAgent,o={name:"other",version:"1.0",versionNumber:1,isChrome:this.isChromeOrChromium(),isMobile:!!e.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WebOS|Windows Phone/i)};for(var t in this.browserDefinitions){var i=this.browserDefinitions[t];if(i[1].test(e)){var n=i[1].exec(e),r=n&&n[1].split(/[._]/).slice(0,3),a=Array.prototype.slice.call(r,1).join("")||"0";r&&r.length<3&&Array.prototype.push.apply(r,1===r.length?[0,0]:[0]),o.name=i[0],o.version=r.join("."),o.versionNumber=parseFloat(r[0]+"."+a);break}}return o}},methods:{default:function(e){if(!popMagic.shouldShow()||!popMagic.venorShouldShow()||!popMagic.isValidUserEvent(e))return!0;var o=e.target||e.srcElement,t=popMagic.findLinkToOpen(o),i=popMagic.addSuvtValueToUrl(popMagic.url);return window.open(t,"_blank"),popMagic.setAsOpened(e),popMagic.executeOnRedirect(),popMagic.isAgegoEnabled()?popMagic.addAgeGoToken(i).then(function(e){popMagic.top.document.location=e}):popMagic.top.document.location=i,void 0!==e.preventDefault&&(e.preventDefault(),e.stopPropagation()),!0},chromeTab:function(e){if(!popMagic.shouldShow()||!popMagic.venorShouldShow()||!popMagic.isValidUserEvent(e))return!0;if(void 0===e.preventDefault)return!0;e.preventDefault(),e.stopPropagation();var o=popMagic.addSuvtValueToUrl(popMagic.url),t=top.window.document.createElement("a"),i=e.target||e.srcElement;t.href=popMagic.findLinkToOpen(i),document.getElementsByTagName("body")[0].appendChild(t);var n=new MouseEvent("click",{bubbles:!0,cancelable:!0,view:window,screenX:0,screenY:0,clientX:0,clientY:0,ctrlKey:!0,altKey:!1,shiftKey:!1,metaKey:!0,button:0});n.preventDefault=void 0,t.dispatchEvent(n),t.parentNode.removeChild(t),popMagic.executeOnRedirect(),popMagic.isAgegoEnabled()?popMagic.addAgeGoToken(o).then(function(e){window.open(e,"_self")}):window.open(o,"_self"),popMagic.setAsOpened(e)},popup:function(e){if(!popMagic.shouldShow()||!popMagic.venorShouldShow()||!popMagic.isValidUserEvent(e))return!0;var o="";if(popMagic.config.popup_fallback&&!popMagic.config.popup_force){var t=Math.max(Math.round(.8*window.innerHeight),300);o="menubar=1,resizable=1,width="+Math.max(Math.round(.7*window.innerWidth),300)+",height="+t+",top="+(window.screenY+100)+",left="+(window.screenX+100)}var i=document.location.href,n=window.open(i,popMagic.getPuId(),o);popMagic.setAsOpened(e),setTimeout(function(){popMagic.isAgegoEnabled()?popMagic.addAgeGoToken(popMagic.url).then(function(e){n.location.href=e,popMagic.executeOnRedirect()}):(n.location.href=popMagic.url,popMagic.executeOnRedirect())},200),void 0!==e.preventDefault&&(e.preventDefault(),e.stopPropagation())}}};   popMagic.init(adConfig);
+  })();
+  </script>
 </head>
-<body class="min-h-screen flex flex-col relative">
+<body class="bg-gray-900 min-h-screen text-gray-100 font-sans">
 
-    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-animated flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                    </svg>
-                </div>
-                <h1 class="text-2xl font-bold tracking-tight text-gray-900">Digital Asset Hub</h1>
-            </div>
-            <div class="hidden sm:block text-sm font-medium text-gray-500 bg-gray-100 px-4 py-2 rounded-full">
-                Unlock Premium Content Below
-            </div>
+  <!-- Header -->
+  <header class="bg-gray-800 shadow-lg py-6 mb-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Digital Asset Hub</h1>
+      <p class="text-gray-400 mt-2">Premium Girl Portrait Collections</p>
+    </div>
+  </header>
+
+  <!-- Main Content Grid -->
+  <main class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    
+    <!-- Item 1 -->
+    <div class="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700 hover:border-blue-500 transition duration-300 flex flex-col">
+      <img src="https://files.catbox.moe/xcbcgs.jpg" alt="Girl Portrait Collection 1" class="w-full h-48 object-cover">
+      <div class="p-5 flex-grow flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-semibold mb-2">Portrait Collection 1</h2>
+          <p class="text-sm text-gray-400 mb-4">High-quality portrait photography asset pack.</p>
         </div>
-    </header>
-
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Featured Collections</h2>
-            <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">Discover our exclusive digital assets. Select a package below, watch a short sponsor message, and download your files instantly.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <!-- Item 1 -->
-            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
-                <div class="relative h-64 overflow-hidden bg-gray-200">
-                    <img src="https://files.catbox.moe/xcbcgs.jpg" alt="Girl Portrait Collection 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
-                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                        LOCKED
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 1</h3>
-                    <p class="text-sm text-gray-500 mb-6 flex-grow">High-resolution portrait collection for your creative projects.</p>
-                    
-                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
-                            data-title="Girl Portrait Collection 1" 
-                            data-zip="https://files.catbox.moe/d15ucs.zip">
-                        <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center btn-text">
-                            Unlock to Download
-                        </span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
-                <div class="relative h-64 overflow-hidden bg-gray-200">
-                    <img src="https://files.catbox.moe/ffq8qa.jpg" alt="Girl Portrait Collection 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
-                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                        LOCKED
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 2</h3>
-                    <p class="text-sm text-gray-500 mb-6 flex-grow">Stunning visual assets carefully curated for designers.</p>
-                    
-                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
-                            data-title="Girl Portrait Collection 2" 
-                            data-zip="https://files.catbox.moe/2l21bq.zip">
-                        <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center btn-text">
-                            Unlock to Download
-                        </span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
-                <div class="relative h-64 overflow-hidden bg-gray-200">
-                    <img src="https://files.catbox.moe/5ctndv.jpg" alt="Girl Portrait Collection 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
-                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                        LOCKED
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 3</h3>
-                    <p class="text-sm text-gray-500 mb-6 flex-grow">A diverse bundle of creative assets to enhance your portfolio.</p>
-                    
-                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
-                            data-title="Girl Portrait Collection 3" 
-                            data-zip="https://files.catbox.moe/yn0z50.zip">
-                        <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center btn-text">
-                            Unlock to Download
-                        </span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
-                <div class="relative h-64 overflow-hidden bg-gray-200">
-                    <img src="https://files.catbox.moe/i89lhm.jpg" alt="Girl Portrait Collection 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute top-3 right-3 bg-red-500/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center shadow-md">
-                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                        LOCKED
-                    </div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col">
-                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">Girl Portrait Collection 4</h3>
-                    <p class="text-sm text-gray-500 mb-6 flex-grow">Exclusive resources for modern digital creators.</p>
-                    
-                    <button class="unlock-btn relative overflow-hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl transition-colors duration-200 flex justify-center items-center shadow-lg" 
-                            data-title="Girl Portrait Collection 4" 
-                            data-zip="https://files.catbox.moe/wog8x2.zip">
-                        <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center btn-text">
-                            Unlock to Download
-                        </span>
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <div id="unlock-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-hidden">
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" id="modal-backdrop"></div>
-        
-        <!-- Modal Content Container -->
-        <div class="modal-content relative bg-white w-full max-w-2xl mx-4 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            
-            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-slate-50">
-                <div class="flex items-center space-x-3">
-                    <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-                    </span>
-                    <div>
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Unlocking</h3>
-                        <p id="modal-item-title" class="text-lg font-bold text-gray-900 leading-tight">Item Title Here</p>
-                    </div>
-                </div>
-                <button id="close-modal" class="text-gray-400 hover:text-gray-700 transition-colors p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-
-            <div class="p-6 md:p-8 flex-grow flex flex-col items-center justify-center bg-gray-50">
-                
-                <!-- Timer Display -->
-                <div id="timer-container" class="mb-6 flex items-center bg-white px-5 py-2.5 rounded-full shadow-sm border border-gray-200">
-                    <div class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse mr-3"></div>
-                    <span class="text-gray-600 font-medium">Sponsor message finishes in: </span>
-                    <span id="countdown-timer" class="ml-2 text-xl font-bold text-indigo-600 w-8 text-center">15</span>
-                    <span class="text-gray-600 font-medium ml-1">sec</span>
-                </div>
-
-                <!-- ExoClick Ad Container -->
-                <div id="ad-container" class="w-full min-h-[250px] bg-white rounded-xl shadow-inner relative flex items-center justify-center border-2 border-dashed border-gray-300 p-2 overflow-hidden">
-                    <span class="text-gray-400 text-sm text-center" id="ad-placeholder-text">Loading Sponsor Ad...</span>
-                </div>
-
-                <!-- Success State Container -->
-                <div id="success-container" class="hidden flex-col items-center justify-center text-center py-6 w-full">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <h4 class="text-2xl font-bold text-gray-900 mb-2">Ready for Download!</h4>
-                    <p class="text-gray-500 mb-8 max-w-md">Thank you for your patience. Your file has been successfully unlocked.</p>
-                    
-                    <a id="actual-download-btn" href="#" target="_blank" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white text-lg font-bold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
-                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Download File Now
-                    </a>
-                </div>
-
-            </div>
-        </div>
+        <a href="#download" onclick="handleUnlockClick(event, 0)" class="block text-center w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition duration-200 cursor-pointer">
+          Unlock & Download
+        </a>
+      </div>
     </div>
 
-    <div id="adblockModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/90 backdrop-blur-md hidden p-4">
-        <div class="bg-gray-900 border border-red-500/40 rounded-3xl max-w-md w-full p-8 text-center shadow-2xl relative overflow-hidden">
-            <!-- Background pulse effect -->
-            <div class="absolute -top-10 -left-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl animate-pulse"></div>
-            
-            <div class="w-20 h-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20 relative z-10">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                </svg>
-            </div>
-            
-            <h3 class="text-2xl font-bold text-white mb-3 relative z-10">Ad Blocker Detected</h3>
-            <p class="text-gray-400 text-sm mb-8 leading-relaxed relative z-10">
-                We rely on ad revenue to keep these premium downloads free. Please disable your ad blocker or shield (Brave, uBlock, AdBlock) for this page to unlock your file.
-            </p>
-
-            <div class="space-y-4 relative z-10">
-                <button onclick="window.location.reload()" class="w-full py-3.5 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition duration-200 shadow-lg shadow-red-600/30 flex justify-center items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    I Have Disabled It (Reload)
-                </button>
-            </div>
+    <!-- Item 2 -->
+    <div class="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700 hover:border-blue-500 transition duration-300 flex flex-col">
+      <img src="https://files.catbox.moe/ffq8qa.jpg" alt="Girl Portrait Collection 2" class="w-full h-48 object-cover">
+      <div class="p-5 flex-grow flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-semibold mb-2">Portrait Collection 2</h2>
+          <p class="text-sm text-gray-400 mb-4">High-quality portrait photography asset pack.</p>
         </div>
+        <a href="#download" onclick="handleUnlockClick(event, 1)" class="block text-center w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition duration-200 cursor-pointer">
+          Unlock & Download
+        </a>
+      </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // DOM Elements
-            const unlockBtns = document.querySelectorAll('.unlock-btn');
-            const modal = document.getElementById('unlock-modal');
-            const modalBackdrop = document.getElementById('modal-backdrop');
-            const closeModalBtn = document.getElementById('close-modal');
-            const adblockModal = document.getElementById('adblockModal');
-            
-            const modalItemTitle = document.getElementById('modal-item-title');
-            const timerContainer = document.getElementById('timer-container');
-            const countdownTimer = document.getElementById('countdown-timer');
-            const adContainer = document.getElementById('ad-container');
-            const successContainer = document.getElementById('success-container');
-            const actualDownloadBtn = document.getElementById('actual-download-btn');
+    <!-- Item 3 -->
+    <div class="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700 hover:border-blue-500 transition duration-300 flex flex-col">
+      <img src="https://files.catbox.moe/5ctndv.jpg" alt="Girl Portrait Collection 3" class="w-full h-48 object-cover">
+      <div class="p-5 flex-grow flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-semibold mb-2">Portrait Collection 3</h2>
+          <p class="text-sm text-gray-400 mb-4">High-quality portrait photography asset pack.</p>
+        </div>
+        <a href="#download" onclick="handleUnlockClick(event, 2)" class="block text-center w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition duration-200 cursor-pointer">
+          Unlock & Download
+        </a>
+      </div>
+    </div>
 
-            // State
-            const AD_DURATION = 15;
-            let timerInterval;
-            let currentTimer = AD_DURATION;
-            let pendingZipLink = ""; // Keeps link secure until timer finishes
+    <!-- Item 4 -->
+    <div class="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700 hover:border-blue-500 transition duration-300 flex flex-col">
+      <img src="https://files.catbox.moe/i89lhm.jpg" alt="Girl Portrait Collection 4" class="w-full h-48 object-cover">
+      <div class="p-5 flex-grow flex flex-col justify-between">
+        <div>
+          <h2 class="text-xl font-semibold mb-2">Portrait Collection 4</h2>
+          <p class="text-sm text-gray-400 mb-4">High-quality portrait photography asset pack.</p>
+        </div>
+        <a href="#download" onclick="handleUnlockClick(event, 3)" class="block text-center w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition duration-200 cursor-pointer">
+          Unlock & Download
+        </a>
+      </div>
+    </div>
 
-            // 1. Dual Ad-Blocker Detection Function
-            async function checkAdBlocker() {
-                let isBlocked = false;
+  </main>
 
-                // Network Probe Check
-                try {
-                    await fetch('https://a.magsrv.com/ad-provider.js', {
-                        method: 'HEAD',
-                        mode: 'no-cors',
-                        cache: 'no-store'
-                    });
-                } catch (err) {
-                    isBlocked = true;
-                }
+  <!-- Download Countdown Modal -->
+  <div id="unlockModal" class="fixed inset-0 z-40 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+    <div class="bg-gray-800 border border-gray-700 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl">
+      <h3 class="text-2xl font-bold text-white mb-2">Preparing Your File</h3>
+      <p class="text-gray-400 text-sm mb-6">Please wait while your download link is generated.</p>
+      
+      <!-- Timer Display -->
+      <div id="timerDisplay" class="text-5xl font-mono font-bold text-blue-500 mb-6">15</div>
+      
+      <!-- Dynamic Download Button Container -->
+      <div id="downloadContainer" class="hidden">
+        <a id="finalDownloadBtn" href="#" target="_blank" class="block w-full py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition duration-200 shadow-lg shadow-green-600/30">
+          Download ZIP File Now
+        </a>
+      </div>
+      
+      <button onclick="closeModal()" id="cancelBtn" class="mt-4 text-sm text-gray-500 hover:text-gray-300">Cancel</button>
+    </div>
+  </div>
 
-                // Bait Element Check (catches cosmetic blocking)
-                const bait = document.createElement('div');
-                bait.className = 'pub_300x250 pub_728x90 text-ad textAd text_ad text_ads text-ads ad-server';
-                bait.style.cssText = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;';
-                document.body.appendChild(bait);
+  <!-- Ad Blocker Detected Overlay -->
+  <div id="adblockModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md hidden p-4">
+    <div class="bg-gray-900 border border-red-500/40 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl">
+      <div class="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/20">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <h3 class="text-xl font-bold text-white mb-2">Ad Blocker Detected</h3>
+      <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+        We rely on ads to keep these downloads free. Please disable your ad blocker or shield for this page to unlock your file.
+      </p>
+      <button onclick="window.location.reload()" class="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition duration-200 shadow-lg shadow-red-600/30">
+        I Have Disabled It (Reload Page)
+      </button>
+    </div>
+  </div>
 
-                // Small delay to allow CSS rules to apply
-                await new Promise(r => setTimeout(r, 50)); 
+  <script>
+    const files = [
+      "https://files.catbox.moe/d15ucs.zip",
+      "https://files.catbox.moe/2l21bq.zip",
+      "https://files.catbox.moe/yn0z50.zip",
+      "https://files.catbox.moe/wog8x2.zip"
+    ];
 
-                if (
-                    bait.offsetParent === null ||
-                    bait.offsetHeight === 0 ||
-                    bait.offsetLeft === 0 ||
-                    bait.clientHeight === 0 ||
-                    window.getComputedStyle(bait).display === 'none' ||
-                    window.getComputedStyle(bait).visibility === 'hidden'
-                ) {
-                    isBlocked = true;
-                }
-                bait.remove();
+    let countdownInterval;
 
-                return isBlocked;
-            }
+    // Dual probe adblock detection
+    async function checkAdBlocker() {
+      let isBlocked = false;
 
-            // 2. Attach event listeners to Unlock buttons
-            unlockBtns.forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const title = btn.getAttribute('data-title');
-                    const zipLink = btn.getAttribute('data-zip');
-                    const textSpan = btn.querySelector('.btn-text');
-                    const originalText = textSpan.innerText;
-
-                    // UI Feedback while checking
-                    textSpan.innerText = "Checking access...";
-                    btn.classList.add('opacity-80', 'pointer-events-none');
-                    
-                    // Run AdBlocker verification
-                    const adBlockActive = await checkAdBlocker();
-
-                    // Restore UI
-                    textSpan.innerText = originalText;
-                    btn.classList.remove('opacity-80', 'pointer-events-none');
-
-                    if (adBlockActive) {
-                        // Halt process and show Anti-Adblock UI
-                        adblockModal.classList.remove('hidden');
-                        return;
-                    }
-
-                    // Proceed if clear
-                    openModal(title, zipLink);
-                });
-            });
-
-            // 3. Main Modal Logic
-            function openModal(title, zipLink) {
-                // Securely store the link in memory, do not expose to DOM yet
-                pendingZipLink = zipLink;
-                actualDownloadBtn.href = "#"; // Prevent premature clicking
-                
-                modalItemTitle.textContent = title;
-
-                // Reset UI to default ad view
-                currentTimer = AD_DURATION;
-                countdownTimer.textContent = currentTimer;
-                
-                adContainer.classList.remove('hidden');
-                adContainer.innerHTML = '<span class="text-gray-400 text-sm text-center">Loading Sponsor Ad...</span>'; 
-                
-                timerContainer.classList.remove('hidden');
-                timerContainer.classList.add('flex');
-                
-                successContainer.classList.add('hidden');
-                successContainer.classList.remove('flex');
-
-                // Show modal overlay
-                modal.classList.remove('modal-hidden');
-                modal.classList.add('modal-visible');
-
-                // Inject the ad dynamically AFTER the modal is visible
-                setTimeout(injectExoclickAd, 150);
-
-                startCountdown();
-            }
-
-            function injectExoclickAd() {
-                // Clear the container
-                adContainer.innerHTML = '';
-
-                // Create ExoClick Elements
-                const insElement = document.createElement('ins');
-                insElement.className = 'eas6a97888e37';
-                insElement.setAttribute('data-zoneid', '6039354');
-                insElement.setAttribute('data-ex-av', 'name');
-                adContainer.appendChild(insElement);
-
-                const scriptElement = document.createElement('script');
-                scriptElement.async = true;
-                scriptElement.type = 'application/javascript';
-                scriptElement.src = 'https://a.magsrv.com/ad-provider.js';
-                adContainer.appendChild(scriptElement);
-
-                const inlineScript = document.createElement('script');
-                inlineScript.textContent = '(window.AdProvider = window.AdProvider || []).push({"serve": {}});';
-                adContainer.appendChild(inlineScript);
-            }
-
-            function closeModal() {
-                modal.classList.remove('modal-visible');
-                modal.classList.add('modal-hidden');
-                
-                if (timerInterval) {
-                    clearInterval(timerInterval);
-                }
-                
-                // Clear the ad to stop video audio
-                setTimeout(() => {
-                    adContainer.innerHTML = '';
-                    pendingZipLink = ""; // Wipe stored link for security
-                }, 300);
-            }
-
-            closeModalBtn.addEventListener('click', closeModal);
-            modalBackdrop.addEventListener('click', closeModal);
-
-            function startCountdown() {
-                if (timerInterval) {
-                    clearInterval(timerInterval);
-                }
-
-                timerInterval = setInterval(() => {
-                    currentTimer--;
-                    countdownTimer.textContent = currentTimer;
-
-                    if (currentTimer <= 0) {
-                        clearInterval(timerInterval);
-                        onAdFinished();
-                    }
-                }, 1000);
-            }
-
-            function onAdFinished() {
-                // Security check passed & timer complete: Inject actual link
-                actualDownloadBtn.href = pendingZipLink;
-
-                // Swap Ad view for Success view
-                adContainer.classList.add('hidden');
-                timerContainer.classList.add('hidden');
-                timerContainer.classList.remove('flex');
-                
-                successContainer.classList.remove('hidden');
-                successContainer.classList.add('flex');
-            }
+      // 1. Network probe directly to ExoClick's loader endpoint
+      try {
+        await fetch('https://a.pemsrv.com/popunder1000.js', { 
+          method: 'HEAD', 
+          mode: 'no-cors', 
+          cache: 'no-store' 
         });
-    </script>
+      } catch (err) {
+        isBlocked = true;
+      }
+
+      // 2. DOM Bait Element probe
+      const bait = document.createElement('div');
+      bait.className = 'pub_300x250 pub_728x90 text-ad textAd text_ad text_ads text-ads ad-server';
+      bait.style.cssText = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;';
+      document.body.appendChild(bait);
+      
+      if (
+        bait.offsetParent === null || 
+        bait.offsetHeight === 0 || 
+        window.getComputedStyle(bait).display === 'none'
+      ) {
+        isBlocked = true;
+      }
+      bait.remove();
+
+      return isBlocked;
+    }
+
+    async function handleUnlockClick(event, fileIndex) {
+      // Check for ad blockers first
+      const adBlockActive = await checkAdBlocker();
+
+      if (adBlockActive) {
+        if (event && event.preventDefault) event.preventDefault();
+        document.getElementById('adblockModal').classList.remove('hidden');
+        return;
+      }
+
+      // Allow ExoClick popMagic to handle the popunder trigger, then open countdown
+      openCountdownModal(fileIndex);
+    }
+
+    function openCountdownModal(fileIndex) {
+      const modal = document.getElementById('unlockModal');
+      const timerDisplay = document.getElementById('timerDisplay');
+      const downloadContainer = document.getElementById('downloadContainer');
+      const finalDownloadBtn = document.getElementById('finalDownloadBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+
+      let timeLeft = 15;
+      
+      timerDisplay.innerText = timeLeft;
+      timerDisplay.classList.remove('hidden');
+      downloadContainer.classList.add('hidden');
+      cancelBtn.classList.remove('hidden');
+      finalDownloadBtn.href = "#";
+      
+      modal.classList.remove('hidden');
+
+      if (countdownInterval) clearInterval(countdownInterval);
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          
+          timerDisplay.classList.add('hidden');
+          cancelBtn.classList.add('hidden');
+          downloadContainer.classList.remove('hidden');
+          
+          finalDownloadBtn.href = files[fileIndex];
+        }
+      }, 1000);
+    }
+
+    function closeModal() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      document.getElementById('unlockModal').classList.add('hidden');
+    }
+  </script>
 </body>
 </html>
