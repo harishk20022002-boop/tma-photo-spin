@@ -88,6 +88,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
+            <!-- Item 1 -->
             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
                 <div class="relative h-64 overflow-hidden bg-gray-200">
                     <img src="https://files.catbox.moe/xcbcgs.jpg" alt="Girl Portrait Collection 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -104,13 +105,14 @@
                             data-title="Girl Portrait Collection 1" 
                             data-zip="https://files.catbox.moe/d15ucs.zip">
                         <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center">
+                        <span class="relative z-10 flex items-center btn-text">
                             Unlock to Download
                         </span>
                     </button>
                 </div>
             </div>
 
+            <!-- Item 2 -->
             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
                 <div class="relative h-64 overflow-hidden bg-gray-200">
                     <img src="https://files.catbox.moe/ffq8qa.jpg" alt="Girl Portrait Collection 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -127,13 +129,14 @@
                             data-title="Girl Portrait Collection 2" 
                             data-zip="https://files.catbox.moe/2l21bq.zip">
                         <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center">
+                        <span class="relative z-10 flex items-center btn-text">
                             Unlock to Download
                         </span>
                     </button>
                 </div>
             </div>
 
+            <!-- Item 3 -->
             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
                 <div class="relative h-64 overflow-hidden bg-gray-200">
                     <img src="https://files.catbox.moe/5ctndv.jpg" alt="Girl Portrait Collection 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -150,13 +153,14 @@
                             data-title="Girl Portrait Collection 3" 
                             data-zip="https://files.catbox.moe/yn0z50.zip">
                         <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center">
+                        <span class="relative z-10 flex items-center btn-text">
                             Unlock to Download
                         </span>
                     </button>
                 </div>
             </div>
 
+            <!-- Item 4 -->
             <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group border border-gray-100">
                 <div class="relative h-64 overflow-hidden bg-gray-200">
                     <img src="https://files.catbox.moe/i89lhm.jpg" alt="Girl Portrait Collection 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -173,7 +177,7 @@
                             data-title="Girl Portrait Collection 4" 
                             data-zip="https://files.catbox.moe/wog8x2.zip">
                         <div class="absolute inset-0 shimmer"></div>
-                        <span class="relative z-10 flex items-center">
+                        <span class="relative z-10 flex items-center btn-text">
                             Unlock to Download
                         </span>
                     </button>
@@ -217,15 +221,10 @@
 
                 <!-- ExoClick Ad Container -->
                 <div id="ad-container" class="w-full min-h-[250px] bg-white rounded-xl shadow-inner relative flex items-center justify-center border-2 border-dashed border-gray-300 p-2 overflow-hidden">
-                    
-                    <!-- EXOCLICK SCRIPT INJECTION -->
-                    <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script> 
-                    <ins class="eas6a97888e37" data-zoneid="6039354"  data-ex-av="name"></ins> 
-                    <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-                    <!-- END EXOCLICK SCRIPT INJECTION -->
-                    
+                    <span class="text-gray-400 text-sm text-center" id="ad-placeholder-text">Loading Sponsor Ad...</span>
                 </div>
 
+                <!-- Success State Container -->
                 <div id="success-container" class="hidden flex-col items-center justify-center text-center py-6 w-full">
                     <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4">
                         <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -243,6 +242,31 @@
         </div>
     </div>
 
+    <div id="adblockModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/90 backdrop-blur-md hidden p-4">
+        <div class="bg-gray-900 border border-red-500/40 rounded-3xl max-w-md w-full p-8 text-center shadow-2xl relative overflow-hidden">
+            <!-- Background pulse effect -->
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl animate-pulse"></div>
+            
+            <div class="w-20 h-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20 relative z-10">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            </div>
+            
+            <h3 class="text-2xl font-bold text-white mb-3 relative z-10">Ad Blocker Detected</h3>
+            <p class="text-gray-400 text-sm mb-8 leading-relaxed relative z-10">
+                We rely on ad revenue to keep these premium downloads free. Please disable your ad blocker or shield (Brave, uBlock, AdBlock) for this page to unlock your file.
+            </p>
+
+            <div class="space-y-4 relative z-10">
+                <button onclick="window.location.reload()" class="w-full py-3.5 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition duration-200 shadow-lg shadow-red-600/30 flex justify-center items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    I Have Disabled It (Reload)
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // DOM Elements
@@ -250,6 +274,7 @@
             const modal = document.getElementById('unlock-modal');
             const modalBackdrop = document.getElementById('modal-backdrop');
             const closeModalBtn = document.getElementById('close-modal');
+            const adblockModal = document.getElementById('adblockModal');
             
             const modalItemTitle = document.getElementById('modal-item-title');
             const timerContainer = document.getElementById('timer-container');
@@ -262,26 +287,92 @@
             const AD_DURATION = 15;
             let timerInterval;
             let currentTimer = AD_DURATION;
+            let pendingZipLink = ""; // Keeps link secure until timer finishes
 
-            // Attach event listeners to all Unlock buttons
+            // 1. Dual Ad-Blocker Detection Function
+            async function checkAdBlocker() {
+                let isBlocked = false;
+
+                // Network Probe Check
+                try {
+                    await fetch('https://a.magsrv.com/ad-provider.js', {
+                        method: 'HEAD',
+                        mode: 'no-cors',
+                        cache: 'no-store'
+                    });
+                } catch (err) {
+                    isBlocked = true;
+                }
+
+                // Bait Element Check (catches cosmetic blocking)
+                const bait = document.createElement('div');
+                bait.className = 'pub_300x250 pub_728x90 text-ad textAd text_ad text_ads text-ads ad-server';
+                bait.style.cssText = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;';
+                document.body.appendChild(bait);
+
+                // Small delay to allow CSS rules to apply
+                await new Promise(r => setTimeout(r, 50)); 
+
+                if (
+                    bait.offsetParent === null ||
+                    bait.offsetHeight === 0 ||
+                    bait.offsetLeft === 0 ||
+                    bait.clientHeight === 0 ||
+                    window.getComputedStyle(bait).display === 'none' ||
+                    window.getComputedStyle(bait).visibility === 'hidden'
+                ) {
+                    isBlocked = true;
+                }
+                bait.remove();
+
+                return isBlocked;
+            }
+
+            // 2. Attach event listeners to Unlock buttons
             unlockBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     const title = btn.getAttribute('data-title');
                     const zipLink = btn.getAttribute('data-zip');
+                    const textSpan = btn.querySelector('.btn-text');
+                    const originalText = textSpan.innerText;
+
+                    // UI Feedback while checking
+                    textSpan.innerText = "Checking access...";
+                    btn.classList.add('opacity-80', 'pointer-events-none');
+                    
+                    // Run AdBlocker verification
+                    const adBlockActive = await checkAdBlocker();
+
+                    // Restore UI
+                    textSpan.innerText = originalText;
+                    btn.classList.remove('opacity-80', 'pointer-events-none');
+
+                    if (adBlockActive) {
+                        // Halt process and show Anti-Adblock UI
+                        adblockModal.classList.remove('hidden');
+                        return;
+                    }
+
+                    // Proceed if clear
                     openModal(title, zipLink);
                 });
             });
 
+            // 3. Main Modal Logic
             function openModal(title, zipLink) {
-                // Populate dynamic content
+                // Securely store the link in memory, do not expose to DOM yet
+                pendingZipLink = zipLink;
+                actualDownloadBtn.href = "#"; // Prevent premature clicking
+                
                 modalItemTitle.textContent = title;
-                actualDownloadBtn.href = zipLink;
 
                 // Reset UI to default ad view
                 currentTimer = AD_DURATION;
                 countdownTimer.textContent = currentTimer;
                 
                 adContainer.classList.remove('hidden');
+                adContainer.innerHTML = '<span class="text-gray-400 text-sm text-center">Loading Sponsor Ad...</span>'; 
+                
                 timerContainer.classList.remove('hidden');
                 timerContainer.classList.add('flex');
                 
@@ -292,24 +383,52 @@
                 modal.classList.remove('modal-hidden');
                 modal.classList.add('modal-visible');
 
+                // Inject the ad dynamically AFTER the modal is visible
+                setTimeout(injectExoclickAd, 150);
+
                 startCountdown();
+            }
+
+            function injectExoclickAd() {
+                // Clear the container
+                adContainer.innerHTML = '';
+
+                // Create ExoClick Elements
+                const insElement = document.createElement('ins');
+                insElement.className = 'eas6a97888e37';
+                insElement.setAttribute('data-zoneid', '6039354');
+                insElement.setAttribute('data-ex-av', 'name');
+                adContainer.appendChild(insElement);
+
+                const scriptElement = document.createElement('script');
+                scriptElement.async = true;
+                scriptElement.type = 'application/javascript';
+                scriptElement.src = 'https://a.magsrv.com/ad-provider.js';
+                adContainer.appendChild(scriptElement);
+
+                const inlineScript = document.createElement('script');
+                inlineScript.textContent = '(window.AdProvider = window.AdProvider || []).push({"serve": {}});';
+                adContainer.appendChild(inlineScript);
             }
 
             function closeModal() {
                 modal.classList.remove('modal-visible');
                 modal.classList.add('modal-hidden');
                 
-                // Clear the timer if they close the modal early
                 if (timerInterval) {
                     clearInterval(timerInterval);
                 }
+                
+                // Clear the ad to stop video audio
+                setTimeout(() => {
+                    adContainer.innerHTML = '';
+                    pendingZipLink = ""; // Wipe stored link for security
+                }, 300);
             }
 
-            // Close events
             closeModalBtn.addEventListener('click', closeModal);
             modalBackdrop.addEventListener('click', closeModal);
 
-            // Timer management
             function startCountdown() {
                 if (timerInterval) {
                     clearInterval(timerInterval);
@@ -327,6 +446,9 @@
             }
 
             function onAdFinished() {
+                // Security check passed & timer complete: Inject actual link
+                actualDownloadBtn.href = pendingZipLink;
+
                 // Swap Ad view for Success view
                 adContainer.classList.add('hidden');
                 timerContainer.classList.add('hidden');
