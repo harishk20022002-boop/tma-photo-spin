@@ -1,1234 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="referrer" content="no-referrer" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Photo Spin Quest</title>
-  
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-
-  <!-- ExoClick Site Verification -->
-  <meta name="6a97888e-site-verification" content="09827d4f030fe971425d121c18ba2745">
-
-  <style>
-    :root {
-      --bg: #0f1015;
-      --card: #1b1c24;
-      --accent: #ff4757;
-      --text: #ffffff;
-      --gold: #ffd32a;
-      --dim: #8e8e93;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 14px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-
-    .browser-notice {
-      background: #181922;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 12px;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #aaa;
-    }
-
-    .top-bar { width: 100%; max-width: 380px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .spins-badge { background: var(--accent); padding: 6px 14px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; }
-
-    .banner-ad-container {
-      width: 100%;
-      max-width: 380px;
-      min-height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 8px 0;
-      background: #15161e;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .level-tabs {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-      max-width: 380px;
-      margin-bottom: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-    .level-tab {
-      background: #23252f;
-      color: var(--dim);
-      border: 1px solid #333;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .level-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
-    .level-tab.locked { opacity: 0.35; cursor: not-allowed; }
-
-    .tile-board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-      width: 100%;
-      max-width: 380px;
-      margin-bottom: 12px;
-      padding: 2px;
-    }
-
-    .tile {
-      aspect-ratio: 1;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: #181922;
-      transition: transform 0.1s, border-color 0.1s;
-    }
-
-    .tile.is-locked {
-      border: 2px dashed #2f3342;
-    }
-    .tile.is-locked .lock-icon {
-      font-size: 1.5rem;
-      color: #555b70;
-    }
-
-    .tile.is-unlocked {
-      background: var(--card);
-      border: 2px solid #2ed573;
-    }
-    .tile.is-unlocked img, 
-    .tile.is-unlocked video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
-    }
-
-    .tile-tag {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      background: rgba(0,0,0,0.8);
-      color: #fff;
-      font-size: 0.65rem;
-      padding: 2px 5px;
-      border-radius: 6px;
-      font-weight: bold;
-      z-index: 2;
-    }
-
-    .tile.active-highlight {
-      border-color: var(--gold) !important;
-      transform: scale(1.06);
-      box-shadow: 0 0 16px var(--gold);
-      z-index: 3;
-    }
-
-    .btn-group {
-      width: 100%;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 13px;
-      border-radius: 12px;
-      border: none;
-      font-weight: bold;
-      font-size: 0.95rem;
-      cursor: pointer;
-    }
-    .btn-spin { background: #2ed573; color: #000; }
-    .btn-ad { background: #ffa502; color: #000; }
-    .btn-vault { background: #3742fa; color: #fff; }
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.94);
-      z-index: 100;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .modal.active { display: flex; }
-    
-    .media-container {
-      width: 100%;
-      max-width: 340px;
-      aspect-ratio: 4/5;
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-      border: 1px solid #444;
-      position: relative;
-    }
-    .media-container img, 
-    .media-container video { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: contain; 
-      display: block;
-    }
-
-    .album-nav {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 12px;
-      font-size: 0.85rem;
-      color: #aaa;
-    }
-    .album-nav-btn {
-      background: #23252f;
-      border: 1px solid #444;
-      color: #fff;
-      padding: 5px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .modal-close { background: #fff; color: #000; padding: 9px 24px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; }
-
-    .vault-content {
-      width: 100%;
-      max-width: 360px;
-      max-height: 75vh;
-      display: flex;
-      flex-direction: column;
-      background: #181922;
-      border-radius: 16px;
-      padding: 16px;
-      border: 1px solid #333;
-    }
-    .vault-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      overflow-y: auto;
-      padding: 4px;
-      max-height: 55vh;
-      margin: 12px 0;
-    }
-    .vault-item {
-      aspect-ratio: 1;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #101116;
-      position: relative;
-      cursor: pointer;
-      border: 1px solid #333;
-    }
-    .vault-item img, 
-    .vault-item video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    #ad-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.96);
-      z-index: 200;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    #ad-overlay.active { display: flex; }
-    
-    .ad-box {
-      width: 300px;
-      min-height: 250px;
-      background: #181922;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      margin-bottom: 18px;
-      border: 1px solid #333;
-    }
-    
-    .ad-claim-btn {
-      background: #2ed573;
-      color: #000;
-      padding: 12px 28px;
-      border-radius: 20px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .ad-claim-btn:disabled {
-      background: #444;
-      color: #888;
-      cursor: not-allowed;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="browser-notice">
-    <h4 style="color: var(--gold); margin-bottom: 4px;">Photo Spin Quest</h4>
-    <p>Daily lucky spin game to unlock exclusive galleries & clips.</p>
-  </div>
-
-  <div class="top-bar">
-    <div style="font-weight: bold; font-size: 1.1rem;">Spin Quest</div>
-    <div class="spins-badge">Spins: <span id="spin-count">3</span></div>
-  </div>
-
-  <div class="level-tabs" id="level-tabs"></div>
-
-  <!-- Top Banner Ad -->
-  <div class="banner-ad-container">
-    <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
-  </div>
-
-  <!-- Tile Board -->
-  <div class="tile-board" id="board"></div>
-
-  <!-- Action Controls -->
-  <div class="btn-group">
-    <button id="btn-action" class="btn btn-spin">SPIN TILES</button>
-    <div class="btn-row">
-      <button id="btn-watch-ad" class="btn btn-ad">📺 Watch Ad (+3 Spins)</button>
-      <button id="btn-open-vault" class="btn btn-vault">📁 Vault (<span id="vault-count">0</span>)</button>
-    </div>
-  </div>
-
-  <!-- Bottom Banner Ad -->
-  <div class="banner-ad-container">
-    <ins class="eas6a97888e2" data-zoneid="6014424"></ins>
-  </div>
-
-  <!-- Media Modal -->
-  <div class="modal" id="media-modal">
-    <h3 id="modal-title" style="margin-bottom: 6px;">Item Unlocked</h3>
-    <div class="album-nav" id="album-nav" style="display: none;">
-      <button class="album-nav-btn" id="album-prev">◀</button>
-      <span id="album-counter">1 / 1</span>
-      <button class="album-nav-btn" id="album-next">▶</button>
-    </div>
-    <div class="media-container" id="media-container"></div>
-    <button class="modal-close" id="modal-close-btn">Collect & Continue</button>
-  </div>
-
-  <!-- Vault Modal -->
-  <div class="modal" id="vault-modal">
-    <div class="vault-content">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="color: var(--gold);">Unlocked Vault</h3>
-        <button id="vault-close-btn" style="background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer;">✕</button>
-      </div>
-      <p style="font-size: 0.8rem; color: var(--dim); margin-top: 4px;">Browse all your unlocked photos, videos, and albums.</p>
-      <div class="vault-grid" id="vault-grid"></div>
-    </div>
-  </div>
-
-  <!-- 5-Second Ad Reward Overlay -->
-  <div id="ad-overlay">
-    <div style="font-size: 0.95rem; color: var(--gold); margin-bottom: 12px; font-weight: bold;">Sponsored Ad Reward</div>
-    <div class="ad-box" id="exoclick-slot"></div>
-    <button class="ad-claim-btn" id="ad-claim-btn" disabled>Watch ad (5s)</button>
-  </div>
-
-  <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-    }
-
-    const gameLevels = [
-      {
-        levelIndex: 0,
-        name: "Lvl 1: Bmlf",
-        tiles: [
-          { id: 101, type: "image", url: "https://files.catbox.moe/jvww0b.jpg" },
-          { id: 102, type: "video", url: "https://files.catbox.moe/8ky9qz.mp4" },
-          { id: 103, type: "video", url: "https://files.catbox.moe/f6osbf.mp4" }
-        ]
-      },
-      {
-        levelIndex: 1,
-        name: "Lvl 2: North East GF",
-        tiles: [
-          { id: 201, type: "video", url: "https://files.catbox.moe/5ta2r8.mp4" },
-          { id: 202, type: "image", url: "https://files.catbox.moe/fgqyul.jpg" },
-          { id: 203, type: "image", url: "https://files.catbox.moe/6ye6pp.jpg" },
-          { id: 204, type: "image", url: "https://files.catbox.moe/xgzuv1.jpg" },
-          { id: 205, type: "image", url: "https://files.catbox.moe/llv48p.jpg" },
-          { id: 206, type: "image", url: "https://files.catbox.moe/svkrqf.jpg" }
-        ]
-      },
-      {
-        levelIndex: 2,
-        name: "Lvl 3: Igfk",
-        tiles: [
-          { id: 301, type: "video", url: "https://files.catbox.moe/z1eax0.mp4" },
-          { id: 302, type: "video", url: "https://files.catbox.moe/grkzay.mp4" },
-          { id: 303, type: "video", url: "https://files.catbox.moe/kmsdc7.mp4" },
-          { id: 304, type: "image", url: "https://files.catbox.moe/b2oz3d.jpg" },
-          { id: 305, type: "image", url: "https://files.catbox.moe/r6vpix.jpg" },
-          { id: 306, type: "image", url: "https://files.catbox.moe/21t1mb.jpg" },
-          { id: 307, type: "image", url: "https://files.catbox.moe/wlwgdn.jpg" },
-          { id: 308, type: "image", url: "https://files.catbox.moe/93dbkg.jpg" },
-          {
-            id: 309,
-            type: "album",
-            name: "Lvl 3 Special Album",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/66q8wy.jpg" },
-              { type: "image", url: "https://files.catbox.moe/bf3npt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/r8vik7.jpg" },
-              { type: "image", url: "https://files.catbox.moe/vi7mxf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/yk9n5y.jpg" }
-            ]
-          }
-        ]
-      },
-      {
-        levelIndex: 3,
-        name: "Lvl 4: Jagruthi",
-        tiles: [
-          { id: 401, type: "image", url: "https://files.catbox.moe/etvw1l.jpg" },
-          { id: 402, type: "image", url: "https://files.catbox.moe/9nhsde.jpg" },
-          { id: 403, type: "image", url: "https://files.catbox.moe/ix3ldu.jpg" },
-          { id: 404, type: "image", url: "https://files.catbox.moe/sh6gli.jpg" },
-          { id: 405, type: "image", url: "https://files.catbox.moe/1eyprc.jpg" },
-          { id: 406, type: "video", url: "https://files.catbox.moe/msp6yu.mp4" },
-          { id: 407, type: "image", url: "https://files.catbox.moe/7ctdm0.jpg" },
-          {
-            id: 408,
-            type: "album",
-            name: "Jagruthi Photos Set",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/39uqd4.jpg" },
-              { type: "image", url: "https://files.catbox.moe/t1ek68.jpg" },
-              { type: "image", url: "https://files.catbox.moe/hwaq33.jpg" },
-              { type: "image", url: "https://files.catbox.moe/2z1ojf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/fb1iti.jpg" },
-              { type: "image", url: "https://files.catbox.moe/yaxc00.jpg" },
-              { type: "image", url: "https://files.catbox.moe/mlkbc3.jpg" },
-              { type: "image", url: "https://files.catbox.moe/l4rnkt.jpg" }
-            ]
-          },
-          {
-            id: 409,
-            type: "album",
-            name: "Jagruthi Video Pack",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/lvrb3i.mp4" },
-              { type: "video", url: "https://files.catbox.moe/iwta5q.mp4" },
-              { type: "video", url: "https://files.catbox.moe/a2399d.mp4" },
-              { type: "video", url: "https://files.catbox.moe/zhvdvm.mp4" },
-              { type: "video", url: "https://files.catbox.moe/ei1lg4.mp4" },
-              { type: "video", url: "https://files.catbox.moe/0ssq9g.mp4" },
-              { type: "video", url: "https://files.catbox.moe/7qorxn.mp4" }
-            ]
-          }
-        ]
-      },
-      {
-        levelIndex: 4,
-        name: "Lvl 5: Hot Delhi Girl",
-        tiles: [
-          { id: 501, type: "image", url: "https://files.catbox.moe/a349dv.jpg" },
-          { id: 502, type: "image", url: "https://files.catbox.moe/fjqisz.jpg" },
-          { id: 503, type: "image", url: "https://files.catbox.moe/2v4nkv.jpg" },
-          { id: 504, type: "image", url: "https://files.catbox.moe/p2t1vu.jpg" },
-          { id: 505, type: "image", url: "https://files.catbox.moe/trf9kg.jpg" },
-          { id: 506, type: "image", url: "https://files.catbox.moe/h459gq.jpg" },
-          { id: 507, type: "image", url: "https://files.catbox.moe/lg6yog.jpg" },
-          { id: 508, type: "image", url: "https://files.catbox.moe/a5xfa0.jpg" },
-          {
-            id: 509,
-            type: "album",
-            name: "Hot Delhi Girl Video Pack",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/jzya3o.mp4" },
-              { type: "video", url: "https://files.catbox.moe/eba94q.mp4" }
-            ]
-          }
-        ]
-      },
-      {
-        levelIndex: 5,
-        name: "Lvl 6: Beautiful Mallu Girl",
-        tiles: [
-          {
-            id: 601, type: "album", name: "Mallu Pack 1",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/xi9xjx.jpg" },
-              { type: "image", url: "https://files.catbox.moe/lnexvs.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rknq54.jpg" },
-              { type: "image", url: "https://files.catbox.moe/3nd8u1.jpg" }
-            ]
-          },
-          {
-            id: 602, type: "album", name: "Mallu Pack 2",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/006ksc.jpg" },
-              { type: "image", url: "https://files.catbox.moe/vumbxt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rfczzt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/6x1jr2.jpg" }
-            ]
-          },
-          {
-            id: 603, type: "album", name: "Mallu Pack 3",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/6tftyu.jpg" },
-              { type: "image", url: "https://files.catbox.moe/84uqxg.jpg" },
-              { type: "image", url: "https://files.catbox.moe/66k7z7.jpg" },
-              { type: "image", url: "https://files.catbox.moe/7hvdef.jpg" }
-            ]
-          },
-          {
-            id: 604, type: "album", name: "Mallu Pack 4",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/qpnvua.jpg" },
-              { type: "image", url: "https://files.catbox.moe/7iem2y.jpg" },
-              { type: "image", url: "https://files.catbox.moe/ojhdjo.jpg" },
-              { type: "image", url: "https://files.catbox.moe/uff9zr.jpg" }
-            ]
-          },
-          {
-            id: 605, type: "album", name: "Mallu Pack 5",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/u5abhe.jpg" },
-              { type: "image", url: "https://files.catbox.moe/wlyqfu.jpg" },
-              { type: "image", url: "https://files.catbox.moe/v7apu5.jpg" },
-              { type: "image", url: "https://files.catbox.moe/3bzph1.jpg" }
-            ]
-          },
-          {
-            id: 606, type: "album", name: "Mallu Pack 6",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/xge71f.jpg" },
-              { type: "image", url: "https://files.catbox.moe/02wdm1.jpg" },
-              { type: "image", url: "https://files.catbox.moe/haeb95.jpg" },
-              { type: "image", url: "https://files.catbox.moe/2vwmzx.jpg" }
-            ]
-          },
-          {
-            id: 607, type: "album", name: "Mallu Pack 7",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/l2nuoi.jpg" },
-              { type: "image", url: "https://files.catbox.moe/z9tj8v.jpg" },
-              { type: "image", url: "https://files.catbox.moe/eao1u3.jpg" },
-              { type: "image", url: "https://files.catbox.moe/o06c4q.jpg" }
-            ]
-          },
-          {
-            id: 608, type: "album", name: "Mallu Pack 8",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/ck3fuv.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rht1j2.jpg" },
-              { type: "image", url: "https://files.catbox.moe/e0wxqq.jpg" }
-            ]
-          },
-          {
-            id: 609, type: "album", name: "Mallu Pack 9",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/xa6ri7.jpg" },
-              { type: "image", url: "https://files.catbox.moe/t4tv0q.jpg" }
-            ]
-          }
-        ]
-      },
-
-      // ===== LEVEL 7: Sanya =====
-      {
-        levelIndex: 6,
-        name: "Lvl 7: Sanya",
-        tiles: [
-          { id: 701, type: "image", url: "https://files.catbox.moe/23qmyt.jpg" },
-          { id: 702, type: "image", url: "https://files.catbox.moe/8685ez.jpg" },
-          { id: 703, type: "image", url: "https://files.catbox.moe/n91d3h.jpg" },
-          { id: 704, type: "video", url: "https://files.catbox.moe/jiyro5.mp4" },
-          { id: 705, type: "video", url: "https://files.catbox.moe/nmwx61.mp4" },
-          {
-            id: 706,
-            type: "album",
-            name: "Sanya Photos Pack",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/zx3o8w.jpg" },
-              { type: "image", url: "https://files.catbox.moe/jzvgyf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/copr0q.jpg" },
-              { type: "image", url: "https://files.catbox.moe/ez5crx.jpg" },
-              { type: "image", url: "https://files.catbox.moe/0c9cyy.jpg" }
-            ]
-          },
-          {
-            id: 707,
-            type: "album",
-            name: "Sanya Videos Pack 1",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/tzjmwb.mp4" },
-              { type: "video", url: "https://files.catbox.moe/tqx6p4.mp4" },
-              { type: "video", url: "https://files.catbox.moe/m6ay19.mp4" }
-            ]
-          },
-          {
-            id: 708,
-            type: "album",
-            name: "Sanya Videos Pack 2",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/ys6nkx.mp4" },
-              { type: "video", url: "https://files.catbox.moe/stayp0.mp4" }
-            ]
-          },
-          { id: 709, type: "image", url: "https://files.catbox.moe/zx3o8w.jpg" }
-        ]
-      },
-
-      // ===== LEVEL 8: Milf =====
-      {
-        levelIndex: 7,
-        name: "Lvl 8: Milf",
-        tiles: [
-          {
-            id: 801, type: "album", name: "Milf Pack 1",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/cdkwxy.jpg" },
-              { type: "image", url: "https://files.catbox.moe/w7mahy.jpg" },
-              { type: "image", url: "https://files.catbox.moe/22y6tc.jpg" },
-              { type: "image", url: "https://files.catbox.moe/xdzfy8.jpg" }
-            ]
-          },
-          {
-            id: 802, type: "album", name: "Milf Pack 2",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/mbkf2q.jpg" },
-              { type: "image", url: "https://files.catbox.moe/xkwxo8.jpg" },
-              { type: "image", url: "https://files.catbox.moe/psw3oo.jpg" },
-              { type: "image", url: "https://files.catbox.moe/xahw0t.jpg" }
-            ]
-          },
-          {
-            id: 803, type: "album", name: "Milf Pack 3",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/sw1hao.jpg" },
-              { type: "image", url: "https://files.catbox.moe/lt6wvr.jpg" },
-              { type: "image", url: "https://files.catbox.moe/6c8rd2.jpg" },
-              { type: "image", url: "https://files.catbox.moe/cabmkl.jpg" }
-            ]
-          },
-          {
-            id: 804, type: "album", name: "Milf Pack 4",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/o8vsyf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/u8u04c.jpg" },
-              { type: "image", url: "https://files.catbox.moe/caylee.jpg" },
-              { type: "image", url: "https://files.catbox.moe/pvfn25.jpg" }
-            ]
-          },
-          {
-            id: 805, type: "album", name: "Milf Pack 5",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/eo6a8j.jpg" },
-              { type: "image", url: "https://files.catbox.moe/2wju1v.jpg" },
-              { type: "image", url: "https://files.catbox.moe/r3djua.jpg" },
-              { type: "image", url: "https://files.catbox.moe/rq72zd.jpg" }
-            ]
-          },
-          {
-            id: 806, type: "album", name: "Milf Pack 6",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/3gmofd.jpg" },
-              { type: "image", url: "https://files.catbox.moe/t56wnq.jpg" },
-              { type: "image", url: "https://files.catbox.moe/x64ks5.jpg" },
-              { type: "image", url: "https://files.catbox.moe/a508ft.jpg" }
-            ]
-          },
-          {
-            id: 807, type: "album", name: "Milf Pack 7",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/kr923t.jpg" },
-              { type: "image", url: "https://files.catbox.moe/7attwz.jpg" },
-              { type: "image", url: "https://files.catbox.moe/wjbztc.jpg" },
-              { type: "image", url: "https://files.catbox.moe/ywtnzn.jpg" }
-            ]
-          },
-          {
-            id: 808, type: "album", name: "Milf Videos",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/zyb90l.mp4" },
-              { type: "video", url: "https://files.catbox.moe/j4eg8h.mp4" }
-            ]
-          },
-          { id: 809, type: "image", url: "https://files.catbox.moe/cdkwxy.jpg" }
-        ]
-      },
-
-      // ===== LEVEL 9: Delhi Girl =====
-      {
-        levelIndex: 8,
-        name: "Lvl 9: Delhi Girl",
-        tiles: [
-          {
-            id: 901, type: "album", name: "Delhi Girl Pack 1",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/ss9ndv.jpg" },
-              { type: "image", url: "https://files.catbox.moe/kmoyqe.jpg" },
-              { type: "image", url: "https://files.catbox.moe/trc8nf.jpg" },
-              { type: "image", url: "https://files.catbox.moe/6244m8.jpg" }
-            ]
-          },
-          {
-            id: 902, type: "album", name: "Delhi Girl Pack 2",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/jgwni0.jpg" },
-              { type: "image", url: "https://files.catbox.moe/66ulrb.jpg" },
-              { type: "image", url: "https://files.catbox.moe/vb1pg1.jpg" },
-              { type: "image", url: "https://files.catbox.moe/oujzat.jpg" }
-            ]
-          },
-          {
-            id: 903, type: "album", name: "Delhi Girl Pack 3",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/wawsdr.jpg" },
-              { type: "image", url: "https://files.catbox.moe/7vyc74.jpg" },
-              { type: "image", url: "https://files.catbox.moe/keuuld.jpg" },
-              { type: "image", url: "https://files.catbox.moe/99odes.jpg" }
-            ]
-          },
-          {
-            id: 904, type: "album", name: "Delhi Girl Pack 4",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/bgu6pb.jpg" },
-              { type: "image", url: "https://files.catbox.moe/pmmioi.jpg" },
-              { type: "image", url: "https://files.catbox.moe/kn17hv.jpg" },
-              { type: "image", url: "https://files.catbox.moe/gewvjh.jpg" }
-            ]
-          },
-          {
-            id: 905, type: "album", name: "Delhi Girl Pack 5",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/rwxkkv.jpg" },
-              { type: "image", url: "https://files.catbox.moe/c2ecbt.jpg" },
-              { type: "image", url: "https://files.catbox.moe/77e6td.jpg" },
-              { type: "image", url: "https://files.catbox.moe/43zx8u.jpg" }
-            ]
-          },
-          {
-            id: 906, type: "album", name: "Delhi Girl Pack 6",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/voy7k3.jpg" },
-              { type: "image", url: "https://files.catbox.moe/9u1p22.jpg" },
-              { type: "image", url: "https://files.catbox.moe/dqtyrq.jpg" },
-              { type: "image", url: "https://files.catbox.moe/45m7vo.jpg" }
-            ]
-          },
-          {
-            id: 907, type: "album", name: "Delhi Girl Pack 7",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/3fvhzi.jpg" }
-            ]
-          },
-          {
-            id: 908, type: "album", name: "Delhi Girl Videos",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/1yf46d.mp4" },
-              { type: "video", url: "https://files.catbox.moe/brtwpd.mp4" },
-              { type: "video", url: "https://files.catbox.moe/udn7jk.mp4" },
-              { type: "video", url: "https://files.catbox.moe/bwqjj3.mp4" }
-            ]
-          },
-          { id: 909, type: "image", url: "https://files.catbox.moe/ss9ndv.jpg" }
-        ]
-      },
-
-      // ===== LEVEL 10: Ashmita =====
-      {
-        levelIndex: 9,
-        name: "Lvl 10: Ashmita",
-        tiles: [
-          { id: 1001, type: "image", url: "https://files.catbox.moe/zp4xcv.png" },
-          { id: 1002, type: "image", url: "https://files.catbox.moe/j06z19.png" },
-          { id: 1003, type: "image", url: "https://files.catbox.moe/orpzek.jpg" },
-          { id: 1004, type: "image", url: "https://files.catbox.moe/jptzdw.jpg" },
-          { id: 1005, type: "video", url: "https://files.catbox.moe/e9dnsr.mp4" },
-          { id: 1006, type: "video", url: "https://files.catbox.moe/u1y17u.mp4" },
-          {
-            id: 1007,
-            type: "album",
-            name: "Ashmita Photos",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/zyq2ca.jpg" },
-              { type: "image", url: "https://files.catbox.moe/fsktgp.jpg" },
-              { type: "image", url: "https://files.catbox.moe/ztv8d0.jpg" }
-            ]
-          },
-          {
-            id: 1008,
-            type: "album",
-            name: "Ashmita Video Pack",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/xpzlg7.mp4" }
-            ]
-          },
-          { id: 1009, type: "image", url: "https://files.catbox.moe/zp4xcv.png" }
-        ]
-      },
-
-      // ===== LEVEL 11: Bengali Sexy Girl =====
-      {
-        levelIndex: 10,
-        name: "Lvl 11: Bengali Sexy Girl",
-        tiles: [
-          { id: 1101, type: "video", url: "https://files.catbox.moe/rp7lfl.mp4" },
-          { id: 1102, type: "video", url: "https://files.catbox.moe/1j3jfn.mp4" },
-          { id: 1103, type: "video", url: "https://files.catbox.moe/2lgaim.mp4" },
-          { id: 1104, type: "video", url: "https://files.catbox.moe/vky3e7.mp4" },
-          { id: 1105, type: "image", url: "https://files.catbox.moe/8aojzn.jpg" },
-          { id: 1106, type: "image", url: "https://files.catbox.moe/k99a22.jpg" },
-          {
-            id: 1107,
-            type: "album",
-            name: "Bengali Photos",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/jmb96f.jpg" },
-              { type: "image", url: "https://files.catbox.moe/sw9w82.jpg" }
-            ]
-          },
-          {
-            id: 1108,
-            type: "album",
-            name: "Bengali Extra",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/8aojzn.jpg" }
-            ]
-          },
-          { id: 1109, type: "image", url: "https://files.catbox.moe/k99a22.jpg" }
-        ]
-      },
-
-      // ===== LEVEL 12: Hot Slim Girl =====
-      {
-        levelIndex: 11,
-        name: "Lvl 12: Hot Slim Girl",
-        tiles: [
-          { id: 1201, type: "image", url: "https://files.catbox.moe/u0w51s.jpg" },
-          { id: 1202, type: "image", url: "https://files.catbox.moe/fkdca3.jpg" },
-          { id: 1203, type: "video", url: "https://files.catbox.moe/fhhhel.mp4" },
-          { id: 1204, type: "video", url: "https://files.catbox.moe/rpzdr5.mp4" },
-          { id: 1205, type: "video", url: "https://files.catbox.moe/n50m0p.mp4" },
-          {
-            id: 1206,
-            type: "album",
-            name: "Slim Girl Videos 1",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/1u1edn.mp4" },
-              { type: "video", url: "https://files.catbox.moe/ru1oze.mp4" },
-              { type: "video", url: "https://files.catbox.moe/tfztir.mp4" }
-            ]
-          },
-          {
-            id: 1207,
-            type: "album",
-            name: "Slim Girl Videos 2",
-            items: [
-              { type: "video", url: "https://files.catbox.moe/j8dgmg.mp4" },
-              { type: "video", url: "https://files.catbox.moe/jbazue.mp4" }
-            ]
-          },
-          {
-            id: 1208,
-            type: "album",
-            name: "Slim Girl Extra",
-            items: [
-              { type: "image", url: "https://files.catbox.moe/u0w51s.jpg" }
-            ]
-          },
-          { id: 1209, type: "image", url: "https://files.catbox.moe/fkdca3.jpg" }
-        ]
-      }
-    ];
-
-    function loadStorage(key, fallback) {
-      try {
-        const item = localStorage.getItem(key);
-        return item ? JSON.parse(item) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    }
-
-    function saveStorage(key, val) {
-      try {
-        localStorage.setItem(key, JSON.stringify(val));
-      } catch (e) {}
-    }
-
-    let selectedLevel = loadStorage("quest_selected_lvl", 0);
-    let maxUnlockedLevel = loadStorage("quest_max_lvl", 0);
-    let spins = loadStorage("quest_spins", 3);
-    let unlockedIds = new Set(loadStorage("quest_unlocked_ids", []));
-    let isSpinning = false;
-    let adInterval = null;
-
-    let activeAlbum = null;
-    let albumIndex = 0;
-
-    const boardEl = document.getElementById('board');
-    const levelTabsEl = document.getElementById('level-tabs');
-    const spinCountEl = document.getElementById('spin-count');
-    const vaultCountEl = document.getElementById('vault-count');
-    const btnAction = document.getElementById('btn-action');
-    const btnWatchAd = document.getElementById('btn-watch-ad');
-    const btnOpenVault = document.getElementById('btn-open-vault');
-
-    const modal = document.getElementById('media-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const mediaContainer = document.getElementById('media-container');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
-    const albumNav = document.getElementById('album-nav');
-    const albumCounter = document.getElementById('album-counter');
-    const albumPrev = document.getElementById('album-prev');
-    const albumNext = document.getElementById('album-next');
-
-    const vaultModal = document.getElementById('vault-modal');
-    const vaultGrid = document.getElementById('vault-grid');
-    const vaultCloseBtn = document.getElementById('vault-close-btn');
-
-    const adOverlay = document.getElementById('ad-overlay');
-    const adClaimBtn = document.getElementById('ad-claim-btn');
-    const exoclickSlot = document.getElementById('exoclick-slot');
-
-    function saveGameState() {
-      saveStorage("quest_selected_lvl", selectedLevel);
-      saveStorage("quest_max_lvl", maxUnlockedLevel);
-      saveStorage("quest_spins", spins);
-      saveStorage("quest_unlocked_ids", Array.from(unlockedIds));
-    }
-
-    function renderLevelTabs() {
-      levelTabsEl.innerHTML = '';
-      gameLevels.forEach((lvl, idx) => {
-        const tab = document.createElement('div');
-        const isUnlocked = idx <= maxUnlockedLevel;
-        tab.className = `level-tab ${idx === selectedLevel ? 'active' : ''} ${!isUnlocked ? 'locked' : ''}`;
-        tab.textContent = isUnlocked ? lvl.name : `🔒 ${lvl.name}`;
-        tab.addEventListener('click', () => {
-          if (isUnlocked && !isSpinning) {
-            selectedLevel = idx;
-            saveGameState();
-            renderLevelTabs();
-            renderBoard();
-          }
-        });
-        levelTabsEl.appendChild(tab);
-      });
-    }
-
-    function renderBoard() {
-      const activeLvl = gameLevels[selectedLevel];
-      boardEl.innerHTML = '';
-
-      activeLvl.tiles.forEach((tile, index) => {
-        const isUnlocked = unlockedIds.has(tile.id);
-        const div = document.createElement('div');
-        div.className = `tile ${isUnlocked ? 'is-unlocked' : 'is-locked'}`;
-        div.id = `tile-${index}`;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium File Locker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
-        if (isUnlocked) {
-          if (tile.type === 'album') {
-            const firstItem = tile.items[0];
-            const preview = firstItem.type === 'video'
-              ? `<video src="${firstItem.url}#t=0.5" preload="metadata" muted playsinline></video>`
-              : `<img src="${firstItem.url}" alt="Album" loading="lazy" />`;
-            div.innerHTML = `${preview}<div class="tile-tag">📚 ${tile.items.length}</div>`;
-          } else if (tile.type === 'video') {
-            div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video><div class="tile-tag">🎬</div>`;
-          } else {
-            div.innerHTML = `<img src="${tile.url}" alt="Unlocked" loading="lazy" />`;
-          }
-          div.addEventListener('click', () => {
-            if (!isSpinning) openMediaViewer(tile);
-          });
-        } else {
-          div.innerHTML = `<span class="lock-icon">🔒</span>`;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
-        boardEl.appendChild(div);
-      });
-    }
-
-    function updateControls() {
-      spinCountEl.textContent = spins;
-      vaultCountEl.textContent = unlockedIds.size;
-      if (spins > 0) {
-        btnAction.className = 'btn btn-spin';
-        btnAction.textContent = `SPIN TILES (${spins} Left)`;
-      } else {
-        btnAction.className = 'btn btn-ad';
-        btnAction.textContent = '⚡ Out of Spins - Get +3 Spins';
-      }
-    }
-
-    btnAction.addEventListener('click', () => {
-      if (isSpinning) return;
-      if (spins > 0) {
-        runTileSpin();
-      } else {
-        showExoClickAd();
-      }
-    });
-
-    btnWatchAd.addEventListener('click', () => {
-      if (!isSpinning) showExoClickAd();
-    });
-
-    btnOpenVault.addEventListener('click', () => {
-      renderVaultGrid();
-      vaultModal.classList.add('active');
-    });
-
-    vaultCloseBtn.addEventListener('click', () => {
-      vaultModal.classList.remove('active');
-    });
-
-    function runTileSpin() {
-      const activeTiles = gameLevels[selectedLevel].tiles;
-      const lockedIndices = [];
-
-      activeTiles.forEach((tile, idx) => {
-        if (!unlockedIds.has(tile.id)) lockedIndices.push(idx);
-      });
-
-      let targetIndex;
-      if (lockedIndices.length > 0) {
-        targetIndex = lockedIndices[Math.floor(Math.random() * lockedIndices.length)];
-      } else {
-        targetIndex = Math.floor(Math.random() * activeTiles.length);
-      }
-
-      isSpinning = true;
-      spins--;
-      saveGameState();
-      updateControls();
-
-      let currentIndex = 0;
-      let speed = 40;
-      const numTiles = activeTiles.length;
-      const totalSteps = (2 * numTiles) + targetIndex;
-      let step = 0;
-
-      function stepAnimation() {
-        document.querySelectorAll('.tile').forEach(t => t.classList.remove('active-highlight'));
-        const activeEl = document.getElementById(`tile-${currentIndex % numTiles}`);
-        if (activeEl) {
-          activeEl.classList.add('active-highlight');
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
         }
 
-        if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-
-        step++;
-        currentIndex++;
-
-        if (step <= totalSteps) {
-          if (step > totalSteps - 6) speed += 40;
-          setTimeout(stepAnimation, speed);
-        } else {
-          finishSpin(targetIndex);
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
-      }
 
-      stepAnimation();
-    }
+        .pulse-soft {
+            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
 
-    function finishSpin(landedIndex) {
-      isSpinning = false;
-      const wonTile = gameLevels[selectedLevel].tiles[landedIndex];
-      unlockedIds.add(wonTile.id);
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .8; transform: scale(0.98); }
+        }
+        
+        /* Modal transition styles */
+        .modal-enter { opacity: 0; pointer-events: none; }
+        .modal-enter-active { opacity: 1; pointer-events: auto; transition: opacity 300ms ease-out; }
+        .modal-exit { opacity: 1; }
+        .modal-exit-active { opacity: 0; pointer-events: none; transition: opacity 300ms ease-in; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-      const allCurrentUnlocked = gameLevels[selectedLevel].tiles.every(t => unlockedIds.has(t.id));
-      if (allCurrentUnlocked && selectedLevel === maxUnlockedLevel && maxUnlockedLevel < gameLevels.length - 1) {
-        maxUnlockedLevel++;
-      }
+    <!-- Main Card -->
+    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md relative overflow-hidden transition-all duration-500" id="main-card">
+        <!-- Decoration -->
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+        
+        <div class="text-center">
+            <!-- Icon Container -->
+            <div id="icon-container" class="mx-auto w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
+                <!-- Locked SVG -->
+                <svg id="icon-locked" class="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <!-- Unlocked SVG (Hidden initially) -->
+                <svg id="icon-unlocked" class="w-12 h-12 text-green-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                </svg>
+            </div>
 
-      saveGameState();
-      renderLevelTabs();
-      renderBoard();
+            <!-- File Info -->
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Premium_Assets_Pack.zip</h1>
+            <div class="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-8">
+                <span class="flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    145 MB
+                </span>
+                <span>•</span>
+                <span id="status-text" class="font-medium text-red-500 bg-red-50 px-2 py-0.5 rounded">Locked</span>
+            </div>
 
-      if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-      openMediaViewer(wonTile);
-      updateControls();
-    }
+            <!-- Actions -->
+            <div id="action-container" class="space-y-4">
+                <button id="btn-unlock" class="w-full relative group overflow-hidden bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center pulse-soft">
+                    <div class="absolute inset-0 shimmer"></div>
+                    <svg class="w-5 h-5 mr-2 relative z-10" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    <span class="relative z-10">Watch Ad to Unlock</span>
+                </button>
+                <p class="text-xs text-gray-400">Support the creator by watching a short sponsor video.</p>
+            </div>
 
-    function openMediaViewer(tile) {
-      if (tile.type === 'album') {
-        activeAlbum = tile.items;
-        albumIndex = 0;
-        modalTitle.textContent = `📚 ${tile.name || 'Unlocked Album'}`;
-        albumNav.style.display = 'flex';
-        renderAlbumItem();
-      } else {
-        activeAlbum = null;
-        albumNav.style.display = 'none';
-        modalTitle.textContent = tile.type === 'video' ? '🎬 Video Unlocked' : '📸 Photo Unlocked';
-        renderSingleMedia(tile.type, tile.url);
-      }
+            <!-- Download Container (Hidden initially) -->
+            <div id="download-container" class="hidden space-y-4">
+                <button id="btn-download" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:-translate-y-1">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download File
+                </button>
+                <p class="text-xs text-green-600 font-medium bg-green-50 py-2 rounded-lg">File successfully unlocked!</p>
+            </div>
+        </div>
+    </div>
 
-      modal.classList.add('active');
-    }
+    <!-- Simulated Ad Modal -->
+    <div id="ad-modal" class="fixed inset-0 bg-gray-900/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center modal-enter">
+        <div class="w-full max-w-2xl px-4 flex flex-col h-full md:h-auto md:max-h-[80vh] justify-center">
+            
+            <!-- Ad Header -->
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-400 text-sm font-medium tracking-wider uppercase">Advertisement</span>
+                <div class="bg-gray-800 text-white px-4 py-1.5 rounded-full text-sm font-bold flex items-center shadow-inner">
+                    <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Reward in: <span id="countdown-timer" class="ml-1 w-4 text-center">10</span>s
+                </div>
+            </div>
 
-    function renderSingleMedia(type, url) {
-      mediaContainer.innerHTML = '';
-      if (type === 'video') {
-        mediaContainer.innerHTML = `<video src="${url}" controls autoplay loop playsinline></video>`;
-      } else {
-        mediaContainer.innerHTML = `<img src="${url}" alt="Unlocked Media" />`;
-      }
-    }
+            <!-- Ad Content (Simulated Video) -->
+            <div class="bg-black aspect-video rounded-xl overflow-hidden relative shadow-2xl border border-gray-800 flex items-center justify-center group">
+                <!-- Abstract Ad Placeholder Graphic -->
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-black opacity-80"></div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
+                    <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4 backdrop-blur-md border border-white/20 pulse-soft">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Supercharge Your Workflow</h2>
+                    <p class="text-gray-300 max-w-md">Try our new AI-powered developer tools today. Build faster, smarter, and better.</p>
+                </div>
+                <!-- Fake progress bar -->
+                <div class="absolute bottom-0 left-0 h-1 bg-gray-800 w-full">
+                    <div id="ad-progress" class="h-full bg-indigo-500 w-0 transition-all duration-1000 ease-linear"></div>
+                </div>
+            </div>
 
-    function renderAlbumItem() {
-      if (!activeAlbum || activeAlbum.length === 0) return;
-      const current = activeAlbum[albumIndex];
-      albumCounter.textContent = `${albumIndex + 1} / ${activeAlbum.length}`;
-      renderSingleMedia(current.type, current.url);
-    }
+            <!-- Ad Footer / Actions -->
+            <div class="mt-6 flex justify-end">
+                <button id="btn-skip" disabled class="bg-gray-700 text-gray-400 font-medium py-2.5 px-6 rounded-lg cursor-not-allowed transition-colors duration-300 flex items-center">
+                    Please Wait...
+                </button>
+            </div>
+        </div>
+    </div>
 
-    albumPrev.addEventListener('click', () => {
-      if (!activeAlbum) return;
-      albumIndex = (albumIndex - 1 + activeAlbum.length) % activeAlbum.length;
-      renderAlbumItem();
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elements
+            const btnUnlock = document.getElementById('btn-unlock');
+            const btnDownload = document.getElementById('btn-download');
+            const btnSkip = document.getElementById('btn-skip');
+            const adModal = document.getElementById('ad-modal');
+            const countdownTimer = document.getElementById('countdown-timer');
+            const adProgress = document.getElementById('ad-progress');
+            
+            const actionContainer = document.getElementById('action-container');
+            const downloadContainer = document.getElementById('download-container');
+            const iconLocked = document.getElementById('icon-locked');
+            const iconUnlocked = document.getElementById('icon-unlocked');
+            const iconContainer = document.getElementById('icon-container');
+            const statusText = document.getElementById('status-text');
 
-    albumNext.addEventListener('click', () => {
-      if (!activeAlbum) return;
-      albumIndex = (albumIndex + 1) % activeAlbum.length;
-      renderAlbumItem();
-    });
+            // Config
+            const AD_DURATION = 10; // seconds
+            let currentTimer = AD_DURATION;
+            let timerInterval;
 
-    modalCloseBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-      mediaContainer.innerHTML = '';
-      activeAlbum = null;
-    });
+            // Start Ad Flow
+            btnUnlock.addEventListener('click', () => {
+                // Reset timer
+                currentTimer = AD_DURATION;
+                countdownTimer.textContent = currentTimer;
+                adProgress.style.width = '0%';
+                
+                // Show modal
+                adModal.classList.remove('modal-enter', 'modal-exit-active');
+                adModal.classList.add('modal-enter-active');
+                
+                // Reset skip button
+                btnSkip.disabled = true;
+                btnSkip.classList.add('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btnSkip.classList.remove('bg-white', 'text-gray-900', 'hover:bg-gray-100', 'cursor-pointer');
+                btnSkip.innerHTML = 'Please Wait...';
 
-    function renderVaultGrid() {
-      vaultGrid.innerHTML = '';
-      let totalFound = 0;
+                // Start countdown
+                setTimeout(() => {
+                    // Start progress bar animation
+                    adProgress.style.width = '100%';
+                    adProgress.style.transitionDuration = `${AD_DURATION}s`;
 
-      gameLevels.forEach(lvl => {
-        lvl.tiles.forEach(tile => {
-          if (unlockedIds.has(tile.id)) {
-            totalFound++;
-            const div = document.createElement('div');
-            div.className = 'vault-item';
+                    timerInterval = setInterval(() => {
+                        currentTimer--;
+                        countdownTimer.textContent = currentTimer;
 
-            if (tile.type === 'album') {
-              const first = tile.items[0];
-              const tag = `<div class="tile-tag">📚 ${tile.items.length}</div>`;
-              div.innerHTML = first.type === 'video'
-                ? `<video src="\( {first.url}#t=0.5" preload="metadata" muted playsinline></video> \){tag}`
-                : `<img src="\( {first.url}" alt="Vault Album" loading="lazy" /> \){tag}`;
-            } else if (tile.type === 'video') {
-              div.innerHTML = `<video src="${tile.url}#t=0.5" preload="metadata" muted playsinline></video><div class="tile-tag">🎬</div>`;
-            } else {
-              div.innerHTML = `<img src="${tile.url}" alt="Vault Item" loading="lazy" />`;
-            }
-
-            div.addEventListener('click', () => {
-              vaultModal.classList.remove('active');
-              openMediaViewer(tile);
+                        if (currentTimer <= 0) {
+                            clearInterval(timerInterval);
+                            adFinished();
+                        }
+                    }, 1000);
+                }, 100); // slight delay to ensure transition applies
             });
 
-            vaultGrid.appendChild(div);
-          }
+            // When Ad Finishes
+            function adFinished() {
+                countdownTimer.textContent = '0';
+                
+                // Enable skip/close button
+                btnSkip.disabled = false;
+                btnSkip.classList.remove('bg-gray-700', 'text-gray-400', 'cursor-not-allowed');
+                btnSkip.classList.add('bg-white', 'text-gray-900', 'hover:bg-gray-100', 'cursor-pointer');
+                btnSkip.innerHTML = 'Continue to File <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>';
+            }
+
+            // Close Ad Modal & Unlock File
+            btnSkip.addEventListener('click', () => {
+                if(btnSkip.disabled) return;
+
+                // Hide Modal
+                adModal.classList.remove('modal-enter-active');
+                adModal.classList.add('modal-exit-active');
+                
+                setTimeout(() => {
+                    adModal.classList.add('modal-enter'); // reset for future if needed
+                }, 300);
+
+                // Update Main UI to Unlocked State
+                unlockFileUI();
+            });
+
+            function unlockFileUI() {
+                // Hide unlock button, show download button
+                actionContainer.classList.add('hidden');
+                downloadContainer.classList.remove('hidden');
+
+                // Update Icons
+                iconLocked.classList.add('hidden');
+                iconUnlocked.classList.remove('hidden');
+                iconContainer.classList.remove('bg-gray-100');
+                iconContainer.classList.add('bg-green-50');
+
+                // Update Status
+                statusText.textContent = 'Unlocked';
+                statusText.classList.remove('text-red-500', 'bg-red-50');
+                statusText.classList.add('text-green-600', 'bg-green-100');
+            }
+
+            // Dummy File Download
+            btnDownload.addEventListener('click', () => {
+                // Create a minimal valid empty zip file in base64 to simulate real download
+                // "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==" represents an empty ZIP file
+                const zipBase64 = "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==";
+                const byteCharacters = atob(zipBase64);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], {type: "application/zip"});
+                
+                // Create object URL and trigger download
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Premium_Assets_Pack.zip';
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+
+                // Visual feedback on button
+                const originalText = btnDownload.innerHTML;
+                btnDownload.innerHTML = '<svg class="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Downloading...';
+                
+                setTimeout(() => {
+                    btnDownload.innerHTML = originalText;
+                }, 2000);
+            });
         });
-      });
-
-      if (totalFound === 0) {
-        vaultGrid.innerHTML = '<p style="grid-column: span 3; text-align: center; color: #777; padding: 24px 0;">No unlocked media yet. Spin the tiles to unlock!</p>';
-      }
-    }
-
-    function showExoClickAd() {
-      exoclickSlot.innerHTML = '<ins class="eas6a97888e2" data-zoneid="6014424"></ins>';
-      adOverlay.classList.add('active');
-
-      try {
-        (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
-      } catch (e) {}
-
-      let countdown = 5;
-      adClaimBtn.disabled = true;
-      adClaimBtn.textContent = `Watch ad (${countdown}s)`;
-
-      if (adInterval) clearInterval(adInterval);
-
-      adInterval = setInterval(() => {
-        countdown--;
-        if (countdown > 0) {
-          adClaimBtn.textContent = `Watch ad (${countdown}s)`;
-        } else {
-          clearInterval(adInterval);
-          adClaimBtn.disabled = false;
-          adClaimBtn.textContent = "Claim +3 Spins ⚡";
-        }
-      }, 1000);
-    }
-
-    adClaimBtn.addEventListener('click', () => {
-      adOverlay.classList.remove('active');
-      exoclickSlot.innerHTML = '';
-      spins += 3;
-      saveGameState();
-      updateControls();
-      if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-    });
-
-    renderLevelTabs();
-    renderBoard();
-    updateControls();
-
-    try {
-      (window.AdProvider = window.AdProvider || []).push({ "serve": {} });
-    } catch (e) {}
-  </script>
+    </script>
 </body>
 </html>
