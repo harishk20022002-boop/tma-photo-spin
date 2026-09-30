@@ -1,0 +1,40 @@
+name: Auto Poster Pipeline
+
+# Triggers the action when you push files to the pending_uploads folder
+on:
+  push:
+    paths:
+      - 'pending_uploads/**'
+  workflow_dispatch: # Allows you to run it manually from the GitHub UI
+
+# Gives the bot permission to push changes back to your repository
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Auto Poster Script
+        run: python auto_poster.py
+
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-publish daily asset and clean up pending folder"
+
+
+
+
+          
